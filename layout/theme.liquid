@@ -44,11 +44,17 @@
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     
     <div id="header-group">
-      <!-- Marquee Ticker Section (Optional) -->
-      {% section 'marquee-ticker' %}
-      
-      <!-- Main Header Section -->
-      {% section 'custom-header' %}
+      {% if template.suffix == 'b2c' %}
+        <!-- Marquee Ticker Section (B2C) -->
+        {% section 'marquee-ticker-b2c' %}
+        <!-- Main Header Section (B2C) -->
+        {% section 'custom-header-b2c' %}
+      {% else %}
+        <!-- Marquee Ticker Section (Optional) -->
+        {% section 'marquee-ticker' %}
+        <!-- Main Header Section -->
+        {% section 'custom-header' %}
+      {% endif %}
     </div>
 
     <script>
@@ -131,7 +137,11 @@
     </main>
 
     <footer>
-      {% sections 'footer-group' %}
+      {% if template.suffix == 'b2c' %}
+        {% sections 'footer-group-b2c' %}
+      {% else %}
+        {% sections 'footer-group' %}
+      {% endif %}
     </footer>
 
     {% render 'search-modal' %}

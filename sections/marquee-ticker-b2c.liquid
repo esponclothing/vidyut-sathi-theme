@@ -1,0 +1,284 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{%- assign marquee_font = section.settings.marquee_font -%}
+{%- assign marquee_speed = section.settings.marquee_speed | default: 30 -%}
+{%- assign marquee_direction = section.settings.marquee_direction | default: 'normal' -%}
+
+{%- style -%}
+  {{ marquee_font | font_face: font_display: 'swap' }}
+
+  /* Define keyframes for both directions */
+  @keyframes marquee-scroll-ltr {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  @keyframes marquee-scroll-rtl {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+  }
+
+  .marquee-ticker-{{ section.id }} {
+    background: linear-gradient(135deg, {{ section.settings.marquee_bg }} 0%, rgba(0,0,0,0.02) 100%);
+    color: {{ section.settings.marquee_text_color }};
+    padding: {{ section.settings.marquee_padding_y }}px 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-family: {{ marquee_font.family }}, {{ marquee_font.fallback_families }};
+    border-bottom: 1px solid {{ section.settings.marquee_border_color }};
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+
+  .marquee-ticker-{{ section.id }} .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation-duration: {{ marquee_speed }}s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    {% if marquee_direction == 'reverse' %}
+      animation-name: marquee-scroll-rtl;
+    {% else %}
+      animation-name: marquee-scroll-ltr;
+    {% endif %}
+  }
+
+  .marquee-ticker-{{ section.id }}:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-ticker-{{ section.id }} .marquee-content {
+    display: flex;
+    align-items: center;
+    padding-right: 60px;
+    flex-shrink: 0;
+  }
+
+  .marquee-ticker-{{ section.id }} .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 50px;
+    font-size: {{ section.settings.marquee_font_desktop }}px;
+    font-weight: {% if section.settings.marquee_bold %}700{% else %}500{% endif %};
+    text-transform: {% if section.settings.marquee_uppercase %}uppercase{% else %}none{% endif %};
+    letter-spacing: 0.8px;
+    color: {{ section.settings.marquee_text_color }};
+    flex-shrink: 0;
+  }
+
+  .marquee-ticker-{{ section.id }} .marquee-item i {
+    font-size: calc({{ section.settings.marquee_font_desktop }}px * 1.1);
+    color: {{ section.settings.marquee_icon_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 767px) {
+    .marquee-ticker-{{ section.id }} .marquee-item {
+      margin-right: 35px;
+      font-size: {{ section.settings.marquee_font_mobile }}px !important;
+      gap: 8px;
+    }
+
+    .marquee-ticker-{{ section.id }} .marquee-item i {
+      font-size: calc({{ section.settings.marquee_font_mobile }}px * 1.1) !important;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .marquee-ticker-{{ section.id }} {
+      padding: 8px 0;
+    }
+
+    .marquee-ticker-{{ section.id }} .marquee-item {
+      margin-right: 25px;
+      font-size: {{ section.settings.marquee_font_mobile | minus: 2 }}px !important;
+    }
+  }
+{%- endstyle -%}
+
+{% if section.settings.enable_marquee %}
+  <div class="marquee-ticker-{{ section.id }}">
+    {%- capture marquee_items -%}
+      {% for block in section.blocks %}
+        {% if block.type == 'ticker_text' %}
+          <div class="marquee-item" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}<i class="{{ block.settings.icon }}"></i>{% endif %}
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {%- endcapture -%}
+
+    {%- capture fallback_items -%}
+      <div class="marquee-item"><i class="fas fa-sack-dollar"></i><span>EARN â‚¹5-6 LAKHS P.M.</span></div>
+      <div class="marquee-item"><i class="fas fa-shipping-fast"></i><span>FREE SHIPPING</span></div>
+      <div class="marquee-item"><i class="fas fa-shield-halved"></i><span>100% RESULT GUARANTEED</span></div>
+    {%- endcapture -%}
+
+    {% for track_loop in (1..4) %}
+      <div class="marquee-track" {% if track_loop > 1 %}aria-hidden="true"{% endif %}>
+        <div class="marquee-content">
+          {% if section.blocks.size > 0 %}{{ marquee_items }}{% else %}{{ fallback_items }}{% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Marquee Ticker",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_marquee",
+      "label": "Enable Marquee Ticker",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Marquee Styling"
+    },
+    {
+      "type": "font_picker",
+      "id": "marquee_font",
+      "label": "Font Family",
+      "default": "work_sans_n7"
+    },
+    {
+      "type": "color",
+      "id": "marquee_bg",
+      "label": "Background Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "marquee_text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "marquee_icon_color",
+      "label": "Icon Color",
+      "default": "#F17E39"
+    },
+    {
+      "type": "color",
+      "id": "marquee_border_color",
+      "label": "Border Color",
+      "default": "rgba(0,0,0,0.08)"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "marquee_font_desktop",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "marquee_font_mobile",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size (Mobile)",
+      "default": 11
+    },
+    {
+      "type": "checkbox",
+      "id": "marquee_bold",
+      "label": "Bold Text",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "marquee_uppercase",
+      "label": "Uppercase Text",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "sec",
+      "label": "Scroll Speed",
+      "info": "Lower = faster, Higher = slower",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "marquee_direction",
+      "label": "Scroll Direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Right to Left"
+        },
+        {
+          "value": "reverse",
+          "label": "Left to Right"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "marquee_padding_y",
+      "min": 6,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical Padding",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_text",
+      "name": "Marquee Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "FontAwesome Icon",
+          "placeholder": "fas fa-check-circle",
+          "default": "fas fa-check-circle"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "placeholder": "Your announcement here",
+          "default": "ANNOUNCEMENT TEXT HERE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Ticker"
+    }
+  ]
+}
+{% endschema %}
+
