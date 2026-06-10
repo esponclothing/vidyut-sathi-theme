@@ -17,6 +17,9 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
+    padding: 0 10%;
+    gap: 12px;
+    box-sizing: border-box;
   }
 
   .b2c-carousel-track-{{ section.id }}::-webkit-scrollbar {
@@ -24,10 +27,12 @@
   }
 
   .b2c-carousel-slide-{{ section.id }} {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
+    flex: 0 0 80%;
+    scroll-snap-align: center;
     position: relative;
     height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
   }
 
   .b2c-carousel-slide-{{ section.id }} a {
@@ -119,7 +124,8 @@
 
     function scrollToSlide(index) {
       if (!slides[index]) return;
-      const scrollLeft = slides[index].offsetLeft;
+      // Center the active slide in the scroll container
+      const scrollLeft = slides[index].offsetLeft - (track.clientWidth - slides[index].clientWidth) / 2;
       track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       currentIndex = index;
       updateDots(currentIndex);
@@ -147,13 +153,22 @@
     track.addEventListener('scroll', () => {
       stopAutoplay();
       
-      // Calculate current slide based on scroll position
-      const slideWidth = track.clientWidth;
-      const scrollPos = track.scrollLeft;
-      const newIndex = Math.round(scrollPos / slideWidth);
+      // Find the slide whose center is closest to the center of the track
+      const trackCenter = track.scrollLeft + track.clientWidth / 2;
+      let closestIndex = currentIndex;
+      let minDistance = Infinity;
       
-      if (newIndex !== currentIndex) {
-        currentIndex = newIndex;
+      slides.forEach((slide, index) => {
+        const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
+        const distance = Math.abs(trackCenter - slideCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIndex = index;
+        }
+      });
+      
+      if (closestIndex !== currentIndex) {
+        currentIndex = closestIndex;
         updateDots(currentIndex);
       }
       
