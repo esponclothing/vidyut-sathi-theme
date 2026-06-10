@@ -16,8 +16,8 @@
     /* Applies user-defined margins (auto by default for perfect centering) */
     margin-top: 0;
     margin-bottom: 0;
-    margin-left: {{ section.settings.margin_left }} !important;
-    margin-right: {{ section.settings.margin_right }} !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 
     padding: 60px 5%;
     overflow: hidden;
@@ -288,20 +288,6 @@
       "label": "Section Max Width",
       "default": 1200,
       "info": "Width must be restricted for centering to work."
-    },
-    {
-      "type": "text",
-      "id": "margin_left",
-      "label": "Margin Left",
-      "default": "auto",
-      "info": "Leave as 'auto' to perfectly center. If you type a number, include 'px' (e.g., 20px)."
-    },
-    {
-      "type": "text",
-      "id": "margin_right",
-      "label": "Margin Right",
-      "default": "auto",
-      "info": "Leave as 'auto' to perfectly center. If you type a number, include 'px' (e.g., 20px)."
     },
     { "type": "header", "content": "Headline Settings" },
     {
