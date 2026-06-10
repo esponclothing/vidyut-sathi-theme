@@ -1,0 +1,307 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+{%- style -%}
+  .vs-footer-wrapper {
+    background-color: {{ section.settings.bg_color }}; 
+    color: {{ section.settings.text_color }}; 
+    font-family: 'Poppins', sans-serif;
+    padding: 100px 5% 40px;
+    border-top: 4px solid {{ section.settings.primary_color }};
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+  }
+
+  .vs-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.5fr;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* STABLE CSS-ONLY HOVER EFFECT (No Shivering) */
+  .footer-col-box {
+    background: #ffffff; 
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.05); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .footer-col-box:hover {
+    transform: translateY(-5px); /* Clean, simple upward lift */
+    box-shadow: 0 20px 40px rgba(241, 126, 57, 0.1); /* Subtle Orange Glow */
+    border-color: {{ section.settings.primary_color }}; 
+    z-index: 5;
+  }
+
+  .footer-brand img {
+    width: 100%;
+    max-width: 180px; 
+    height: auto; 
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .footer-brand p {
+    color: #64748b; 
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 350px;
+    margin: 0;
+  }
+
+  .footer-col-box h4 {
+    color: #0f172a; 
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+
+  /* FIXED LINK HITBOXES */
+  .footer-link {
+    display: inline-block;
+    width: fit-content; 
+    color: #64748b; 
+    text-decoration: none;
+    margin-bottom: 12px;
+    padding: 4px 0; /* Increases the invisible clickable area */
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .footer-link:hover {
+    color: {{ section.settings.primary_color }}; 
+    transform: translateX(6px); 
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    color: #64748b;
+    text-decoration: none;
+    margin-bottom: 18px;
+    padding: 4px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .contact-link i { 
+    color: {{ section.settings.primary_color }}; 
+    margin-top: 4px; 
+    font-size: 1.2rem; 
+    transition: color 0.3s ease;
+  }
+  
+  .contact-link:hover { 
+    color: {{ section.settings.secondary_color }}; 
+    transform: translateX(6px); 
+  }
+  .contact-link:hover i {
+    color: {{ section.settings.secondary_color }}; 
+  }
+
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 60px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05); 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .copyright { color: #94a3b8; font-size: 0.9rem; font-weight: 500; }
+  
+  .social-icons { display: flex; gap: 15px; }
+  .social-icons a { 
+    color: #0f172a; 
+    font-size: 1.2rem; 
+    transition: all 0.3s ease; 
+    width: 45px; height: 45px;
+    background: #f1f5f9; 
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+  }
+  .social-icons a:hover { 
+    color: #ffffff; 
+    background: {{ section.settings.primary_color }}; 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(241, 126, 57, 0.3);
+  }
+
+  /* --- DESKTOP VS MOBILE ALIGNMENT FIXES --- */
+  @media (max-width: 1024px) {
+    .vs-footer-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .vs-footer-wrapper { padding: 60px 5% 30px; }
+    .vs-footer-grid { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+    .footer-col-box { padding: 30px 20px; }
+    
+    /* Center align everything inside the blocks */
+    .footer-brand { display: flex; flex-direction: column; align-items: center; }
+    .footer-link { margin: 0 auto 12px auto; }
+    .contact-link { justify-content: center; text-align: center; flex-direction: column; align-items: center; gap: 8px; }
+    .contact-link i { margin-top: 0; font-size: 1.5rem; margin-bottom: 5px; }
+    
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .social-icons { justify-content: center; }
+  }
+{%- endstyle -%}
+
+<footer class="vs-footer-wrapper" id="section-{{ section.id }}">
+  <div class="vs-footer-grid">
+    
+    <div class="footer-brand footer-col-box v-anim-footer">
+      {% if section.settings.footer_logo != blank %}
+        <img src="{{ section.settings.footer_logo | img_url: 'master' }}" alt="{{ shop.name }}" style="max-width: {{ section.settings.logo_width }}px;">
+      {% else %}
+        <h2 style="font-size: 1.8rem; font-weight: 900; color: {{ section.settings.primary_color }}; margin: 0 0 20px 0; text-transform: uppercase;">Vidhyut Saathi</h2>
+      {% endif %}
+      <p>{{ section.settings.brand_text }}</p>
+    </div>
+
+    <div class="footer-col-box v-anim-footer">
+      <h4>{{ section.settings.col_1_title }}</h4>
+      {% if section.settings.col_1_link_1_text != blank %}<a href="{{ section.settings.col_1_link_1_url | default: '#' }}" class="footer-link">{{ section.settings.col_1_link_1_text }}</a>{% endif %}
+      {% if section.settings.col_1_link_2_text != blank %}<a href="{{ section.settings.col_1_link_2_url | default: '#' }}" class="footer-link">{{ section.settings.col_1_link_2_text }}</a>{% endif %}
+      {% if section.settings.col_1_link_3_text != blank %}<a href="{{ section.settings.col_1_link_3_url | default: '#' }}" class="footer-link">{{ section.settings.col_1_link_3_text }}</a>{% endif %}
+      {% if section.settings.col_1_link_4_text != blank %}<a href="{{ section.settings.col_1_link_4_url | default: '#' }}" class="footer-link">{{ section.settings.col_1_link_4_text }}</a>{% endif %}
+    </div>
+
+    <div class="footer-col-box v-anim-footer">
+      <h4>{{ section.settings.col_2_title }}</h4>
+      {% if section.settings.col_2_link_1_text != blank %}<a href="{{ section.settings.col_2_link_1_url | default: '#' }}" class="footer-link">{{ section.settings.col_2_link_1_text }}</a>{% endif %}
+      {% if section.settings.col_2_link_2_text != blank %}<a href="{{ section.settings.col_2_link_2_url | default: '#' }}" class="footer-link">{{ section.settings.col_2_link_2_text }}</a>{% endif %}
+      {% if section.settings.col_2_link_3_text != blank %}<a href="{{ section.settings.col_2_link_3_url | default: '#' }}" class="footer-link">{{ section.settings.col_2_link_3_text }}</a>{% endif %}
+      {% if section.settings.col_2_link_4_text != blank %}<a href="{{ section.settings.col_2_link_4_url | default: '#' }}" class="footer-link">{{ section.settings.col_2_link_4_text }}</a>{% endif %}
+    </div>
+
+    <div class="footer-col-box v-anim-footer">
+      <h4>Contact Us</h4>
+      
+      <a href="https://maps.google.com" target="_blank" class="contact-link">
+        <i class="fas fa-map-marker-alt"></i><span>{{ section.settings.address }}</span>
+      </a>
+      <a href="mailto:{{ section.settings.email }}" class="contact-link">
+        <i class="fas fa-envelope"></i><span>{{ section.settings.email }}</span>
+      </a>
+      <a href="tel:{{ section.settings.phone_raw }}" class="contact-link">
+        <i class="fas fa-phone"></i><span>{{ section.settings.phone_display }}</span>
+      </a>
+      {% if section.settings.whatsapp_raw != blank %}
+        <a href="https://wa.me/{{ section.settings.whatsapp_raw }}" target="_blank" class="contact-link">
+          <i class="fab fa-whatsapp"></i><span>Chat with Support</span>
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <div class="footer-bottom v-anim-footer">
+    <div class="copyright">
+      © {{ 'now' | date: "%Y" }} Vidhyut Saathi Energy Savers Pvt. Limited. All rights reserved.
+    </div>
+    <div class="social-icons">
+      {% if section.settings.social_fb != blank %}<a href="{{ section.settings.social_fb }}" target="_blank"><i class="fab fa-facebook-f"></i></a>{% endif %}
+      {% if section.settings.social_insta != blank %}<a href="{{ section.settings.social_insta }}" target="_blank"><i class="fab fa-instagram"></i></a>{% endif %}
+      {% if section.settings.social_yt != blank %}<a href="{{ section.settings.social_yt }}" target="_blank"><i class="fab fa-youtube"></i></a>{% endif %}
+    </div>
+  </div>
+</footer>
+
+<script>
+  function initFooterAnimations() {
+    // 1. GSAP Scroll Reveal (Still intact for the cool entrance)
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+      
+      const elements = document.querySelectorAll('#section-{{ section.id }} .v-anim-footer');
+      gsap.fromTo(elements, 
+        { y: 50, opacity: 0 },
+        {
+          scrollTrigger: { trigger: "#section-{{ section.id }}", start: "top 95%" },
+          y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)", clearProps: "transform"
+        }
+      );
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", initFooterAnimations);
+  if (window.Shopify && Shopify.designMode) { setTimeout(initFooterAnimations, 200); }
+</script>
+
+{% schema %}
+{
+  "name": "Vidhyut Footer",
+  "settings": [
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0f172a" },
+    { "type": "color", "id": "primary_color", "label": "Accent Color (Orange)", "default": "#F17E39" },
+    { "type": "color", "id": "secondary_color", "label": "Hover Accent (Green)", "default": "#007B3E" },
+
+    { "type": "header", "content": "Brand Info" },
+    { "type": "image_picker", "id": "footer_logo", "label": "Footer Logo" },
+    { "type": "range", "id": "logo_width", "min": 80, "max": 250, "step": 10, "unit": "px", "label": "Logo Width", "default": 180 },
+    { "type": "textarea", "id": "brand_text", "label": "Brand Description", "default": "Powered by advanced US-German nanotechnology, utilizing 20,000 negative ions to effectively stop electricity leakage." },
+    
+    { "type": "header", "content": "Column 1 (Products)" },
+    { "type": "text", "id": "col_1_title", "label": "Column 1 Heading", "default": "Our Products" },
+    { "type": "text", "id": "col_1_link_1_text", "label": "Link 1 Name", "default": "Vidhyut Saathi Card" },
+    { "type": "url", "id": "col_1_link_1_url", "label": "Link 1 URL" },
+    { "type": "text", "id": "col_1_link_2_text", "label": "Link 2 Name", "default": "Fuel Saving Saathi" },
+    { "type": "url", "id": "col_1_link_2_url", "label": "Link 2 URL" },
+    { "type": "text", "id": "col_1_link_3_text", "label": "Link 3 Name", "default": "Buy Now" },
+    { "type": "url", "id": "col_1_link_3_url", "label": "Link 3 URL" },
+    { "type": "text", "id": "col_1_link_4_text", "label": "Link 4 Name", "default": "Franchise Opportunity" },
+    { "type": "url", "id": "col_1_link_4_url", "label": "Link 4 URL" },
+    
+    { "type": "header", "content": "Column 2 (Legal Links)" },
+    { "type": "text", "id": "col_2_title", "label": "Column 2 Heading", "default": "Legal" },
+    { "type": "text", "id": "col_2_link_1_text", "label": "Link 1 Name", "default": "Privacy Policy" },
+    { "type": "url", "id": "col_2_link_1_url", "label": "Link 1 URL" },
+    { "type": "text", "id": "col_2_link_2_text", "label": "Link 2 Name", "default": "Terms & Conditions" },
+    { "type": "url", "id": "col_2_link_2_url", "label": "Link 2 URL" },
+    { "type": "text", "id": "col_2_link_3_text", "label": "Link 3 Name", "default": "Disclaimer" },
+    { "type": "url", "id": "col_2_link_3_url", "label": "Link 3 URL" },
+    { "type": "text", "id": "col_2_link_4_text", "label": "Link 4 Name", "default": "Contact Us" },
+    { "type": "url", "id": "col_2_link_4_url", "label": "Link 4 URL" },
+    
+    { "type": "header", "content": "Contact Information" },
+    { "type": "text", "id": "address", "label": "Address", "default": "SCO-77A, 3rd Floor, Ashoka Complex, Rohtak, Haryana 124001" },
+    { "type": "text", "id": "email", "label": "Email Address", "default": "info@vidhyutsaathi.com" },
+    { "type": "text", "id": "phone_display", "label": "Phone Number (Display)", "default": "+91-9053525151" },
+    { "type": "text", "id": "phone_raw", "label": "Phone Number (Link Format)", "default": "+919053525151" },
+    { "type": "text", "id": "whatsapp_raw", "label": "WhatsApp Number (Optional)", "default": "918199036060" },
+    
+    { "type": "header", "content": "Social Links" },
+    { "type": "url", "id": "social_fb", "label": "Facebook URL" },
+    { "type": "url", "id": "social_insta", "label": "Instagram URL" },
+    { "type": "url", "id": "social_yt", "label": "YouTube URL" }
+  ],
+  "presets": [
+    { "name": "Vidhyut Footer" }
+  ]
+}
+{% endschema %}

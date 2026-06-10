@@ -1,0 +1,331 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+{%- style -%}
+  .vs-selector-section {
+    background-color: {{ section.settings.bg_color }};
+    padding: 100px 5%;
+    font-family: 'Poppins', sans-serif;
+    color: #0f172a;
+    overflow: hidden;
+  }
+
+  .vs-selector-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  /* --- LEFT SIDE: TABS --- */
+  .vs-selector-left h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 40px;
+    color: #0f172a;
+    text-transform: uppercase;
+  }
+  .vs-selector-left h2 span {
+    color: {{ section.settings.primary_color }};
+  }
+
+  .vs-tabs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .vs-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    text-align: left;
+  }
+
+  .vs-tab-btn:hover {
+    border-color: {{ section.settings.primary_color }};
+    transform: translateX(5px);
+  }
+
+  .vs-tab-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f8fafc;
+    color: {{ section.settings.primary_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .vs-tab-text h4 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    color: #0f172a;
+    transition: color 0.3s ease;
+  }
+
+  .vs-tab-text p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+
+  /* --- SEPARATED TAB ACTIVE STATE --- */
+  .vs-tab-btn.tab-active {
+    background: linear-gradient(135deg, {{ section.settings.primary_color }} 0%, {{ section.settings.secondary_color }} 100%);
+    border-color: transparent;
+    box-shadow: 0 15px 30px {{ section.settings.primary_color }}40;
+    transform: scale(1.02);
+  }
+  .vs-tab-btn.tab-active .vs-tab-icon {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff;
+  }
+  .vs-tab-btn.tab-active .vs-tab-text h4,
+  .vs-tab-btn.tab-active .vs-tab-text p {
+    color: #ffffff;
+  }
+
+  /* --- RIGHT SIDE: IMAGES --- */
+  .vs-selector-right {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 4;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    background: #f1f5f9;
+  }
+
+  .vs-tab-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.05);
+    /* Image Fade Speed linked to Theme Editor */
+    transition: opacity {{ section.settings.fade_speed }}s ease, transform {{ section.settings.fade_speed }}s ease, visibility {{ section.settings.fade_speed }}s;
+  }
+
+  .vs-tab-img.img-active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  /* --- ESPON ENTRANCE ANIMATION --- */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(60px) translateZ(-50px) rotateX(-10deg);
+    /* Scroll Reveal Speed linked to Theme Editor */
+    transition: all {{ section.settings.entrance_speed }}s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-up.active {
+    opacity: 1;
+    transform: translateY(0) translateZ(0) rotateX(0deg);
+  }
+
+  /* --- MOBILE FIXES --- */
+  @media screen and (max-width: 900px) {
+    .vs-selector-container { grid-template-columns: 1fr; gap: 40px; }
+    .vs-selector-left { order: 2; }
+    .vs-selector-right { order: 1; aspect-ratio: 4 / 3; }
+  }
+
+  @media screen and (max-width: 768px) {
+    .vs-selector-section { padding: 60px 5%; }
+    .vs-selector-left h2 { font-size: 26px; margin-bottom: 25px; text-align: center; }
+    .vs-tab-btn { padding: 15px; gap: 15px; }
+    .vs-tab-icon { width: 40px; height: 40px; font-size: 1rem; }
+    .vs-tab-text h4 { font-size: 16px; }
+    .vs-tab-text p { font-size: 12px; }
+    .vs-tab-btn:hover { transform: none; }
+  }
+{%- endstyle -%}
+
+<div class="vs-selector-section" id="section-{{ section.id }}" data-auto="{{ section.settings.auto_play }}" data-speed="{{ section.settings.auto_speed | times: 1000 }}">
+  <div class="vs-selector-container">
+    
+    <div class="vs-selector-left">
+      <h2 class="reveal-up">{{ section.settings.heading }}</h2>
+      
+      <div class="vs-tabs-list">
+        {% for block in section.blocks %}
+          <div class="vs-tab-btn reveal-up {% if forloop.first %}tab-active{% endif %}" data-index="{{ forloop.index0 }}" data-target="vs-img-{{ section.id }}-{{ forloop.index0 }}" style="transition-delay: {{ forloop.index0 | times: 0.1 }}s;" {{ block.shopify_attributes }}>
+            <div class="vs-tab-icon"><i class="{{ block.settings.icon | default: 'fas fa-bolt' }}"></i></div>
+            <div class="vs-tab-text">
+              <h4>{{ block.settings.title }}</h4>
+              <p>{{ block.settings.subtitle }}</p>
+            </div>
+          </div>
+        {% else %}
+          <div class="vs-tab-btn reveal-up tab-active" data-index="0" data-target="vs-img-{{ section.id }}-0">
+            <div class="vs-tab-icon"><i class="fas fa-home"></i></div>
+            <div class="vs-tab-text"><h4>Upto 300 units/month</h4><p>Max Appliance limit: 3 KW</p></div>
+          </div>
+          <div class="vs-tab-btn reveal-up" data-index="1" data-target="vs-img-{{ section.id }}-1">
+            <div class="vs-tab-icon"><i class="fas fa-building"></i></div>
+            <div class="vs-tab-text"><h4>300 to 600 units/month</h4><p>Max Appliance limit: 6 KW</p></div>
+          </div>
+          <div class="vs-tab-btn reveal-up" data-index="2" data-target="vs-img-{{ section.id }}-2">
+            <div class="vs-tab-icon"><i class="fas fa-industry"></i></div>
+            <div class="vs-tab-text"><h4>600 to 900 units/month</h4><p>Max Appliance limit: 9 KW</p></div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="vs-selector-right reveal-up" style="transition-delay: 0.2s;">
+      {% for block in section.blocks %}
+        {% if block.settings.image != blank %}
+          <img src="{{ block.settings.image | img_url: '800x' }}" class="vs-tab-img {% if forloop.first %}img-active{% endif %}" id="vs-img-{{ section.id }}-{{ forloop.index0 }}" alt="{{ block.settings.title }}">
+        {% else %}
+          <div class="vs-tab-img {% if forloop.first %}img-active{% endif %}" id="vs-img-{{ section.id }}-{{ forloop.index0 }}" style="background: linear-gradient(135deg, #cbd5e1, #94a3b8); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; font-weight: bold;">
+            Upload Image for Tier {{ forloop.index }}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="vs-tab-img img-active" id="vs-img-{{ section.id }}-0" style="background: linear-gradient(135deg, #F17E39, #E85A19); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">Image 1</div>
+        <div class="vs-tab-img" id="vs-img-{{ section.id }}-1" style="background: linear-gradient(135deg, #007B3E, #00592D); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">Image 2</div>
+        <div class="vs-tab-img" id="vs-img-{{ section.id }}-2" style="background: linear-gradient(135deg, #0f172a, #1e293b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">Image 3</div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function initCardSelector() {
+    const section = document.getElementById('section-{{ section.id }}');
+    if (!section) return;
+
+    // 1. Entrance Animation Observer
+    const revealElements = section.querySelectorAll('.reveal-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active'); 
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // 2. Tab Switching & Auto-Play Logic
+    const tabBtns = Array.from(section.querySelectorAll('.vs-tab-btn'));
+    const tabImgs = Array.from(section.querySelectorAll('.vs-tab-img'));
+    
+    let currentIndex = 0;
+    const isAuto = section.getAttribute('data-auto') === 'true';
+    const autoSpeed = parseInt(section.getAttribute('data-speed')) || 3000;
+    let autoTimer;
+
+    function activateTab(index) {
+      // Remove specific active classes
+      tabBtns.forEach(b => b.classList.remove('tab-active'));
+      tabImgs.forEach(img => img.classList.remove('img-active'));
+
+      // Add to current target
+      tabBtns[index].classList.add('tab-active');
+      const targetId = tabBtns[index].getAttribute('data-target');
+      const targetImg = document.getElementById(targetId);
+      if (targetImg) {
+        targetImg.classList.add('img-active');
+      }
+      currentIndex = index;
+    }
+
+    function nextTab() {
+      let nextIndex = (currentIndex + 1) % tabBtns.length;
+      activateTab(nextIndex);
+    }
+
+    function startAutoPlay() {
+      if (isAuto && tabBtns.length > 1) {
+        autoTimer = setInterval(nextTab, autoSpeed);
+      }
+    }
+
+    // Initialize Clicks
+    tabBtns.forEach((btn, index) => {
+      btn.addEventListener('click', function() {
+        clearInterval(autoTimer); // Permanently stop auto-play if the user interacts
+        activateTab(index);
+      });
+    });
+
+    // Start auto-play on load
+    startAutoPlay();
+  }
+
+  document.addEventListener("DOMContentLoaded", initCardSelector);
+  if (window.Shopify && Shopify.designMode) { setTimeout(initCardSelector, 200); }
+  document.addEventListener("shopify:section:load", initCardSelector);
+</script>
+
+{% schema %}
+{
+  "name": "VS Card Selector",
+  "settings": [
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "primary_color", "label": "Active Gradient Start (Orange)", "default": "#F17E39" },
+    { "type": "color", "id": "secondary_color", "label": "Active Gradient End (Pink/Red)", "default": "#E83A19" },
+    
+    { "type": "header", "content": "Content" },
+    { "type": "html", "id": "heading", "label": "Main Heading", "default": "Choose Right <span>VS Card</span> Limit Depending...", "info": "Wrap words in <span> tags to highlight them in the Primary Color." },
+    
+    { "type": "header", "content": "Speed & Animation Settings" },
+    { "type": "checkbox", "id": "auto_play", "label": "Enable Auto-Cycle", "default": true },
+    { "type": "range", "id": "auto_speed", "min": 2, "max": 10, "step": 1, "label": "Auto-Cycle Speed (Seconds)", "default": 4 },
+    { "type": "range", "id": "fade_speed", "min": 0.1, "max": 2.0, "step": 0.1, "label": "Image Crossfade Speed", "default": 0.6, "info": "How fast the images smoothly switch." },
+    { "type": "range", "id": "entrance_speed", "min": 0.5, "max": 2.0, "step": 0.1, "label": "Scroll Reveal Speed", "default": 1.0, "info": "How fast the 3D entrance animation happens when scrolling down." }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Limit Tier",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "icon", "label": "FontAwesome Icon Class", "default": "fas fa-bolt", "info": "e.g., 'fas fa-home', 'fas fa-building'" },
+        { "type": "text", "id": "title", "label": "Main Title", "default": "Upto 300 units/month" },
+        { "type": "text", "id": "subtitle", "label": "Sub Title", "default": "Max Appliance limit: 3 KW" },
+        { "type": "image_picker", "id": "image", "label": "Target Image", "info": "This image shows up when the user clicks this tab." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VS Card Selector",
+      "blocks": [
+        { "type": "tier", "settings": { "icon": "fas fa-home", "title": "Upto 300 units/month", "subtitle": "Max Appliance limit: 3 KW" } },
+        { "type": "tier", "settings": { "icon": "fas fa-building", "title": "300 to 600 units/month", "subtitle": "Max Appliance limit: 6 KW" } },
+        { "type": "tier", "settings": { "icon": "fas fa-industry", "title": "600 to 900 units/month", "subtitle": "Max Appliance limit: 9 KW" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

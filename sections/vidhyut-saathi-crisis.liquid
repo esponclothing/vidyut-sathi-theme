@@ -1,0 +1,876 @@
+{% comment %}
+  Vidhyut Saathi – India's Electricity Crisis Section
+  Shopify Theme Section
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --vs-orange:  #F7941D;
+    --vs-orange2: #E07810;
+    --vs-orange3: #FDB44B;
+    --vs-green:   #3EAD47;
+    --vs-green2:  #2E7D32;
+    --vs-green3:  #6DD47A;
+    --vs-dark:    #111111;
+    --vs-text:    #222222;
+    --vs-muted:   #777777;
+    --vs-bg:      #FAFAF7;
+    --vs-card:    #FFFFFF;
+    --vs-cream:   #FFF8EE;
+  }
+
+  /* ─── SECTION WRAPPER ─── */
+  .vs-crisis {
+    background: var(--vs-bg);
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  /* Ambient glows */
+  .vs-crisis__glow-1,
+  .vs-crisis__glow-2 {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .vs-crisis__glow-1 {
+    top: -120px; right: -120px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(247,148,29,.11) 0%, transparent 65%);
+  }
+  .vs-crisis__glow-2 {
+    bottom: 200px; left: -120px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(62,173,71,.08) 0%, transparent 65%);
+  }
+
+  /* ─── GRADIENT BARS ─── */
+  .vs-crisis__topbar,
+  .vs-crisis__bottombar {
+    width: 100%; height: 6px;
+    background: linear-gradient(90deg,
+      var(--vs-green2) 0%,
+      var(--vs-green)  20%,
+      var(--vs-orange3) 50%,
+      var(--vs-orange) 80%,
+      var(--vs-green2) 100%
+    );
+    display: block;
+  }
+
+  /* ─── HERO ─── */
+  .vs-crisis__hero {
+    padding: 52px 64px 32px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .vs-crisis__hero-content { flex: 1; }
+
+  .vs-crisis__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(135deg, rgba(247,148,29,.14), rgba(247,148,29,.04));
+    border: 1.5px solid rgba(247,148,29,.35);
+    border-radius: 50px;
+    padding: 6px 20px;
+    margin-bottom: 20px;
+  }
+  .vs-crisis__badge-dot {
+    width: 8px; height: 8px;
+    background: var(--vs-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(247,148,29,.7);
+    animation: vs-pulse 2s ease-in-out infinite;
+  }
+  .vs-crisis__badge-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--vs-orange2);
+  }
+  @keyframes vs-pulse {
+    0%,100% { transform: scale(1); box-shadow: 0 0 8px rgba(247,148,29,.7); }
+    50%      { transform: scale(1.5); box-shadow: 0 0 16px rgba(247,148,29,.4); }
+  }
+
+  .vs-crisis__title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 62px; font-weight: 900;
+    line-height: 1.07;
+    color: var(--vs-dark);
+    letter-spacing: -1.5px;
+    margin: 0 0 20px;
+  }
+  .vs-crisis__title-accent {
+    color: var(--vs-orange);
+    position: relative;
+    display: inline-block;
+  }
+  .vs-crisis__title-accent::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--vs-orange), var(--vs-orange3));
+    border-radius: 2px;
+    opacity: .45;
+  }
+
+  .vs-crisis__divider {
+    width: 80px; height: 5px;
+    background: linear-gradient(90deg, var(--vs-orange), var(--vs-green));
+    border-radius: 3px;
+  }
+
+  /* Background tower */
+  .vs-crisis__tower {
+    flex-shrink: 0;
+    width: 160px; height: 210px;
+    opacity: .12;
+    align-self: center;
+    margin-top: -10px;
+  }
+  .vs-crisis__tower svg { width: 100%; height: 100%; }
+
+  /* ─── STATS GRID ─── */
+  .vs-crisis__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 64px;
+    position: relative;
+    z-index: 2;
+    margin-top: 8px;
+  }
+
+  .vs-crisis__stat {
+    background: var(--vs-card);
+    border-radius: 24px;
+    padding: 38px 28px 34px;
+    box-shadow: 0 8px 40px rgba(247,148,29,.14);
+    border: 1.5px solid rgba(247,148,29,.07);
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+  }
+  .vs-crisis__stat:hover {
+    transform: translateY(-7px) scale(1.01);
+    box-shadow: 0 22px 60px rgba(247,148,29,.22);
+  }
+
+  /* Top & bottom accent lines */
+  .vs-crisis__stat::before,
+  .vs-crisis__stat::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 4px;
+  }
+  .vs-crisis__stat::before { top: 0; border-radius: 24px 24px 0 0; }
+  .vs-crisis__stat::after  { bottom: 0; border-radius: 0 0 24px 24px; }
+
+  .vs-crisis__stat:nth-child(1)::before,
+  .vs-crisis__stat:nth-child(1)::after { background: linear-gradient(90deg, var(--vs-orange), var(--vs-orange3)); }
+  .vs-crisis__stat:nth-child(2)::before,
+  .vs-crisis__stat:nth-child(2)::after { background: linear-gradient(90deg, var(--vs-green), var(--vs-green3)); }
+  .vs-crisis__stat:nth-child(3)::before,
+  .vs-crisis__stat:nth-child(3)::after { background: linear-gradient(90deg, var(--vs-orange3), var(--vs-green)); }
+
+  /* Inner glow blobs */
+  .vs-crisis__stat-glow {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: .3;
+  }
+  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(247,148,29,.5), transparent 70%); }
+  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(62,173,71,.5), transparent 70%); }
+  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(247,148,29,.35), transparent 70%); }
+
+  /* Icon */
+  .vs-crisis__stat-icon {
+    width: 64px; height: 64px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 22px;
+    position: relative; z-index: 1;
+  }
+  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-icon { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); box-shadow: 0 6px 20px rgba(247,148,29,.2); }
+  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-icon { background: linear-gradient(135deg,#E8F5E9,#C8E6C9); box-shadow: 0 6px 20px rgba(62,173,71,.2); }
+  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-icon { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); box-shadow: 0 6px 20px rgba(247,148,29,.2); }
+  .vs-crisis__stat-icon svg { width: 30px; height: 30px; }
+
+  .vs-crisis__stat-number {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 48px; font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-number,
+  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-number { color: var(--vs-orange); }
+  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-number { color: var(--vs-green); }
+
+  .vs-crisis__stat-line {
+    width: 40px; height: 3px;
+    border-radius: 2px;
+    margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-line,
+  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-line { background: linear-gradient(90deg, var(--vs-orange), transparent); }
+  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-line { background: linear-gradient(90deg, var(--vs-green), transparent); }
+
+  .vs-crisis__stat-desc {
+    font-size: 15px; font-weight: 800;
+    color: var(--vs-dark);
+    line-height: 1.55;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── NEED BANNER ─── */
+  .vs-crisis__need {
+    margin: 28px 64px 0;
+    background: linear-gradient(135deg, #FFFBF3, #FFF3E0, #FFFBF3);
+    border: 2px solid rgba(247,148,29,.22);
+    border-radius: 20px;
+    padding: 26px 34px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative; z-index: 2;
+    box-shadow: 0 4px 24px rgba(247,148,29,.11), inset 0 1px 0 rgba(255,255,255,.8);
+  }
+
+  .vs-crisis__need-icon {
+    width: 58px; height: 58px; flex-shrink: 0;
+    background: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 20px rgba(247,148,29,.22);
+    border: 2px solid rgba(247,148,29,.14);
+  }
+
+  .vs-crisis__need-sep {
+    width: 3px; height: 50px;
+    background: linear-gradient(180deg, var(--vs-orange), var(--vs-green));
+    border-radius: 2px; flex-shrink: 0;
+  }
+
+  .vs-crisis__need-label {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px; font-weight: 900;
+    color: var(--vs-orange);
+    white-space: nowrap;
+  }
+
+  .vs-crisis__need-body {
+    font-size: 15px; font-weight: 700;
+    color: var(--vs-text);
+    line-height: 1.65;
+  }
+
+  /* ─── SECTION BREAK ─── */
+  .vs-crisis__break {
+    margin: 48px 64px 32px;
+    display: flex; align-items: center; gap: 18px;
+    position: relative; z-index: 2;
+  }
+  .vs-crisis__break-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(247,148,29,.35), transparent);
+  }
+  .vs-crisis__break-line--rev {
+    background: linear-gradient(270deg, rgba(247,148,29,.35), transparent);
+  }
+  .vs-crisis__break-pill {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--vs-orange2);
+    background: linear-gradient(135deg, rgba(247,148,29,.1), transparent);
+    padding: 6px 18px; border-radius: 50px;
+    border: 1px solid rgba(247,148,29,.2);
+    white-space: nowrap;
+  }
+
+  /* ─── SOLUTION HEADER ─── */
+  .vs-crisis__solution {
+    padding: 0 64px;
+    position: relative; z-index: 2;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .vs-crisis__solution-sparks::before,
+  .vs-crisis__solution-sparks::after {
+    position: absolute;
+    font-size: 20px; opacity: .22;
+  }
+  .vs-crisis__solution h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 46px; font-weight: 900;
+    color: var(--vs-dark);
+    line-height: 1.15;
+    letter-spacing: -.5px;
+    margin: 0 0 10px;
+  }
+  .vs-crisis__solution h2 span { color: var(--vs-orange); }
+  .vs-crisis__solution p {
+    font-size: 20px; font-weight: 700;
+    color: var(--vs-muted);
+  }
+  .vs-crisis__solution-underline {
+    display: inline-block;
+    margin-top: 14px;
+    width: 72px; height: 4px;
+    background: linear-gradient(90deg, var(--vs-orange), var(--vs-green));
+    border-radius: 2px;
+  }
+
+  /* ─── CTA CARD ─── */
+  .vs-crisis__cta {
+    margin: 0 64px;
+    background: linear-gradient(135deg, #FFFDF8, #FFF6E8, #FFFDF8);
+    border-radius: 26px;
+    padding: 40px 48px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 32px;
+    border: 2px solid rgba(247,148,29,.16);
+    box-shadow: 0 8px 40px rgba(247,148,29,.11), inset 0 1px 0 rgba(255,255,255,.9);
+    position: relative; z-index: 2;
+    overflow: hidden;
+  }
+  .vs-crisis__cta::before {
+    content: '';
+    position: absolute;
+    top: -50px; left: -50px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(247,148,29,.1), transparent 65%);
+    pointer-events: none;
+  }
+  .vs-crisis__cta::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(62,173,71,.08), transparent 65%);
+    pointer-events: none;
+  }
+
+  .vs-crisis__cta-left { position: relative; z-index: 1; }
+  .vs-crisis__cta-left h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px; font-weight: 900;
+    color: var(--vs-dark);
+    line-height: 1.2;
+    margin: 0 0 8px;
+  }
+  .vs-crisis__cta-left h3 span { color: var(--vs-orange); }
+  .vs-crisis__cta-left p {
+    font-size: 16px; font-weight: 700;
+    color: var(--vs-muted);
+    margin: 0 0 14px;
+  }
+
+  /* Social proof */
+  .vs-crisis__proof {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .vs-crisis__proof-avatars { display: flex; }
+  .vs-crisis__proof-avatars span {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    margin-left: -7px;
+    color: white;
+  }
+  .vs-crisis__proof-avatars span:first-child { margin-left: 0; background: var(--vs-orange); }
+  .vs-crisis__proof-avatars span:nth-child(2) { background: var(--vs-green); }
+  .vs-crisis__proof-avatars span:nth-child(3) { background: var(--vs-orange2); }
+  .vs-crisis__proof-text {
+    font-size: 13px; font-weight: 700;
+    color: var(--vs-muted);
+  }
+  .vs-crisis__proof-text strong { color: var(--vs-orange); }
+
+  .vs-crisis__cta-right {
+    position: relative; z-index: 1;
+    flex-shrink: 0; text-align: center;
+  }
+
+  .vs-crisis__btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--vs-orange), var(--vs-orange2));
+    color: white;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px; font-weight: 900;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 10px 32px rgba(247,148,29,.38), 0 2px 0 rgba(0,0,0,.1) inset;
+    letter-spacing: .3px;
+    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s;
+    white-space: nowrap;
+  }
+  .vs-crisis__btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 18px 48px rgba(247,148,29,.52);
+  }
+  .vs-crisis__btn svg { width: 20px; height: 20px; }
+
+  .vs-crisis__btn-note {
+    margin-top: 10px;
+    font-size: 12px; font-weight: 700;
+    color: var(--vs-green2);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .vs-crisis__btn-note::before { content: '✓'; font-weight: 900; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    .vs-crisis__glow-1,
+    .vs-crisis__glow-2 { display: none; }
+
+    .vs-crisis__hero {
+      padding: 32px 20px 20px;
+      flex-direction: column; gap: 0;
+    }
+    .vs-crisis__tower { display: none; }
+
+    .vs-crisis__title { font-size: 36px; letter-spacing: -.5px; }
+
+    .vs-crisis__stats {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 0 20px;
+    }
+
+    .vs-crisis__stat {
+      padding: 24px 22px 20px;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 16px;
+      align-items: start;
+    }
+
+    .vs-crisis__stat-glow { display: none; }
+
+    .vs-crisis__stat-icon {
+      width: 50px; height: 50px;
+      border-radius: 14px;
+      margin-bottom: 0;
+      grid-row: 1 / 4;
+      align-self: center;
+    }
+    .vs-crisis__stat-icon svg { width: 24px; height: 24px; }
+
+    .vs-crisis__stat-number {
+      font-size: 30px;
+      margin-bottom: 4px;
+      grid-column: 2;
+    }
+
+    .vs-crisis__stat-line { display: none; }
+
+    .vs-crisis__stat-desc {
+      font-size: 13px;
+      grid-column: 2;
+    }
+
+    .vs-crisis__need {
+      margin: 20px 20px 0;
+      padding: 20px 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .vs-crisis__need-sep { display: none; }
+    .vs-crisis__need-icon { width: 44px; height: 44px; }
+    .vs-crisis__need-label { font-size: 18px; }
+    .vs-crisis__need-body { font-size: 14px; flex: 1 1 100%; }
+
+    .vs-crisis__break {
+      margin: 32px 20px 24px;
+    }
+
+    .vs-crisis__solution {
+      padding: 0 20px;
+      margin-bottom: 28px;
+    }
+    .vs-crisis__solution h2 { font-size: 28px; }
+    .vs-crisis__solution p { font-size: 16px; }
+
+    .vs-crisis__cta {
+      margin: 0 20px;
+      flex-direction: column;
+      padding: 28px 24px;
+      gap: 24px;
+    }
+    .vs-crisis__cta-left h3 { font-size: 22px; }
+    .vs-crisis__cta-left p { font-size: 14px; }
+    .vs-crisis__cta-right { width: 100%; }
+    .vs-crisis__btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 17px;
+      padding: 15px 32px;
+    }
+
+    .vs-crisis__topbar,
+    .vs-crisis__bottombar { height: 5px; }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .vs-crisis__hero { padding: 44px 44px 24px; }
+    .vs-crisis__stats { padding: 0 44px; gap: 16px; }
+    .vs-crisis__title { font-size: 50px; }
+    .vs-crisis__stat { padding: 30px 22px 26px; }
+    .vs-crisis__stat-number { font-size: 40px; }
+    .vs-crisis__need { margin: 24px 44px 0; }
+    .vs-crisis__break { margin: 40px 44px 28px; }
+    .vs-crisis__solution { padding: 0 44px; }
+    .vs-crisis__cta { margin: 0 44px; padding: 32px 36px; }
+  }
+</style>
+
+<section class="vs-crisis" id="vs-crisis-{{ section.id }}">
+
+  <!-- Glow blobs -->
+  <div class="vs-crisis__glow-1" aria-hidden="true"></div>
+  <div class="vs-crisis__glow-2" aria-hidden="true"></div>
+
+  <!-- Top bar -->
+  <div class="vs-crisis__topbar"></div>
+
+  <!-- ── HERO ── -->
+  <div class="vs-crisis__hero">
+    <div class="vs-crisis__hero-content">
+      <div class="vs-crisis__badge">
+        <div class="vs-crisis__badge-dot"></div>
+        <span class="vs-crisis__badge-text">{{ section.settings.badge_label | default: 'The Problem' }}</span>
+      </div>
+      <h1 class="vs-crisis__title">
+        {{ section.settings.hero_title_prefix | default: "India's" }}
+        <span class="vs-crisis__title-accent">{{ section.settings.hero_title_accent | default: 'Electricity' }}</span>
+        {{ section.settings.hero_title_suffix | default: 'Crisis' }}
+      </h1>
+      <div class="vs-crisis__divider"></div>
+    </div>
+
+    <!-- Tower SVG -->
+    <div class="vs-crisis__tower" aria-hidden="true">
+      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="100" y1="0"   x2="100" y2="280" stroke="#F7941D" stroke-width="4"/>
+        <line x1="100" y1="40"  x2="20"  y2="100" stroke="#F7941D" stroke-width="3"/>
+        <line x1="100" y1="40"  x2="180" y2="100" stroke="#F7941D" stroke-width="3"/>
+        <line x1="100" y1="100" x2="30"  y2="150" stroke="#F7941D" stroke-width="2.5"/>
+        <line x1="100" y1="100" x2="170" y2="150" stroke="#F7941D" stroke-width="2.5"/>
+        <line x1="100" y1="160" x2="50"  y2="200" stroke="#F7941D" stroke-width="2"/>
+        <line x1="100" y1="160" x2="150" y2="200" stroke="#F7941D" stroke-width="2"/>
+        <line x1="20"  y1="100" x2="30"  y2="150" stroke="#F7941D" stroke-width="2"/>
+        <line x1="180" y1="100" x2="170" y2="150" stroke="#F7941D" stroke-width="2"/>
+        <circle cx="100" cy="40"  r="6" fill="#F7941D"/>
+        <circle cx="100" cy="100" r="6" fill="#F7941D"/>
+        <circle cx="100" cy="160" r="6" fill="#F7941D"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ── STAT CARDS ── -->
+  <div class="vs-crisis__stats">
+
+    {% for block in section.blocks %}
+      {% if block.type == 'stat_card' %}
+        <div class="vs-crisis__stat" {{ block.shopify_attributes }}>
+          <div class="vs-crisis__stat-glow"></div>
+          <div class="vs-crisis__stat-icon">
+            {% if forloop.index == 1 %}
+              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-size="20" font-weight="900" fill="#F7941D" font-family="sans-serif">₹</text>
+              </svg>
+            {% elsif forloop.index == 2 %}
+              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="17,4 10,16 15,16 13,26 21,14 16,14" fill="#3EAD47"/>
+              </svg>
+            {% else %}
+              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="4" fill="#F7941D" opacity=".7"/>
+                <circle cx="20" cy="11" r="4" fill="#F7941D" opacity=".7"/>
+                <circle cx="15.5" cy="8.5" r="4" fill="#F7941D"/>
+                <path d="M5 24c0-4 4.5-6.5 10.5-6.5S26 20 26 24" fill="#F7941D" opacity=".45"/>
+              </svg>
+            {% endif %}
+          </div>
+          <div class="vs-crisis__stat-number">{{ block.settings.stat_value }}</div>
+          <div class="vs-crisis__stat-line"></div>
+          <div class="vs-crisis__stat-desc">{{ block.settings.stat_desc }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <!-- ── NEED BANNER ── -->
+  <div class="vs-crisis__need">
+    <div class="vs-crisis__need-icon">
+      <svg width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15" cy="11" r="7.5" stroke="#F7941D" stroke-width="2.2" fill="none"/>
+        <path d="M12 11c0-1.66 1.34-3 3-3" stroke="#F7941D" stroke-width="2" stroke-linecap="round"/>
+        <line x1="15" y1="19" x2="15" y2="23" stroke="#F7941D" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="11" y1="26" x2="19" y2="26" stroke="#F7941D" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="vs-crisis__need-sep"></div>
+    <div class="vs-crisis__need-label">{{ section.settings.need_label | default: 'The Need is Clear.' }}</div>
+    <div class="vs-crisis__need-body">{{ section.settings.need_text | default: 'India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.' }}</div>
+  </div>
+
+  <!-- ── SECTION BREAK ── -->
+  <div class="vs-crisis__break">
+    <div class="vs-crisis__break-line"></div>
+    <div class="vs-crisis__break-pill">{{ section.settings.break_text | default: 'Introducing the Solution' }}</div>
+    <div class="vs-crisis__break-line vs-crisis__break-line--rev"></div>
+  </div>
+
+  <!-- ── SOLUTION HEADER ── -->
+  <div class="vs-crisis__solution">
+    <h2>{{ section.settings.solution_title_prefix | default: 'Meet' }} <span>{{ section.settings.solution_title_accent | default: 'Vidhyut Saathi Card' }}</span></h2>
+    <p>{{ section.settings.solution_subtitle | default: "India's #1 Smart Electricity Saver — Engineered for Every Home" }}</p>
+    <div class="vs-crisis__solution-underline"></div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="vs-crisis__cta">
+    <div class="vs-crisis__cta-left">
+      <h3>{{ section.settings.cta_title_prefix | default: 'Start Saving on Your' }} <span>{{ section.settings.cta_title_accent | default: 'Electricity Bill' }}</span> {{ section.settings.cta_title_suffix | default: 'Today' }}</h3>
+      <p>{{ section.settings.cta_subtitle | default: 'Join 20 Lakh+ Indian families already saving with Vidhyut Saathi Card' }}</p>
+      <div class="vs-crisis__proof">
+        <div class="vs-crisis__proof-avatars">
+          <span>R</span><span>S</span><span>A</span>
+        </div>
+        <div class="vs-crisis__proof-text"><strong>{{ section.settings.proof_count | default: '20 Lakh+' }}</strong> {{ section.settings.proof_label | default: 'households trust us' }}</div>
+      </div>
+    </div>
+    <div class="vs-crisis__cta-right">
+      <a href="{{ section.settings.cta_link | default: '#' }}" class="vs-crisis__btn">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="11,3 7,12 11,12 10,19 15,10 11,10" fill="white"/>
+        </svg>
+        {{ section.settings.cta_button_text | default: 'Get Franchise Now' }}
+      </a>
+      <div class="vs-crisis__btn-note">{{ section.settings.cta_note | default: 'Free Consultation Available' }}</div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="vs-crisis__bottombar" style="margin-top: 48px;"></div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Vidhyut Saathi – Crisis",
+  "tag": "section",
+  "class": "vs-crisis-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge Label",
+      "default": "The Problem"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_prefix",
+      "label": "Title Prefix",
+      "default": "India's"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_accent",
+      "label": "Title Accent (Orange)",
+      "default": "Electricity"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_suffix",
+      "label": "Title Suffix",
+      "default": "Crisis"
+    },
+    {
+      "type": "header",
+      "content": "Need Banner"
+    },
+    {
+      "type": "text",
+      "id": "need_label",
+      "label": "Need Label",
+      "default": "The Need is Clear."
+    },
+    {
+      "type": "textarea",
+      "id": "need_text",
+      "label": "Need Description",
+      "default": "India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household."
+    },
+    {
+      "type": "header",
+      "content": "Section Break"
+    },
+    {
+      "type": "text",
+      "id": "break_text",
+      "label": "Break Pill Text",
+      "default": "Introducing the Solution"
+    },
+    {
+      "type": "header",
+      "content": "Solution Header"
+    },
+    {
+      "type": "text",
+      "id": "solution_title_prefix",
+      "label": "Title Prefix",
+      "default": "Meet"
+    },
+    {
+      "type": "text",
+      "id": "solution_title_accent",
+      "label": "Title Accent (Orange)",
+      "default": "Vidhyut Saathi Card"
+    },
+    {
+      "type": "text",
+      "id": "solution_subtitle",
+      "label": "Subtitle",
+      "default": "India's #1 Smart Electricity Saver — Engineered for Every Home"
+    },
+    {
+      "type": "header",
+      "content": "CTA Block"
+    },
+    {
+      "type": "text",
+      "id": "cta_title_prefix",
+      "label": "CTA Title Prefix",
+      "default": "Start Saving on Your"
+    },
+    {
+      "type": "text",
+      "id": "cta_title_accent",
+      "label": "CTA Title Accent",
+      "default": "Electricity Bill"
+    },
+    {
+      "type": "text",
+      "id": "cta_title_suffix",
+      "label": "CTA Title Suffix",
+      "default": "Today"
+    },
+    {
+      "type": "text",
+      "id": "cta_subtitle",
+      "label": "CTA Subtitle",
+      "default": "Join 20 Lakh+ Indian families already saving with Vidhyut Saathi Card"
+    },
+    {
+      "type": "text",
+      "id": "proof_count",
+      "label": "Social Proof Count",
+      "default": "20 Lakh+"
+    },
+    {
+      "type": "text",
+      "id": "proof_label",
+      "label": "Social Proof Label",
+      "default": "households trust us"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button Text",
+      "default": "Get Franchise Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_note",
+      "label": "Button Note",
+      "default": "Free Consultation Available"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat_card",
+      "name": "Stat Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_value",
+          "label": "Stat Value",
+          "default": "₹1.5 Lakh Cr"
+        },
+        {
+          "type": "text",
+          "id": "stat_desc",
+          "label": "Stat Description",
+          "default": "Annual household electricity spending across India"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vidhyut Saathi – Crisis",
+      "blocks": [
+        {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "₹1.5 Lakh Cr",
+            "stat_desc": "Annual household electricity spending across India"
+          }
+        },
+        {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "30%",
+            "stat_desc": "Electricity wasted due to voltage fluctuations & reactive loads"
+          }
+        },
+        {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "800M+",
+            "stat_desc": "Indians facing high electricity bills with no effective solution"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

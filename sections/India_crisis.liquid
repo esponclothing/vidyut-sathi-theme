@@ -1,0 +1,216 @@
+<section class="vs-premium-section" id="vs-section-{{ section.id }}">
+  <!-- Futuristic Energy Grid Background -->
+  <div class="vs-energy-bg"></div>
+  <div class="vs-ambient-glow"></div>
+
+  <div class="vs-container">
+    
+    <!-- ── HEADER ROW ── -->
+    <div class="vs-header">
+      <div class="vs-badge">
+        <span class="pulse-dot"></span> SMART NANO-TECH
+      </div>
+      <h2 class="vs-title">Solve India's <span class="text-orange">Electricity Crisis</span></h2>
+      <p class="vs-subtitle">The #1 smart saver engineered to eliminate reactive loads and slash household bills.</p>
+    </div>
+
+    <!-- ── COMPACT STATS ROW ── -->
+    <div class="vs-stats-bar">
+      <div class="vs-stat-chip">
+        <div class="chip-icon orange-glow">₹</div>
+        <div class="chip-data">
+          <strong>1.5L Cr</strong>
+          <span>Wasted Annually</span>
+        </div>
+      </div>
+      
+      <div class="vs-stat-chip">
+        <div class="chip-icon green-glow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="chip-data">
+          <strong class="text-green">30%</strong>
+          <span>Power Loss</span>
+        </div>
+      </div>
+
+      <div class="vs-stat-chip">
+        <div class="chip-icon orange-glow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="chip-data">
+          <strong>800M+</strong>
+          <span>Affected Indians</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LUCRATIVE CTA STRIP ── -->
+    <div class="vs-cta-strip">
+      <div class="cta-proof">
+        <div class="avatar-stack">
+          <div class="avatar" style="background:#F7941D">R</div>
+          <div class="avatar" style="background:#3EAD47">S</div>
+          <div class="avatar" style="background:#E07810">A</div>
+        </div>
+        <p>Join <strong>20 Lakh+</strong> families saving daily.</p>
+      </div>
+      
+      <a href="{{ section.settings.cta_link | default: '#' }}" class="vs-btn-primary">
+        SECURE FRANCHISE
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── DESIGN SYSTEM & RESET ── */
+  @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+  #vs-section-{{ section.id }} {
+    --bg-dark: #0B0E14;
+    --card-glass: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --orange: #F7941D;
+    --orange-glow: rgba(247, 148, 29, 0.4);
+    --green: #3EAD47;
+    --green-glow: rgba(62, 173, 71, 0.4);
+    --text-main: #FFFFFF;
+    --text-muted: #8A93A6;
+
+    background-color: var(--bg-dark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-main);
+    position: relative;
+    overflow: hidden;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  #vs-section-{{ section.id }} *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .text-orange { color: var(--orange); }
+  .text-green { color: var(--green); }
+
+  /* ── BACKGROUND EFFECTS ── */
+  .vs-energy-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(var(--card-border) 1px, transparent 1px), linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+    background-size: 40px 40px; opacity: 0.2; z-index: 0;
+  }
+  .vs-ambient-glow {
+    position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, var(--orange-glow) 0%, transparent 60%);
+    opacity: 0.5; filter: blur(60px); z-index: 0; pointer-events: none;
+  }
+
+  /* ── CONTAINER ── */
+  .vs-container {
+    position: relative; z-index: 2; width: 100%; max-width: 1000px;
+    display: flex; flex-direction: column; gap: 32px;
+  }
+
+  /* ── HEADER ── */
+  .vs-header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .vs-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 50px;
+    background: rgba(62, 173, 71, 0.1); border: 1px solid rgba(62, 173, 71, 0.3);
+    color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  }
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 10px var(--green); animation: pulseGreen 2s infinite;
+  }
+  @keyframes pulseGreen { 0%,100%{transform:scale(1); opacity:1;} 50%{transform:scale(1.5); opacity:.5;} }
+  
+  .vs-title {
+    font-family: 'Syncopate', sans-serif; font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.2; text-transform: uppercase; letter-spacing: -1px;
+  }
+  .vs-subtitle { color: var(--text-muted); font-size: clamp(14px, 2vw, 16px); max-width: 500px; }
+
+  /* ── STATS BAR ── */
+  .vs-stats-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .vs-stat-chip {
+    background: var(--card-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border); border-radius: 16px;
+    padding: 20px; display: flex; align-items: center; gap: 16px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .vs-stat-chip:hover { transform: translateY(-3px); border-color: rgba(247, 148, 29, 0.4); }
+  
+  .chip-icon {
+    width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800;
+  }
+  .chip-icon.orange-glow { background: rgba(247,148,29,0.1); color: var(--orange); border: 1px solid rgba(247,148,29,0.2); box-shadow: 0 0 20px rgba(247,148,29,0.15); }
+  .chip-icon.green-glow { background: rgba(62,173,71,0.1); color: var(--green); border: 1px solid rgba(62,173,71,0.2); box-shadow: 0 0 20px rgba(62,173,71,0.15); }
+  .chip-icon svg { width: 24px; height: 24px; }
+  
+  .chip-data { display: flex; flex-direction: column; }
+  .chip-data strong { font-size: 22px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .chip-data span { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── CTA STRIP ── */
+  .vs-cta-strip {
+    background: linear-gradient(90deg, rgba(247,148,29,0.1), rgba(62,173,71,0.05));
+    border: 1px solid var(--card-border); border-radius: 20px;
+    padding: 24px 32px; display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .cta-proof { display: flex; align-items: center; gap: 16px; }
+  .avatar-stack { display: flex; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--bg-dark);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+    margin-left: -12px; color: #fff;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .cta-proof p { font-size: 15px; color: var(--text-muted); }
+  .cta-proof strong { color: #fff; }
+
+  .vs-btn-primary {
+    background: var(--orange); color: #000;
+    font-size: 14px; font-weight: 800; font-family: 'Syncopate', sans-serif;
+    text-decoration: none; padding: 16px 32px; border-radius: 50px;
+    display: inline-flex; align-items: center; gap: 12px; letter-spacing: 1px;
+    box-shadow: 0 0 30px var(--orange-glow); transition: all 0.3s ease;
+  }
+  .vs-btn-primary:hover {
+    transform: scale(1.02); background: #FF9F2A; box-shadow: 0 0 40px rgba(247,148,29,0.6);
+  }
+  .vs-btn-primary svg { width: 18px; height: 18px; }
+
+  /* ── MOBILE OPTIMIZATIONS ── */
+  @media (max-width: 800px) {
+    .vs-stats-bar { grid-template-columns: 1fr; gap: 12px; }
+    .vs-cta-strip { flex-direction: column; text-align: center; justify-content: center; padding: 24px 20px; }
+    .cta-proof { flex-direction: column; gap: 8px; }
+    .vs-btn-primary { width: 100%; justify-content: center; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Lucrative Nano Card",
+  "settings": [
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Franchise Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lucrative Nano Card",
+      "category": "High-Converting"
+    }
+  ]
+}
+{% endschema %}

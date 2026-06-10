@@ -1,0 +1,218 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{%- style -%}
+  :root {
+    --vs-navy: #0f172a;
+    --vs-orange: {{ section.settings.primary_color }};
+    --vs-green: {{ section.settings.secondary_color | default: '#007B3E' }};
+    --vs-border: #e2e8f0;
+    --vs-bg: {{ section.settings.bg_color }};
+  }
+
+  .vs-features-wrapper {
+    font-family: 'Poppins', sans-serif;
+    padding: 80px 5%;
+    background-color: var(--vs-bg);
+    overflow: hidden;
+    perspective: 2000px;
+  }
+
+  /* --- ESPON 3D ANIMATION LOGIC --- */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(60px) translateZ(-50px) rotateX(-10deg);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-up.active {
+    opacity: 1;
+    transform: translateY(0) translateZ(0) rotateX(0deg);
+  }
+
+  .vs-features-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .vs-features-header h2 {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--vs-navy);
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .vs-features-header .vs-divider {
+    height: 4px; width: 60px;
+    background-color: var(--vs-orange);
+    margin: 15px auto 0; border-radius: 2px;
+  }
+
+  /* --- GRID & CARDS --- */
+  .vs-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .vs-feature-card {
+    display: block;
+    text-decoration: none;
+    background: #ffffff;
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid var(--vs-border);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transform-style: preserve-3d;
+  }
+
+  /* Hover Effects */
+  .vs-feature-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 25px 50px rgba(241, 126, 57, 0.15); /* Orange Glow */
+    border-color: var(--vs-orange);
+    z-index: 10;
+  }
+
+  .vs-feature-icon {
+    font-size: 2.5rem;
+    color: var(--vs-orange);
+    margin-bottom: 20px;
+    transition: transform 0.4s ease, color 0.3s ease;
+    transform: translateZ(20px);
+  }
+
+  .vs-feature-card:hover .vs-feature-icon { 
+    transform: scale(1.2) translateZ(40px); 
+    color: var(--vs-green); 
+  }
+
+  .vs-feature-card h3 {
+    font-size: 20px; font-weight: 800; color: var(--vs-navy);
+    margin-bottom: 15px; transform: translateZ(15px);
+  }
+  .vs-feature-card p {
+    font-size: 15px; color: #64748b; line-height: 1.6; margin: 0;
+    transform: translateZ(5px);
+  }
+
+  /* --- MOBILE FIXES --- */
+  @media screen and (max-width: 1024px) {
+    .vs-features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media screen and (max-width: 768px) {
+    .vs-features-wrapper { padding: 50px 5%; }
+    .vs-features-header h2 { font-size: 28px; }
+    .vs-features-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .vs-feature-card { padding: 25px 15px; border-radius: 16px; }
+    .vs-feature-icon { font-size: 2rem; margin-bottom: 15px; }
+    .vs-feature-card h3 { font-size: 16px; margin-bottom: 10px; }
+    .vs-feature-card p { font-size: 12px; }
+  }
+{%- endstyle -%}
+
+<div class="vs-features-wrapper">
+  <div class="vs-features-header reveal-up">
+    <h2>{{ section.settings.title }}</h2>
+    <div class="vs-divider"></div>
+  </div>
+
+  <div class="vs-features-grid" id="vs-features-container">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        
+        {% assign final_icon = block.settings.icon_class %}
+        {% if final_icon == blank or final_icon == 'fas fa-check-circle' or final_icon == 'fas fa-bolt' %}
+          {% case forloop.index %}
+            {% when 1 %}{% assign final_icon = 'fas fa-microchip' %}
+            {% when 2 %}{% assign final_icon = 'fas fa-leaf' %}
+            {% when 3 %}{% assign final_icon = 'fas fa-bolt' %}
+            {% when 4 %}{% assign final_icon = 'fas fa-layer-group' %}
+            {% when 5 %}{% assign final_icon = 'fas fa-tools' %}
+            {% when 6 %}{% assign final_icon = 'fas fa-sack-dollar' %}
+            {% else %}{% assign final_icon = 'fas fa-star' %}
+          {% endcase %}
+        {% endif %}
+
+        <a href="{{ block.settings.link | default: '#' }}" class="vs-feature-card reveal-up" style="transition-delay: {{ forloop.index0 | times: 0.1 }}s;">
+          <div class="vs-feature-icon"><i class="{{ final_icon }}"></i></div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const revealElements = document.querySelectorAll('#vs-features-container .reveal-up, .vs-features-header.reveal-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Desktop 3D Hover Tracking
+    if (window.innerWidth > 768) {
+      const cards = document.querySelectorAll('.vs-feature-card');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotateX = ((y - (rect.height / 2)) / (rect.height / 2)) * -10; 
+          const rotateY = ((x - (rect.width / 2)) / (rect.width / 2)) * 10;
+          card.style.transform = `perspective(1000px) translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Vidhyut Features Grid",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#f8fafc" },
+    { "type": "color", "id": "primary_color", "label": "Accent Color (Orange)", "default": "#F17E39" },
+    { "type": "color", "id": "secondary_color", "label": "Hover Icon Color (Green)", "default": "#007B3E" },
+    { "type": "text", "id": "title", "label": "Section Title", "default": "WHY VIDHYUT SAATHI?" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Card",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "icon_class", "label": "FontAwesome Icon Class", "info": "Leave blank to auto-assign 3D icons." },
+        { "type": "text", "id": "title", "label": "Feature Title", "default": "Feature Title" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Description goes here." },
+        { "type": "url", "id": "link", "label": "Card Click Link (Optional)" }
+      ]
+    }
+  ],
+  "presets": [ 
+    { 
+      "name": "Vidhyut Features Grid",
+      "blocks": [
+        { "type": "feature", "settings": { "icon_class": "fas fa-microchip", "title": "US-German Nanotechnology", "text": "Powered by advanced US-German nanotechnology, utilizing 20,000 negative ions to effectively stop electricity leakage." } },
+        { "type": "feature", "settings": { "icon_class": "fas fa-leaf", "title": "Benefits of VS Card", "text": "Lowers electricity bills by 20% to 30%. It is 100% eco-friendly, waterproof, completely legal, and requires zero maintenance." } },
+        { "type": "feature", "settings": { "icon_class": "fas fa-bolt", "title": "Check Leakage Current", "text": "Test your home or factory's phase and neutral lines using a digital clamp meter to identify unseen electricity wastage." } },
+        { "type": "feature", "settings": { "icon_class": "fas fa-layer-group", "title": "No. of Cards Required", "text": "Requirements scale with load: 1 card for 1-6KW, 2 cards for 7-12KW, 3 for 13-18KW, 4 for 19-24KW, and 5 cards for 25-30KW." } },
+        { "type": "feature", "settings": { "icon_class": "fas fa-tools", "title": "How to Install", "text": "Extremely simple to install. No illegal wire cutting required—just attach it safely near your main MCB or distribution board." } },
+        { "type": "feature", "settings": { "icon_class": "fas fa-sack-dollar", "title": "Earn ₹5-6 Lakhs/Month", "text": "Join our Franchise model! Become a business partner and tap into a highly profitable, fast-growing energy-saving market." } }
+      ]
+    } 
+  ]
+}
+{% endschema %}

@@ -1,0 +1,240 @@
+{%- style -%}
+  .vs-carousel-wrapper {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_y }}px 0;
+  }
+
+  .vs-carousel-track {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+  }
+  .vs-carousel-track::-webkit-scrollbar { display: none; }
+
+  .vs-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: center;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  /* --- DUAL IMAGE SYSTEM --- */
+  .vs-img-desktop, .vs-img-mobile {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform {{ section.settings.anim_speed }}s ease;
+  }
+
+  /* Force 16:9 for Desktop */
+  .vs-img-desktop {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Force 1:1 for Mobile */
+  .vs-img-mobile {
+    aspect-ratio: 1 / 1;
+    display: none; 
+  }
+
+  .vs-slide:hover .vs-img-desktop,
+  .vs-slide:hover .vs-img-mobile {
+    transform: scale(1.02);
+  }
+
+  /* Navigation Dots */
+  .vs-carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
+  }
+  .vs-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .vs-dot.active {
+    background: {{ section.settings.dot_color }};
+    width: 25px;
+    border-radius: 5px;
+  }
+
+  /* Arrows */
+  .vs-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.8);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    border: none;
+  }
+  .vs-arrow:hover { background: #fff; transform: translateY(-50%) scale(1.1); }
+  .vs-arrow-prev { left: 20px; }
+  .vs-arrow-next { right: 20px; }
+
+  /* --- MOBILE SWAP LOGIC --- */
+  @media screen and (max-width: 768px) {
+    .vs-img-desktop { display: none; }
+    .vs-img-mobile { display: block; aspect-ratio: 1 / 1; }
+    .vs-arrow { display: none; } 
+    .vs-carousel-nav { bottom: 15px; }
+  }
+{%- endstyle -%}
+
+<div class="vs-carousel-wrapper" data-auto="{{ section.settings.auto_swipe }}" data-speed="{{ section.settings.swipe_speed | times: 1000 }}">
+  <div class="vs-carousel-track" id="vs-track-{{ section.id }}">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.link | default: '#' }}" class="vs-slide" {{ block.shopify_attributes }}>
+        
+        {% if block.settings.image_desktop != blank %}
+          <img class="vs-img-desktop" src="{{ block.settings.image_desktop | img_url: 'master' }}" alt="Desktop Banner" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+        {% endif %}
+
+        {% if block.settings.image_mobile != blank %}
+          <img class="vs-img-mobile" src="{{ block.settings.image_mobile | img_url: 'master' }}" alt="Mobile Banner" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+        {% endif %}
+
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <button class="vs-arrow vs-arrow-prev" id="vs-prev-{{ section.id }}"><i class="fas fa-chevron-left"></i></button>
+    <button class="vs-arrow vs-arrow-next" id="vs-next-{{ section.id }}"><i class="fas fa-chevron-right"></i></button>
+
+    <div class="vs-carousel-nav" id="vs-dots-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="vs-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const track = document.getElementById('vs-track-{{ section.id }}');
+    if (!track) return;
+
+    const wrapper = track.closest('.vs-carousel-wrapper');
+    const slides = Array.from(track.children);
+    const dots = Array.from(document.querySelectorAll('#vs-dots-{{ section.id }} .vs-dot'));
+    const btnPrev = document.getElementById('vs-prev-{{ section.id }}');
+    const btnNext = document.getElementById('vs-next-{{ section.id }}');
+    
+    let currentIndex = 0;
+    const isAuto = wrapper.getAttribute('data-auto') === 'true';
+    const autoSpeed = parseInt(wrapper.getAttribute('data-speed'));
+    let autoTimer;
+
+    function updateDots(index) {
+      dots.forEach(dot => dot.classList.remove('active'));
+      if(dots[index]) dots[index].classList.add('active');
+    }
+
+    function goToSlide(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      
+      const targetScroll = slides[index].offsetLeft;
+      track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      
+      currentIndex = index;
+      updateDots(currentIndex);
+      resetAuto();
+    }
+
+    track.addEventListener('scroll', () => {
+      const scrollPos = track.scrollLeft;
+      const slideWidth = track.clientWidth;
+      const newIndex = Math.round(scrollPos / slideWidth);
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < slides.length) {
+        currentIndex = newIndex;
+        updateDots(currentIndex);
+      }
+    });
+
+    if(btnPrev) btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+    if(btnNext) btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+    dots.forEach((dot, i) => { dot.addEventListener('click', () => goToSlide(i)); });
+
+    function startAuto() {
+      if (isAuto && slides.length > 1) {
+        autoTimer = setInterval(() => goToSlide(currentIndex + 1), autoSpeed);
+      }
+    }
+    function resetAuto() {
+      clearInterval(autoTimer);
+      startAuto();
+    }
+    
+    track.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    track.addEventListener('mouseleave', startAuto);
+    startAuto();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Vidhyut Banner Carousel",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "dot_color", "label": "Active Dot Color", "default": "#F17E39" },
+    { "type": "range", "id": "padding_y", "min": 0, "max": 100, "step": 5, "label": "Top & Bottom Spacing", "default": 0 },
+    { "type": "header", "content": "Carousel Logic" },
+    { "type": "checkbox", "id": "auto_swipe", "label": "Enable Auto-Swipe", "default": true },
+    { "type": "range", "id": "swipe_speed", "min": 2, "max": 10, "step": 1, "label": "Auto-Swipe Speed (Seconds)", "default": 4 },
+    { "type": "range", "id": "anim_speed", "min": 0.1, "max": 1.0, "step": 0.1, "label": "Hover Zoom Speed", "default": 0.5 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Banner Slide",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image_desktop", "label": "PC Image (16:9 Ratio)" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile Image (1:1 Ratio)" },
+        { "type": "url", "id": "link", "label": "Slide Click Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vidhyut Banner Carousel",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

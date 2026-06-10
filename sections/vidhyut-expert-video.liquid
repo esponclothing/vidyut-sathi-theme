@@ -1,0 +1,394 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{%- assign headline_font = section.settings.headline_font -%}
+
+<style>
+  /* Dynamically load the selected font */
+  {{ headline_font | font_face: font_display: 'swap' }}
+
+  #section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    
+    /* The crucial missing piece: restricts width so margin: auto can center it */
+    max-width: {{ section.settings.max_width }}px;
+    width: 100%;
+    
+    /* Applies user-defined margins (auto by default for perfect centering) */
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: {{ section.settings.margin_left }} !important;
+    margin-right: {{ section.settings.margin_right }} !important;
+
+    padding: 60px 5%;
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* --- ANIMATED HEADLINE STYLES (STRICTLY CENTERED) --- */
+  .vs-video-headline {
+    width: 100%;
+    max-width: min(1280px, 90vw);
+    
+    /* Strict Centering Rules */
+    display: block;
+    text-align: center !important;
+    margin: 0 auto {{ section.settings.headline_margin_bottom }}px auto !important;
+    
+    /* Apply Custom Font */
+    font-family: {{ headline_font.family }}, {{ headline_font.fallback_families }};
+    font-weight: {{ headline_font.weight }};
+    font-style: {{ headline_font.style }};
+    
+    font-size: {{ section.settings.headline_size_desktop }}px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    opacity: 0; /* Hidden initially for entrance animation */
+  }
+
+  /* 1. Standard Entrance Animation */
+  .vs-headline-entrance {
+    color: {{ section.settings.headline_color }};
+    animation: vsRevealUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  /* 2. Creative Shimmer Effect (Overrides color with animated gradient) */
+  .vs-headline-shimmer {
+    background: linear-gradient(
+      to right,
+      {{ section.settings.headline_color }} 20%,
+      {{ section.settings.headline_glow_color }} 50%,
+      {{ section.settings.headline_color }} 80%
+    );
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Combines the entrance animation with a continuous shimmer */
+    animation: vsRevealUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, vsShimmerFlow 4s linear infinite;
+  }
+
+  /* Keyframes for Entrance */
+  @keyframes vsRevealUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Keyframes for Shimmer Flow */
+  @keyframes vsShimmerFlow {
+    0% { background-position: 200% center; }
+    100% { background-position: 0% center; }
+  }
+
+  /* --- STRICT VERTICAL 9:16 CONTAINER (CENTERED) --- */
+  .vs-video-wrapper-outer {
+    margin: 0 auto; /* Forces strict horizontal centering */
+    width: min(1280px, 90vw);
+    aspect-ratio: 16 / 9;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.20);
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    /* Delays video appearance slightly after headline */
+    animation: vsRevealUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+    opacity: 0;
+  }
+
+  .vs-video-wrapper-outer:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(241, 126, 57, 0.25);
+  }
+
+  /* Thumbnail Image */
+  .vs-video-thumb {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    transition: transform 0.5s ease;
+  }
+
+  .vs-video-wrapper-outer:hover .vs-video-thumb {
+    transform: scale(1.04);
+  }
+
+  /* Play Button Overlay */
+  .vs-play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px; height: 72px;
+    background-color: {{ section.settings.accent_color }};
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    z-index: 3;
+    box-shadow: 0 10px 30px {{ section.settings.accent_color }}80;
+    transition: all 0.3s ease;
+    padding-left: 5px;
+  }
+
+  .vs-video-wrapper-outer:hover .vs-play-btn {
+    transform: translate(-50%, -50%) scale(1.15);
+    background-color: {{ section.settings.secondary_color }};
+    box-shadow: 0 15px 40px {{ section.settings.secondary_color }}80;
+  }
+
+  /* Thumbnail & button fade transition */
+  .vs-video-thumb,
+  .vs-play-btn {
+    transition: opacity 0.4s ease, transform 0.5s ease;
+  }
+
+  /* iframe Container */
+  .vs-iframe-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+  }
+
+  .vs-iframe-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* --- MOBILE --- */
+  @media screen and (max-width: 768px) {
+    #section-{{ section.id }} { padding: 40px 5%; }
+    .vs-video-headline {
+      font-size: {{ section.settings.headline_size_mobile }}px;
+      margin-bottom: {{ section.settings.headline_margin_bottom | divided_by: 1.5 }}px !important;
+    }
+    .vs-video-wrapper-outer { width: min(640px, 92vw); border-radius: 16px; margin: 0 auto; }
+    .vs-play-btn { width: 58px; height: 58px; font-size: 1.4rem; }
+    .vs-video-wrapper-outer:hover { transform: translateY(-4px) scale(1.01); }
+  }
+</style>
+
+<div class="vs-expert-video-section" id="section-{{ section.id }}">
+
+  {% if section.settings.headline_text != blank %}
+    {% assign headline_class = 'vs-headline-entrance' %}
+    {% if section.settings.enable_shimmer %}
+      {% assign headline_class = 'vs-headline-shimmer' %}
+    {% endif %}
+    
+    <div class="vs-video-headline {{ headline_class }}">
+      {{ section.settings.headline_text }}
+    </div>
+  {% endif %}
+
+  <div class="vs-video-wrapper-outer"
+       id="vs-video-trigger-{{ section.id }}"
+       data-video-id="{{ section.settings.video_url.id }}"
+       data-video-type="{{ section.settings.video_url.type }}">
+
+    {% if section.settings.thumbnail != blank %}
+      <img src="{{ section.settings.thumbnail | img_url: 'master' }}"
+           alt="Video Thumbnail"
+           class="vs-video-thumb"
+           id="vs-thumb-{{ section.id }}">
+    {% else %}
+      <div class="vs-video-thumb" id="vs-thumb-{{ section.id }}"
+           style="background: linear-gradient(135deg, #111, #333); display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 1rem; text-align: center; padding: 20px;">
+        Upload 9:16 Thumbnail
+      </div>
+    {% endif %}
+
+    <div class="vs-play-btn" id="vs-btn-{{ section.id }}">
+      <i class="fas fa-play"></i>
+    </div>
+
+    <div class="vs-iframe-container" id="vs-iframe-box-{{ section.id }}"></div>
+  </div>
+
+</div>
+
+<script>
+  function initVideoSection916() {
+    const videoWrapper = document.getElementById('vs-video-trigger-{{ section.id }}');
+    const thumb        = document.getElementById('vs-thumb-{{ section.id }}');
+    const playBtn      = document.getElementById('vs-btn-{{ section.id }}');
+    const iframeBox    = document.getElementById('vs-iframe-box-{{ section.id }}');
+
+    if (videoWrapper && !videoWrapper.dataset.listenerAttached) {
+      videoWrapper.addEventListener('click', function () {
+        const videoId   = this.getAttribute('data-video-id');
+        const videoType = this.getAttribute('data-video-type');
+        if (!videoId) return;
+
+        if (thumb)   thumb.style.opacity   = '0';
+        if (playBtn) playBtn.style.opacity = '0';
+
+        setTimeout(() => {
+          if (thumb)   thumb.style.display   = 'none';
+          if (playBtn) playBtn.style.display = 'none';
+        }, 400);
+
+        let iframeHTML = '';
+        if (videoType === 'youtube') {
+          /* YouTube Shorts & regular */
+          iframeHTML = `<iframe
+            src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen></iframe>`;
+        } else if (videoType === 'vimeo') {
+          iframeHTML = `<iframe
+            src="https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0&playsinline=1"
+            allow="autoplay; fullscreen"
+            allowfullscreen></iframe>`;
+        }
+
+        iframeBox.innerHTML = iframeHTML;
+      });
+
+      videoWrapper.dataset.listenerAttached = 'true';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initVideoSection916);
+  if (window.Shopify && Shopify.designMode) {
+    setTimeout(initVideoSection916, 200);
+  }
+  document.addEventListener('shopify:section:load', initVideoSection916);
+</script>
+
+{% schema %}
+{
+  "name": "Vidhyut Video 9:16",
+  "settings": [
+    { "type": "header", "content": "Section Alignment & Width" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Section Max Width",
+      "default": 1200,
+      "info": "Width must be restricted for centering to work."
+    },
+    {
+      "type": "text",
+      "id": "margin_left",
+      "label": "Margin Left",
+      "default": "auto",
+      "info": "Leave as 'auto' to perfectly center. If you type a number, include 'px' (e.g., 20px)."
+    },
+    {
+      "type": "text",
+      "id": "margin_right",
+      "label": "Margin Right",
+      "default": "auto",
+      "info": "Leave as 'auto' to perfectly center. If you type a number, include 'px' (e.g., 20px)."
+    },
+    { "type": "header", "content": "Headline Settings" },
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline Text",
+      "default": "Watch Our Latest Video"
+    },
+    {
+      "type": "font_picker",
+      "id": "headline_font",
+      "label": "Headline Font",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shimmer",
+      "label": "Enable Creative Shimmer Effect",
+      "info": "Adds a flowing gradient animation to your text.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Base Headline Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "headline_glow_color",
+      "label": "Shimmer Accent Color",
+      "info": "The color that flows across the text if shimmer is enabled.",
+      "default": "#F17E39"
+    },
+    {
+      "type": "range",
+      "id": "headline_size_desktop",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Headline Font Size (Desktop)",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "headline_size_mobile",
+      "min": 14,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "headline_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Space Below Headline",
+      "default": 40
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color",       "label": "Background Color",          "default": "#ffffff" },
+    { "type": "color", "id": "accent_color",    "label": "Play Button Color",         "default": "#F17E39" },
+    { "type": "color", "id": "secondary_color", "label": "Play Button Hover Color",   "default": "#007B3E" },
+
+    { "type": "header", "content": "Video" },
+    {
+      "type": "image_picker",
+      "id": "thumbnail",
+      "label": "Thumbnail Image (9:16)",
+      "info": "Upload a landscape image — 1280×720px — for the best fit."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video Link (YouTube / Vimeo)",
+      "accept": ["youtube", "vimeo"],
+      "info": "For YouTube Shorts paste the full URL: https://www.youtube.com/shorts/VIDEO_ID"
+    }
+  ],
+  "presets": [
+    { "name": "Vidhyut Video 9:16" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,247 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{%- assign marquee_font = section.settings.marquee_font -%}
+
+<style>
+  /* Instructs Shopify to load your selected font dynamically */
+  {{ marquee_font | font_face: font_display: 'swap' }}
+
+  .vs-marquee-wrapper {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_y }}px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    font-family: {{ marquee_font.family }}, {{ marquee_font.fallback_families }};
+    border-top: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 10;
+  }
+
+  .vs-marquee-track {
+    display: inline-block;
+    padding-left: {% if section.settings.direction == 'normal' %}0%{% else %}100%{% endif %};
+    animation: {% if section.settings.direction == 'normal' %}scrollLeft{% else %}scrollRight{% endif %} {{ section.settings.speed }}s linear infinite;
+  }
+
+  {% if section.settings.pause_on_hover %}
+    .vs-marquee-wrapper:hover .vs-marquee-track {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  .vs-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    font-weight: {{ marquee_font.weight }};
+    font-style: {{ marquee_font.style }};
+    font-size: {{ section.settings.font_size }}px;
+    margin-right: {{ section.settings.gap_size }}px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .vs-marquee-item i {
+    color: {{ section.settings.icon_color }};
+    margin-right: 12px;
+    font-size: 1.2em; 
+  }
+
+  /* --- BIDIRECTIONAL KEYFRAMES --- */
+  @keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } 
+  }
+
+  @keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); } 
+  }
+
+  /* Mobile Adjustments */
+  @media screen and (max-width: 768px) {
+    .vs-marquee-wrapper { padding: {{ section.settings.padding_y | times: 0.8 | round }}px 0; }
+    .vs-marquee-item { 
+      font-size: {{ section.settings.font_size | times: 0.85 | round }}px; 
+      margin-right: {{ section.settings.gap_size | times: 0.6 | round }}px; 
+    }
+    .vs-marquee-item i { margin-right: 8px; }
+  }
+</style>
+
+{%- capture marquee_content -%}
+  {% for block in section.blocks %}
+    <span class="vs-marquee-item" {{ block.shopify_attributes }}>
+      {% if block.settings.icon != blank %}
+        <i class="{{ block.settings.icon }}"></i>
+      {% endif %}
+      {{ block.settings.text }}
+    </span>
+  {% endfor %}
+{%- endcapture -%}
+
+{%- capture default_content -%}
+  <span class="vs-marquee-item"><i class="fas fa-sack-dollar"></i> EARN ₹5-6 LAKHS P.M.</span>
+  <span class="vs-marquee-item"><i class="fas fa-shipping-fast"></i> FREE SHIPPING</span>
+  <span class="vs-marquee-item"><i class="fas fa-shield-halved"></i> 100% RESULT GUARANTEED WITH MONEY BACK</span>
+{%- endcapture -%}
+
+<div class="vs-marquee-wrapper">
+  <div class="vs-marquee-track">
+    {% if section.blocks.size > 0 %}
+      {{ marquee_content }}{{ marquee_content }}{{ marquee_content }}{{ marquee_content }}
+    {% else %}
+      {{ default_content }}{{ default_content }}{{ default_content }}{{ default_content }}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vidhyut Marquee Ticker",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "marquee_font",
+      "label": "Marquee Font",
+      "default": "work_sans_n6"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "label": "Desktop Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "gap_size",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Item Gaps Spacing",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Animation & Logic"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Scroll Direction",
+      "options": [
+        { "value": "normal", "label": "Right to Left (Standard)" },
+        { "value": "reverse", "label": "Left to Right" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "label": "Scrolling Animation Duration (Seconds)",
+      "default": 25,
+      "info": "Lower duration settings accelerate marquee tracking layout speeds."
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause Scrolling on Mouse Hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors & Framing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#F17E39"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical Track Padding",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_text",
+      "name": "Ticker Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "FontAwesome Icon Class",
+          "default": "fas fa-check-circle"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "YOUR OFFER TEXT HERE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vidhyut Marquee Ticker",
+      "blocks": [
+        {
+          "type": "ticker_text",
+          "settings": {
+            "icon": "fas fa-sack-dollar",
+            "text": "EARN ₹5-6 LAKHS P.M."
+          }
+        },
+        {
+          "type": "ticker_text",
+          "settings": {
+            "icon": "fas fa-truck-fast",
+            "text": "FREE SHIPPING"
+          }
+        },
+        {
+          "type": "ticker_text",
+          "settings": {
+            "icon": "fas fa-shield-halved",
+            "text": "100% RESULT GUARANTEED WITH MONEY BACK"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

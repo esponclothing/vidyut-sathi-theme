@@ -1,0 +1,363 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+{%- assign main_font = section.settings.main_font -%}
+{%- assign bg_color = section.settings.bg_color | default: "#111111" -%}
+{%- assign text_color = section.settings.text_color | default: "#ffffff" -%}
+{%- assign primary_color = section.settings.primary_color | default: "#007B3E" -%}
+{%- assign primary_color_60 = primary_color | color_modify: 'alpha', 0.6 -%}
+{%- assign primary_color_80 = primary_color | color_modify: 'alpha', 0.8 -%}
+
+{%- style -%}
+  {{ main_font | font_face: font_display: 'swap' }}
+
+  :root {
+    --hero-height-desk: {{ section.settings.height_desk }}px;
+    --hero-height-mob: {{ section.settings.height_mob }}px;
+    --hero-heading-size-desk: {{ section.settings.heading_size_desk }}px;
+    --hero-heading-size-mob: {{ section.settings.heading_size_mob }}px;
+    --hero-subheading-size-desk: {{ section.settings.subheading_size_desk }}px;
+    --hero-subheading-size-mob: {{ section.settings.subheading_size_mob }}px;
+  }
+
+  #vidhyut-wrapper-{{ section.id }} {
+    font-family: {{ main_font.family }}, {{ main_font.fallback_families }} !important;
+    position: relative;
+    padding: 20px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: {{ bg_color }};
+    color: {{ text_color }};
+    min-height: auto;
+    overflow: hidden;
+    perspective: 2000px;
+    z-index: 1;
+  }
+  
+  /* --- CREATIVE BACKGROUND ANIMATIONS --- */
+  .v-bg-animations { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+
+  .v-blob {
+    position: absolute; filter: blur(90px); border-radius: 50%; opacity: 0.45;
+    animation: float-blob 18s infinite alternate ease-in-out;
+  }
+  .v-blob-1 { width: 35vw; height: 35vw; background: {{ primary_color }}; top: -10%; left: -10%; }
+  .v-blob-2 { width: 30vw; height: 30vw; background: {{ text_color }}; bottom: -15%; right: -5%; animation-delay: -5s; opacity: 0.15; }
+  .v-blob-3 { width: 20vw; height: 20vw; background: #FFD700; top: 30%; left: 40%; animation-delay: -9s; opacity: 0.2; }
+
+  @keyframes float-blob {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(8vw, 10vh) scale(1.1); }
+    100% { transform: translate(-5vw, 5vh) scale(0.9); }
+  }
+
+  .v-sparks { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+  .v-spark {
+    position: absolute; bottom: -20px; width: 4px; height: 4px;
+    background: {{ text_color }}; border-radius: 50%;
+    box-shadow: 0 0 10px {{ text_color }}, 0 0 20px {{ primary_color }};
+    animation: fly-up linear infinite; opacity: 0;
+  }
+  .v-spark:nth-child(1) { left: 10%; animation-duration: 6s; animation-delay: 0s; }
+  .v-spark:nth-child(2) { left: 30%; animation-duration: 8s; animation-delay: 2s; }
+  .v-spark:nth-child(3) { left: 50%; animation-duration: 5s; animation-delay: 4s; }
+  .v-spark:nth-child(4) { left: 70%; animation-duration: 7s; animation-delay: 1s; }
+  .v-spark:nth-child(5) { left: 90%; animation-duration: 9s; animation-delay: 3s; }
+
+  @keyframes fly-up {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+  }
+
+  /* --- TEXT & FOREGROUND STYLES --- */
+  .reveal-up {
+    opacity: 0; transform: translateY(60px) translateZ(-50px) rotateX(-10deg);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-up.active { opacity: 1; transform: translateY(0) translateZ(0) rotateX(0deg); }
+
+  .v-hero-content { position: relative; z-index: 5; max-width: 50%; }
+  
+  .v-hero-content h1 {
+    font-size: var(--hero-heading-size-desk); font-weight: 900; margin-bottom: 20px;
+    line-height: 1.1; color: {{ text_color }}; text-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .v-hero-content h1 span { color: {{ primary_color }}; }
+  
+  .v-hero-content p { font-size: var(--hero-subheading-size-desk); margin-bottom: 40px; font-weight: 400; opacity: 0.9; line-height: 1.6; }
+  
+  .v-hero-btns { display: flex; gap: 20px; flex-wrap: wrap; }
+  
+  .v-btn {
+    padding: 16px 35px; font-size: 16px; font-weight: 700; text-decoration: none;
+    text-transform: uppercase; border-radius: 50px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex; align-items: center; gap: 10px; border: 2px solid transparent; position: relative; overflow: hidden;
+  }
+  
+  .v-btn-primary { background-color: {{ primary_color }}; color: #fff; box-shadow: 0 15px 30px {{ primary_color_60 }}; }
+  .v-btn-primary:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 20px 40px {{ primary_color_80 }}; }
+  
+  .v-btn-secondary { background-color: transparent; border-color: {{ text_color }}; color: {{ text_color }}; }
+  .v-btn-secondary:hover { background-color: {{ text_color }}; color: {{ bg_color }}; transform: translateY(-5px) scale(1.03); box-shadow: 0 15px 30px rgba(255,255,255,0.2); }
+
+  /* --- CREATIVE ANIMATED WHITE BOX & BORDER --- */
+  .v-3d-container {
+    position: relative; z-index: 5; width: 45%; height: var(--hero-height-desk);
+    border-radius: 24px; background: #ffffff;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 0 40px rgba(0,0,0,0.05);
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+
+  .v-3d-container::before {
+    content: ''; position: absolute; width: 150%; height: 150%;
+    background: conic-gradient(from 0deg, transparent 70%, {{ primary_color }} 80%, #111111 100%);
+    animation: spin-border 4s linear infinite; z-index: -2;
+  }
+
+  .v-3d-container::after {
+    content: ''; position: absolute; inset: 4px; background-color: #ffffff;
+    border-radius: 20px; z-index: -1;
+  }
+
+  @keyframes spin-border { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  .vidhyut-hero-canvas { width: 100%; height: 100%; outline: none; cursor: grab; border-radius: 20px; position: relative; z-index: 2; }
+  .vidhyut-hero-canvas:active { cursor: grabbing; }
+  
+  .waves-canvas {
+    position: absolute; inset: 4px; border-radius: 20px;
+    width: calc(100% - 8px); height: calc(100% - 8px);
+    z-index: 1; pointer-events: none; opacity: 1;
+  }
+
+  /* --- STRICT MOBILE OPTIMIZATION --- */
+  @media screen and (max-width: 768px) {
+    #vidhyut-wrapper-{{ section.id }} { flex-direction: column-reverse; text-align: center; padding: 0px 5% 40px; min-height: auto; }
+    .v-hero-content { max-width: 100%; margin-top: 20px; padding: 0 10px; }
+    .v-hero-content h1 { font-size: var(--hero-heading-size-mob); margin-bottom: 15px; }
+    .v-hero-content p { font-size: var(--hero-subheading-size-mob); margin-bottom: 25px; line-height: 1.4; }
+    .v-hero-btns { justify-content: center; gap: 15px; }
+    .v-btn { padding: 14px 25px; font-size: 14px; width: 100%; justify-content: center; }
+    .v-3d-container { width: 100%; height: var(--hero-height-mob); margin-bottom: 10px; margin-top: 30px; }
+    .v-blob-1, .v-blob-2, .v-blob-3 { width: 60vw; height: 60vw; }
+  }
+{%- endstyle -%}
+
+<div id="vidhyut-wrapper-{{ section.id }}" class="vidhyut-hero-wrapper" data-section-id="{{ section.id }}">
+  <div class="v-bg-animations">
+    <div class="v-blob v-blob-1"></div><div class="v-blob v-blob-2"></div><div class="v-blob v-blob-3"></div>
+  </div>
+  <div class="v-sparks">
+    <div class="v-spark"></div><div class="v-spark"></div><div class="v-spark"></div>
+    <div class="v-spark"></div><div class="v-spark"></div>
+  </div>
+
+  <div class="v-hero-content">
+    <h1 class="reveal-up hero-text-{{ section.id }}">{{ section.settings.title }}</h1>
+    <p class="reveal-up hero-text-{{ section.id }}" style="transition-delay: 0.15s;">{{ section.settings.subtitle }}</p>
+    <div class="v-hero-btns reveal-up hero-text-{{ section.id }}" style="transition-delay: 0.3s;">
+      {% if section.settings.btn1_text != blank %}
+        <a href="{{ section.settings.btn1_link }}" class="v-btn v-btn-primary">{{ section.settings.btn1_text }} <i class="fas fa-arrow-right"></i></a>
+      {% endif %}
+      {% if section.settings.btn2_text != blank %}
+        <a href="{{ section.settings.btn2_link }}" class="v-btn v-btn-secondary"><i class="fas fa-briefcase"></i> {{ section.settings.btn2_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="v-3d-container reveal-up hero-text-{{ section.id }}" style="transition-delay: 0.2s;">
+     <canvas id="waves-canvas-{{ section.id }}" class="waves-canvas"></canvas>
+     <div id="vidhyut-canvas-{{ section.id }}" class="vidhyut-hero-canvas" data-speed="{{ section.settings.spin_speed }}" data-sense="{{ section.settings.mouse_sense }}"></div>
+  </div>
+</div>
+
+<script>
+  function initVidhyutHero_{{ section.id | remove: '-' }}() {
+    const sectionWrapper = document.getElementById('vidhyut-wrapper-{{ section.id }}');
+    if (!sectionWrapper) return;
+
+    // 1. Entrance Animations
+    setTimeout(() => {
+      const revealElements = sectionWrapper.querySelectorAll('.hero-text-{{ section.id }}');
+      revealElements.forEach(el => el.classList.add('active'));
+    }, 100);
+
+    // 2. Flowing Energy Waves Generator
+    const wavesCanvas = document.getElementById('waves-canvas-{{ section.id }}');
+    if (wavesCanvas) {
+        const wCtx = wavesCanvas.getContext('2d');
+        const primaryColor = "{{ primary_color }}";
+
+        function resizeWaves() {
+          wavesCanvas.width = wavesCanvas.offsetWidth;
+          wavesCanvas.height = wavesCanvas.offsetHeight;
+        }
+        window.addEventListener('resize', resizeWaves);
+        resizeWaves();
+
+        let waveTime = 0;
+        let animationFrameId;
+        const waveLayers = [
+          { amplitude: 40, wavelength: 0.015, speed: 0.04, opacity: 0.15, lineWidth: 8 },
+          { amplitude: 60, wavelength: 0.010, speed: 0.02, opacity: 0.25, lineWidth: 4 },
+          { amplitude: 25, wavelength: 0.025, speed: 0.06, opacity: 0.50, lineWidth: 2 }
+        ];
+
+        function drawFlowingWaves() {
+          wCtx.clearRect(0, 0, wavesCanvas.width, wavesCanvas.height);
+          waveTime += 1;
+          const centerY = wavesCanvas.height / 2;
+
+          waveLayers.forEach(layer => {
+            wCtx.beginPath();
+            wCtx.moveTo(0, centerY);
+            for (let x = 0; x <= wavesCanvas.width; x += 5) {
+              let y = centerY + Math.sin(x * layer.wavelength + waveTime * layer.speed) * layer.amplitude;
+              wCtx.lineTo(x, y);
+            }
+            wCtx.strokeStyle = primaryColor;
+            wCtx.lineWidth = layer.lineWidth;
+            wCtx.globalAlpha = layer.opacity;
+            wCtx.lineJoin = 'round';
+            wCtx.stroke();
+          });
+          wCtx.globalAlpha = 1.0;
+          animationFrameId = requestAnimationFrame(drawFlowingWaves);
+        }
+        drawFlowingWaves();
+    }
+
+    // 3. Load Three.js 3D Card
+    setTimeout(function() {
+      const container = document.getElementById('vidhyut-canvas-{{ section.id }}');
+      if(!container || typeof THREE === 'undefined') return;
+
+      container.innerHTML = ''; // Clear existing canvas on reload
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+      directionalLight.position.set(5, 10, 7);
+      scene.add(directionalLight);
+
+      const pointLight = new THREE.PointLight(new THREE.Color("{{ primary_color }}"), 2, 20);
+      pointLight.position.set(0, 0, -2);
+      scene.add(pointLight);
+
+      const frontImgUrl = "{{ section.settings.card_image | img_url: 'master' }}";
+      let card;
+      const geometry = new THREE.BoxGeometry(4.2, 2.6, 0.05);
+      const sideMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700, roughness: 0.2, metalness: 0.9 });
+      
+      if (frontImgUrl && !frontImgUrl.includes('no-image')) {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(frontImgUrl, function(texture) {
+          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          texture.minFilter = THREE.LinearFilter;
+          texture.generateMipmaps = false;
+          const frontMaterial = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.2, metalness: 0.3 });
+          const materials = [ sideMaterial, sideMaterial, sideMaterial, sideMaterial, frontMaterial, frontMaterial ];
+          card = new THREE.Mesh(geometry, materials);
+          scene.add(card);
+        });
+      } else {
+        card = new THREE.Mesh(geometry, sideMaterial);
+        scene.add(card);
+      }
+
+      camera.position.z = 7;
+      let mouseX = 0, mouseY = 0;
+      
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+        mouseY = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+      });
+
+      container.addEventListener('mouseleave', () => { mouseX = 0; mouseY = 0; });
+
+      const baseSpeed = (parseFloat(container.getAttribute('data-speed')) || 5) * 0.001;
+      const baseSense = (parseFloat(container.getAttribute('data-sense')) || 5) * 0.01;
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
+
+        if (card) {
+          card.rotation.y += baseSpeed;
+          card.position.y = Math.sin(elapsedTime * 2) * 0.15; 
+          if(window.innerWidth > 768) {
+            card.rotation.x += (mouseY * 0.4 - card.rotation.x) * baseSense;
+          }
+        }
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+
+    }, 300);
+  }
+
+  // Initialize on initial page load
+  document.addEventListener('DOMContentLoaded', initVidhyutHero_{{ section.id | remove: '-' }});
+
+  // Re-initialize specifically when Shopify Customizer reloads the section
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initVidhyutHero_{{ section.id | remove: '-' }}();
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Vidhyut 3D Hero",
+  "settings": [
+    { "type": "header", "content": "Typography" },
+    { "type": "font_picker", "id": "main_font", "label": "Section Font", "default": "poppins_n4" },
+    { "type": "header", "content": "Heading Font Size" },
+    { "type": "range", "id": "heading_size_desk", "min": 24, "max": 96, "step": 2, "unit": "px", "label": "Heading Size – Desktop", "default": 64 },
+    { "type": "range", "id": "heading_size_mob", "min": 18, "max": 64, "step": 2, "unit": "px", "label": "Heading Size – Mobile", "default": 34 },
+    { "type": "header", "content": "Subheading Font Size" },
+    { "type": "range", "id": "subheading_size_desk", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Subheading Size – Desktop", "default": 18 },
+    { "type": "range", "id": "subheading_size_mob", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Subheading Size – Mobile", "default": 16 },
+    { "type": "header", "content": "Sizes (Editable)" },
+    { "type": "range", "id": "height_desk", "min": 200, "max": 800, "step": 20, "label": "Desktop Card Height", "default": 500 },
+    { "type": "range", "id": "height_mob", "min": 100, "max": 500, "step": 10, "label": "Mobile Card Height", "default": 300 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#111111" },
+    { "type": "color", "id": "primary_color", "label": "Accent Color (Green)", "default": "#007B3E" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "header", "content": "Text Content" },
+    { "type": "html", "id": "title", "label": "Main Heading", "default": "INDIA'S NO 1 <br><span>ELECTRIC SAVER</span> CARD" },
+    { "type": "textarea", "id": "subtitle", "label": "Subheading", "default": "लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly." },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "btn1_text", "label": "Button 1 Text", "default": "BUY NOW" },
+    { "type": "url", "id": "btn1_link", "label": "Button 1 Link" },
+    { "type": "text", "id": "btn2_text", "label": "Button 2 Text", "default": "GET FRANCHISE" },
+    { "type": "url", "id": "btn2_link", "label": "Button 2 Link" },
+    { "type": "header", "content": "3D Settings" },
+    { "type": "image_picker", "id": "card_image", "label": "Upload 2D Card Image" },
+    { "type": "range", "id": "spin_speed", "min": 0, "max": 20, "step": 1, "label": "Auto-Spin Speed", "default": 5 },
+    { "type": "range", "id": "mouse_sense", "min": 0, "max": 10, "step": 1, "label": "Mouse Tilt Sensitivity", "default": 5 }
+  ],
+  "presets": [ { "name": "Vidhyut NEW 3D Hero" } ]
+}
+{% endschema %}

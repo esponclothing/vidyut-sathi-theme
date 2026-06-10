@@ -1,0 +1,604 @@
+<style>
+.vs-section-{{ section.id }} {
+  background: linear-gradient(180deg, {{ section.settings.bg_color_top }} 0%, {{ section.settings.bg_color_mid }} 48%, {{ section.settings.bg_color_bottom }} 100%);
+  padding: 56px 18px 28px;
+  overflow: hidden;
+  position: relative;
+  color: #111;
+  box-sizing: border-box;
+}
+.vs-section-{{ section.id }} * {
+  box-sizing: border-box;
+}
+.vs-section-{{ section.id }}:before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,170,0,.14), transparent 70%);
+  filter: blur(10px);
+}
+.vs-section-{{ section.id }} .container {
+  max-width: 1180px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* HEADER */
+.vs-section-{{ section.id }} .heading {
+  text-align: center;
+  margin-bottom: 44px;
+  position: relative;
+}
+.vs-section-{{ section.id }} .heading h1 {
+  margin: 0;
+  text-transform: uppercase;
+  line-height: .96;
+  position: relative;
+}
+.vs-section-{{ section.id }} .heading .top,
+.vs-section-{{ section.id }} .heading .bottom {
+  display: block;
+  font-weight: 900;
+  white-space: nowrap;
+  background: linear-gradient(90deg, #ff9200, #ffbc00, #d5a100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 10px 18px rgba(255,170,0,.18));
+  animation: floatText 4s ease-in-out infinite;
+}
+.vs-section-{{ section.id }} .heading .top {
+  font-size: 12.5vw;
+  letter-spacing: -1.5px;
+}
+.vs-section-{{ section.id }} .heading .bottom {
+  font-size: 10.2vw;
+  margin-top: 4px;
+  letter-spacing: -1px;
+  animation-delay: .3s;
+}
+.vs-section-{{ section.id }} .heading h1:after {
+  content: "";
+  position: absolute;
+  left: -30%;
+  top: 0;
+  width: 28%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg);
+  animation: shine 5s linear infinite;
+}
+.vs-section-{{ section.id }} .heading-glow {
+  width: 150px;
+  height: 6px;
+  border-radius: 999px;
+  margin: 16px auto 0;
+  background: linear-gradient(90deg, #ff9d00, #ffc400, #1eb759);
+  box-shadow: 0 0 18px rgba(255,170,0,.35);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+.vs-section-{{ section.id }} .heading p {
+  margin: 16px auto 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+/* EFFECTS */
+@keyframes floatText {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes shine {
+  0% { left: -30%; }
+  100% { left: 130%; }
+}
+@keyframes pulse {
+  0%, 100% { transform: scaleX(1); opacity: .9; }
+  50% { transform: scaleX(1.08); opacity: 1; }
+}
+
+/* TIMELINE */
+.vs-section-{{ section.id }} .timeline {
+  position: relative;
+}
+.vs-section-{{ section.id }} .timeline-line {
+  position: absolute;
+  left: 30px;
+  top: 31px;
+  width: 4px;
+  border-radius: 40px;
+  background: linear-gradient(to bottom, #ff9d00, #ffc500, #1eb759);
+}
+.vs-section-{{ section.id }} .item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+.vs-section-{{ section.id }} .item:last-child {
+  margin-bottom: 0;
+}
+.vs-section-{{ section.id }} .icon {
+  width: 62px;
+  min-width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid rgba(255,180,0,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(255,170,0,.12);
+  z-index: 2;
+}
+.vs-section-{{ section.id }} .icon svg, 
+.vs-section-{{ section.id }} .icon img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.vs-section-{{ section.id }} .icon svg {
+  fill: #ff9800;
+}
+
+/* UPDATED SUB HEADER */
+.vs-section-{{ section.id }} .content h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.18;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+}
+.vs-section-{{ section.id }} .content h2 span {
+  display: block;
+  white-space: nowrap;
+}
+.vs-section-{{ section.id }} .content p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.75;
+  text-align: justify; /* Justified alignment for both mobile and PC */
+}
+
+/* NEW: GRID HEADING STYLES (NOW COLORFUL) */
+.vs-grid-title-{{ section.id }} {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+.vs-grid-title-{{ section.id }} h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  display: inline-block;
+  background: linear-gradient(90deg, #ff9200, #ffbc00, #d5a100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 15px rgba(255,170,0,.15));
+}
+
+/* IMAGE GRID STYLES */
+.vs-usage-grid-{{ section.id }} {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  perspective: 1500px;
+  margin-top: 20px; 
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.vs-usage-card-{{ section.id }} {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  transform-style: preserve-3d;
+}
+.vs-usage-card-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform {{ section.settings.hover_speed }}s ease;
+}
+.vs-usage-overlay-{{ section.id }} {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 15px 15px;
+  background: linear-gradient(to top, rgba(15,23,42,0.9) 0%, transparent 100%);
+  color: #fff;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transform: translateZ(20px);
+  transition: color 0.3s ease;
+}
+.vs-usage-card-{{ section.id }}:hover img { transform: scale(1.1); }
+.vs-usage-card-{{ section.id }}:hover .vs-usage-overlay-{{ section.id }} { color: {{ section.settings.overlay_hover_color }}; }
+
+/* DESKTOP */
+@media(min-width: 769px) {
+  .vs-section-{{ section.id }} { padding: 90px 26px 45px; }
+  .vs-section-{{ section.id }} .heading { margin-bottom: 70px; }
+  .vs-section-{{ section.id }} .heading .top { font-size: 118px; letter-spacing: -4px; }
+  .vs-section-{{ section.id }} .heading .bottom { font-size: 92px; letter-spacing: -3px; }
+  .vs-section-{{ section.id }} .heading p { font-size: 22px; max-width: 760px; }
+  .vs-section-{{ section.id }} .heading-glow { width: 240px; height: 8px; }
+  .vs-section-{{ section.id }} .timeline { max-width: 1050px; margin: auto; }
+  .vs-section-{{ section.id }} .timeline-line { left: 44px; width: 5px; top: 46px; }
+  .vs-section-{{ section.id }} .item { gap: 30px; margin-bottom: 65px; }
+  .vs-section-{{ section.id }} .icon { width: 92px; min-width: 92px; height: 92px; }
+  .vs-section-{{ section.id }} .icon svg, .vs-section-{{ section.id }} .icon img { width: 40px; height: 40px; }
+  .vs-section-{{ section.id }} .content h2 { font-size: 38px; line-height: 1.15; }
+  .vs-section-{{ section.id }} .content p { font-size: 22px; line-height: 1.9; max-width: 760px; }
+  .vs-grid-title-{{ section.id }} h2 { font-size: 38px; }
+}
+
+/* smaller 2nd subheader on mobile */
+@media(max-width: 768px) {
+  .vs-section-{{ section.id }} .item:nth-child(2) .content h2 {
+    font-size: 20px !important;
+    line-height: 1.16;
+  }
+}
+
+/* premium smaller subheaders on mobile */
+@media(max-width: 768px) {
+  .vs-section-{{ section.id }} .content h2 {
+    font-size: 19px !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.3px;
+  }
+  
+  /* GRID & GRID HEADING MOBILE OVERRIDES */
+  .vs-grid-title-{{ section.id }} { margin-top: 45px; margin-bottom: 15px; }
+  .vs-grid-title-{{ section.id }} h2 { font-size: 24px; }
+  .vs-usage-grid-{{ section.id }} { gap: 10px; margin-top: 15px; }
+  .vs-usage-card-{{ section.id }} { border-radius: 12px; aspect-ratio: 1 / 1; }
+  .vs-usage-overlay-{{ section.id }} { padding: 20px 10px 10px; font-size: 0.85rem; }
+}
+</style>
+
+<section class="vs-section-{{ section.id }}">
+  <div class="container">
+    
+    <div class="heading">
+      <h1>
+        {%- if section.settings.heading_top != blank -%}
+          <span class="top">{{ section.settings.heading_top }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading_bottom != blank -%}
+          <span class="bottom">{{ section.settings.heading_bottom }}</span>
+        {%- endif -%}
+      </h1>
+      <div class="heading-glow"></div>
+      {%- if section.settings.heading_sub != blank -%}
+        <p>{{ section.settings.heading_sub }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-line"></div>
+
+      {%- for block in section.blocks -%}
+        <div class="item" {{ block.shopify_attributes }}>
+          <div class="icon">
+            {%- if block.settings.custom_icon_svg != blank -%}
+              {{ block.settings.custom_icon_svg }}
+            {%- elsif block.settings.custom_icon_image != blank -%}
+              {{ block.settings.custom_icon_image | image_url: width: 100 | image_tag: loading: 'lazy' }}
+            {%- else -%}
+              <svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/></svg>
+            {%- endif -%}
+          </div>
+          <div class="content">
+            {%- if block.settings.title != blank -%}
+              <h2>{{ block.settings.title }}</h2>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p>{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- NEW: Editable Grid Title Area -->
+    {%- if section.settings.grid_heading != blank -%}
+      <div class="vs-grid-title-{{ section.id }}">
+        <h2>{{ section.settings.grid_heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="vs-usage-grid-{{ section.id }}">
+      
+      <div class="vs-usage-card-{{ section.id }}">
+        {%- if section.settings.img1 != blank -%}
+          {{ section.settings.img1 | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.lbl1 }}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;">Image 1</div>
+        {%- endif -%}
+        <div class="vs-usage-overlay-{{ section.id }}">{{ section.settings.lbl1 }}</div>
+      </div>
+      
+      <div class="vs-usage-card-{{ section.id }}">
+        {%- if section.settings.img2 != blank -%}
+          {{ section.settings.img2 | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.lbl2 }}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:#cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;">Image 2</div>
+        {%- endif -%}
+        <div class="vs-usage-overlay-{{ section.id }}">{{ section.settings.lbl2 }}</div>
+      </div>
+      
+      <div class="vs-usage-card-{{ section.id }}">
+        {%- if section.settings.img3 != blank -%}
+          {{ section.settings.img3 | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.lbl3 }}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:#cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;">Image 3</div>
+        {%- endif -%}
+        <div class="vs-usage-overlay-{{ section.id }}">{{ section.settings.lbl3 }}</div>
+      </div>
+      
+      <div class="vs-usage-card-{{ section.id }}">
+        {%- if section.settings.img4 != blank -%}
+          {{ section.settings.img4 | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.lbl4 }}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;">Image 4</div>
+        {%- endif -%}
+        <div class="vs-usage-overlay-{{ section.id }}">{{ section.settings.lbl4 }}</div>
+      </div>
+
+    </div>
+    
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+    // --- Added: Precise Timeline Line Calculator ---
+    function adjustTimelineLine() {
+      const section = document.querySelector('.vs-section-{{ section.id }}');
+      if (!section) return;
+      
+      const timeline = section.querySelector('.timeline');
+      const line = section.querySelector('.timeline-line');
+      const icons = section.querySelectorAll('.item .icon');
+      
+      if (timeline && line && icons.length > 1) {
+        const firstIcon = icons[0];
+        const lastIcon = icons[icons.length - 1];
+        const timelineRect = timeline.getBoundingClientRect();
+        
+        // Calculate dynamic start point (center of the first icon)
+        const startY = (firstIcon.getBoundingClientRect().top - timelineRect.top) + (firstIcon.offsetHeight / 2);
+        // Calculate dynamic end point (center of the last icon)
+        const endY = (lastIcon.getBoundingClientRect().top - timelineRect.top) + (lastIcon.offsetHeight / 2);
+        
+        line.style.top = startY + 'px';
+        line.style.height = (endY - startY) + 'px';
+      }
+    }
+
+    // Run on layout rendering and resize
+    adjustTimelineLine();
+    window.addEventListener('resize', adjustTimelineLine);
+    setTimeout(adjustTimelineLine, 300); // Safety check for custom fonts pushing content down
+    document.addEventListener('shopify:section:load', adjustTimelineLine); // Keeps it working in Theme Editor
+
+    // --- Existing: 3D Image Hover Effect ---
+    if (window.innerWidth > 768) {
+      document.querySelectorAll('.vs-section-{{ section.id }} .vs-usage-card-{{ section.id }}').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const rx = ((e.clientY - r.top  - r.height / 2) / (r.height / 2)) * -10;
+          const ry = ((e.clientX - r.left - r.width  / 2) / (r.width  / 2)) * 10;
+          card.style.transform = `perspective(1000px) translateY(-5px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Premium Timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top Line",
+      "default": "WHY CHOOSE"
+    },
+    {
+      "type": "text",
+      "id": "heading_bottom",
+      "label": "Heading Bottom Line",
+      "default": "VIDHYUT SAATHI?"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_sub",
+      "label": "Subheading Paragraph",
+      "default": "India’s Premium Energy‑Tech Innovation for Smarter Electricity Optimization"
+    },
+    {
+      "type": "header",
+      "content": "Colors Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_top",
+      "label": "Background Color Top",
+      "default": "#fffdf8"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mid",
+      "label": "Background Color Middle",
+      "default": "#fff8ef"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_bottom",
+      "label": "Background Color Bottom",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Image Grid Settings"
+    },
+    {
+      "type": "text",
+      "id": "grid_heading",
+      "label": "Grid Section Heading",
+      "default": "APPLICATIONS OVERVIEW",
+      "info": "This adds a title right above the image grid."
+    },
+    {
+      "type": "range",
+      "id": "hover_speed",
+      "min": 0.2,
+      "max": 1.0,
+      "step": 0.1,
+      "label": "Image Hover Speed",
+      "default": 0.5
+    },
+    {
+      "type": "color",
+      "id": "overlay_hover_color",
+      "label": "Overlay Hover Text Color",
+      "default": "#ffbc00"
+    },
+    {
+      "type": "image_picker",
+      "id": "img1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "lbl1",
+      "label": "Label 1",
+      "default": "Residential Use"
+    },
+    {
+      "type": "image_picker",
+      "id": "img2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "lbl2",
+      "label": "Label 2",
+      "default": "Commercial Use"
+    },
+    {
+      "type": "image_picker",
+      "id": "img3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "lbl3",
+      "label": "Label 3",
+      "default": "Industrial Use"
+    },
+    {
+      "type": "image_picker",
+      "id": "img4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "lbl4",
+      "label": "Label 4",
+      "default": "Institutional Use"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "timeline_item",
+      "name": "Timeline Item",
+      "settings": [
+        {
+          "type": "html",
+          "id": "custom_icon_svg",
+          "label": "Custom SVG Icon Code",
+          "info": "Paste custom <svg>...</svg> code here. Leaves blank to use image or default shield."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_image",
+          "label": "Custom Icon Image",
+          "info": "Used if SVG code above is empty."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Item Title",
+          "default": "<span>Based On US-German</span><span>Nano Technology</span>",
+          "info": "Wrap text in <span> segments if you want lines to separate exactly like the template design."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Item Description",
+          "default": "Advanced US‑German nano technology designed for optimized electricity efficiency, stable performance and smarter energy management."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Timeline",
+      "blocks": [
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "<span>Based On US-German</span><span>Nano Technology</span>",
+            "text": "Advanced US‑German nano technology designed for optimized electricity efficiency, stable performance and smarter energy management.",
+            "custom_icon_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2L3 7v10l9 5 9-5V7l-9-5z\"/></svg>"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "<span>Made With Terahertz Chip</span><span>& 20,000+ Negative Ions</span>",
+            "text": "Built with advanced terahertz chip technology and 20,000+ negative ions for smart energy optimization and efficient electrical performance.",
+            "custom_icon_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M13 2L4 14h6v8l9-12h-6z\"/></svg>"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "100% Legal & ISO Certified",
+            "text": "Completely legal, reliable and designed to follow quality standards for safe and trusted usage.",
+            "custom_icon_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2l8 4v6c0 5-3 10-8 12-5-2-8-7-8-12V6z\"/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
