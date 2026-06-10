@@ -1,1 +1,658 @@
-{"sections":{"main":{"type":"main-page","blocks":{"page-content":{"type":"page-content","settings":{},"blocks":{}}},"block_order":["page-content"],"disabled":true,"settings":{"content_direction":"column","gap":32,"color_scheme":"","padding-block-start":40,"padding-block-end":80}},"slideshow_bb7Qbb":{"type":"slideshow","blocks":{"slide_acB3tt":{"type":"_slide","settings":{"media_type_1":"image","image_1":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{"text_AJnPHq":{"type":"text","settings":{"text":"","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":20,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["text_AJnPHq"]},"slide_HUGK8i":{"type":"_slide","settings":{"media_type_1":"image","image_1":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{"text_qJkee8":{"type":"text","name":"t:names.heading","settings":{"text":"","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_dhKHWP":{"type":"text","settings":{"text":"","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":20,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["text_qJkee8","text_dhKHWP"]},"slide_Uhbb6i":{"type":"_slide","name":"t:names.slide","settings":{"media_type_1":"image","image_1":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{}},"slide_rFTVDJ":{"type":"_slide","name":"t:names.slide","settings":{"media_type_1":"image","image_1":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{}}},"block_order":["slide_acB3tt","slide_HUGK8i","slide_Uhbb6i","slide_rFTVDJ"],"name":"t:names.slideshow_full_frame","settings":{"display_mode":"full_frame","section_width":"full-width","full_frame_on_mobile":false,"slideshow_gap":12,"corner_radius":0,"slide_height":"medium","content_position":"on-media","color_scheme":"","icons_style":"chevron","icons_shape":"none","slideshow_controls_style":"dots","autoplay":true,"autoplay_speed":3,"padding-block-start":0,"padding-block-end":0}},"vidhyut_tech_usage_pGXxky":{"type":"vidhyut-tech-usage","blocks":{"category_VNiMBf":{"type":"category","settings":{"image":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg","title":"COLLECTION","link":""}},"category_Cz9KnK":{"type":"category","settings":{"image":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg","title":"Residential use","link":""}},"category_hfLRPU":{"type":"category","settings":{"image":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg","title":"Commercial use","link":""}},"category_mrydR9":{"type":"category","settings":{"image":"shopify:\/\/shop_images\/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg","title":"industrial use","link":""}}},"block_order":["category_VNiMBf","category_Cz9KnK","category_hfLRPU","category_mrydR9"],"name":"Luxe Category Arches","settings":{"bg_color":"#fff8ef","text_color":"#f17e39","accent_color":"#ec6a1c","font_size_desktop":12,"font_size_mobile":11,"letter_spacing":1,"text_transform":"uppercase","padding_vertical":10,"enable_autoplay":true,"autoplay_speed":4}},"marquee_ticker_CjTmQC":{"type":"marquee-ticker","name":"Marquee Ticker","settings":{"enable_marquee":true,"marquee_font":"work_sans_n7","marquee_bg":"#ec5c0a","marquee_text_color":"#282424","marquee_icon_color":"#4f9f6f","marquee_border_color":"#00000014","marquee_font_desktop":14,"marquee_font_mobile":11,"marquee_bold":true,"marquee_uppercase":true,"marquee_speed":15,"marquee_direction":"normal","marquee_padding_y":12}},"vidhyut_expert_video_ppwEB7":{"type":"vidhyut-expert-video","name":"Vidhyut Video 9:16","settings":{"max_width":1200,"margin_left":"30","margin_right":"30","headline_text":"WE ARE THE EXPERT YOU EXACTLY NEED","headline_font":"poppins_n7","enable_shimmer":true,"headline_color":"#111111","headline_glow_color":"#f17e39","headline_size_desktop":44,"headline_size_mobile":30,"headline_margin_bottom":40,"bg_color":"#fff8ef","accent_color":"#f17e39","secondary_color":"#007b3e","thumbnail":"shopify:\/\/shop_images\/file_00000000714c7206a34d95fc7b046fb2.png","video_url":""}},"vidhyut_hero_v2_girecJ":{"type":"vidhyut-hero-v2","name":"Vidhyut NEW 3D Hero","settings":{"main_font":"poppins_n4","heading_size_desk":64,"heading_size_mob":34,"subheading_size_desk":18,"subheading_size_mob":16,"height_desk":500,"height_mob":300,"bg_color":"#fff8ef","primary_color":"#ec5c0a","text_color":"#1a1a1a","title":"INDIA'S NO 1 <br><span>ELECTRIC SAVER<\/span> CARD","subtitle":"लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly.","btn1_text":"BUY NOW","btn1_link":"","btn2_text":"GET FRANCHISE","btn2_link":"","card_image":"shopify:\/\/shop_images\/VS_Card_Final_Design_Golden_1.png","spin_speed":5,"mouse_sense":5}},"vidhyut_saathi_crisis_U6gFD9":{"type":"vidhyut-saathi-crisis","blocks":{"stat_card_CTQ963":{"type":"stat_card","settings":{"stat_value":"₹1.5 Lakh Cr","stat_desc":"Annual household electricity spending across India"}},"stat_card_CMtTTf":{"type":"stat_card","settings":{"stat_value":"30%","stat_desc":"Electricity wasted due to voltage fluctuations & reactive loads"}},"stat_card_PD8NgX":{"type":"stat_card","settings":{"stat_value":"800M+","stat_desc":"Indians facing high electricity bills with no effective solution"}}},"block_order":["stat_card_CTQ963","stat_card_CMtTTf","stat_card_PD8NgX"],"name":"Vidhyut Saathi – Crisis","settings":{"badge_label":"The Problem","hero_title_prefix":"India's","hero_title_accent":"Electricity","hero_title_suffix":"Crisis","need_label":"The Need is Clear.","need_text":"India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.","break_text":"Introducing the Solution","solution_title_prefix":"Meet","solution_title_accent":"Vidhyut Saathi Card","solution_subtitle":"India's #1 Smart Electricity Saver — Engineered for Every Home","cta_title_prefix":"Start Saving on Your","cta_title_accent":"Electricity Bill","cta_title_suffix":"Today","cta_subtitle":"Join 20 Lakh+ Indian families already saving with Vidhyut Saathi Card","proof_count":"20 Lakh+","proof_label":"households trust us","cta_button_text":"Get Franchise Now","cta_link":"","cta_note":"Free Consultation Available"}},"slideshow_qegiTP":{"type":"slideshow","blocks":{"slide_CUVb3J":{"type":"_slide","settings":{"media_type_1":"image","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{"text_BRtAXg":{"type":"text","name":"t:names.heading","settings":{"text":"<h3>New arrivals<\/h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_7LqByH":{"type":"text","settings":{"text":"<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!<\/p>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":20,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"button_NWwjej":{"type":"button","settings":{"label":"Shop now","link":"shopify:\/\/collections\/all","open_in_new_tab":false,"style_class":"button","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["text_BRtAXg","text_7LqByH","button_NWwjej"]},"slide_akwiYq":{"type":"_slide","settings":{"media_type_1":"image","content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"inherit_color_scheme":false,"color_scheme":"scheme-6","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","padding-block-start":48,"padding-block-end":48,"padding-inline-start":48,"padding-inline-end":48},"blocks":{"text_MHehWx":{"type":"text","name":"t:names.heading","settings":{"text":"<h2>Bestsellers<\/h2>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_gKqDJb":{"type":"text","settings":{"text":"<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.<\/p>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":20,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"button_wCFaqQ":{"type":"button","settings":{"label":"Shop now","link":"shopify:\/\/collections\/all","open_in_new_tab":false,"style_class":"button","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["text_MHehWx","text_gKqDJb","button_wCFaqQ"]}},"block_order":["slide_CUVb3J","slide_akwiYq"],"name":"t:names.slideshow_full_frame","settings":{"display_mode":"full_frame","section_width":"full-width","full_frame_on_mobile":false,"slideshow_gap":12,"corner_radius":0,"slide_height":"medium","content_position":"on-media","color_scheme":"","icons_style":"arrows_large","icons_shape":"none","slideshow_controls_style":"dots","autoplay":false,"autoplay_speed":4,"padding-block-start":0,"padding-block-end":0}}},"order":["main","slideshow_bb7Qbb","vidhyut_tech_usage_pGXxky","marquee_ticker_CjTmQC","vidhyut_expert_video_ppwEB7","vidhyut_hero_v2_girecJ","vidhyut_saathi_crisis_U6gFD9","slideshow_qegiTP"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "slideshow_bb7Qbb": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_acB3tt": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_AJnPHq": {
+              "type": "text",
+              "settings": {
+                "text": "",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_AJnPHq"
+          ]
+        },
+        "slide_HUGK8i": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_qJkee8": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_dhKHWP": {
+              "type": "text",
+              "settings": {
+                "text": "",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_qJkee8",
+            "text_dhKHWP"
+          ]
+        },
+        "slide_Uhbb6i": {
+          "type": "_slide",
+          "name": "t:names.slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {}
+        },
+        "slide_rFTVDJ": {
+          "type": "_slide",
+          "name": "t:names.slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "slide_acB3tt",
+        "slide_HUGK8i",
+        "slide_Uhbb6i",
+        "slide_rFTVDJ"
+      ],
+      "name": "t:names.slideshow_full_frame",
+      "settings": {
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
+        "slide_height": "medium",
+        "content_position": "on-media",
+        "color_scheme": "",
+        "icons_style": "chevron",
+        "icons_shape": "none",
+        "slideshow_controls_style": "dots",
+        "autoplay": true,
+        "autoplay_speed": 3,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "vidhyut_tech_usage_pGXxky": {
+      "type": "vidhyut-tech-usage",
+      "blocks": {
+        "category_VNiMBf": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg",
+            "title": "COLLECTION",
+            "link": ""
+          }
+        },
+        "category_Cz9KnK": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg",
+            "title": "Residential use",
+            "link": ""
+          }
+        },
+        "category_hfLRPU": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg",
+            "title": "Commercial use",
+            "link": ""
+          }
+        },
+        "category_mrydR9": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg",
+            "title": "industrial use",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_VNiMBf",
+        "category_Cz9KnK",
+        "category_hfLRPU",
+        "category_mrydR9"
+      ],
+      "name": "Luxe Category Arches",
+      "settings": {
+        "bg_color": "#fff8ef",
+        "text_color": "#f17e39",
+        "accent_color": "#ec6a1c",
+        "font_size_desktop": 12,
+        "font_size_mobile": 11,
+        "letter_spacing": 1,
+        "text_transform": "uppercase",
+        "padding_vertical": 10,
+        "enable_autoplay": true,
+        "autoplay_speed": 4
+      }
+    },
+    "marquee_ticker_CjTmQC": {
+      "type": "marquee-ticker",
+      "name": "Marquee Ticker",
+      "settings": {
+        "enable_marquee": true,
+        "marquee_font": "work_sans_n7",
+        "marquee_bg": "#ec5c0a",
+        "marquee_text_color": "#282424",
+        "marquee_icon_color": "#4f9f6f",
+        "marquee_border_color": "#00000014",
+        "marquee_font_desktop": 14,
+        "marquee_font_mobile": 11,
+        "marquee_bold": true,
+        "marquee_uppercase": true,
+        "marquee_speed": 15,
+        "marquee_direction": "normal",
+        "marquee_padding_y": 12
+      }
+    },
+    "vidhyut_expert_video_ppwEB7": {
+      "type": "vidhyut-expert-video",
+      "name": "Vidhyut Video 9:16",
+      "settings": {
+        "max_width": 1200,
+        "margin_left": "30",
+        "margin_right": "30",
+        "headline_text": "WE ARE THE EXPERT YOU EXACTLY NEED",
+        "headline_font": "poppins_n7",
+        "enable_shimmer": true,
+        "headline_color": "#111111",
+        "headline_glow_color": "#f17e39",
+        "headline_size_desktop": 44,
+        "headline_size_mobile": 30,
+        "headline_margin_bottom": 40,
+        "bg_color": "#fff8ef",
+        "accent_color": "#f17e39",
+        "secondary_color": "#007b3e",
+        "thumbnail": "shopify://shop_images/file_00000000714c7206a34d95fc7b046fb2.png",
+        "video_url": ""
+      }
+    },
+    "vidhyut_hero_v2_girecJ": {
+      "type": "vidhyut-hero-v2",
+      "name": "Vidhyut NEW 3D Hero",
+      "settings": {
+        "main_font": "poppins_n4",
+        "heading_size_desk": 64,
+        "heading_size_mob": 34,
+        "subheading_size_desk": 18,
+        "subheading_size_mob": 16,
+        "height_desk": 500,
+        "height_mob": 300,
+        "bg_color": "#fff8ef",
+        "primary_color": "#ec5c0a",
+        "text_color": "#1a1a1a",
+        "title": "INDIA'S NO 1 <br><span>ELECTRIC SAVER</span> CARD",
+        "subtitle": "लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly.",
+        "btn1_text": "BUY NOW",
+        "btn1_link": "",
+        "btn2_text": "GET FRANCHISE",
+        "btn2_link": "",
+        "card_image": "shopify://shop_images/VS_Card_Final_Design_Golden_1.png",
+        "spin_speed": 5,
+        "mouse_sense": 5
+      }
+    },
+    "vidhyut_saathi_crisis_U6gFD9": {
+      "type": "vidhyut-saathi-crisis",
+      "blocks": {
+        "stat_card_CTQ963": {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "₹1.5 Lakh Cr",
+            "stat_desc": "Annual household electricity spending across India"
+          }
+        },
+        "stat_card_CMtTTf": {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "30%",
+            "stat_desc": "Electricity wasted due to voltage fluctuations & reactive loads"
+          }
+        },
+        "stat_card_PD8NgX": {
+          "type": "stat_card",
+          "settings": {
+            "stat_value": "800M+",
+            "stat_desc": "Indians facing high electricity bills with no effective solution"
+          }
+        }
+      },
+      "block_order": [
+        "stat_card_CTQ963",
+        "stat_card_CMtTTf",
+        "stat_card_PD8NgX"
+      ],
+      "name": "Vidhyut Saathi – Crisis",
+      "settings": {
+        "badge_label": "The Problem",
+        "hero_title_prefix": "India's",
+        "hero_title_accent": "Electricity",
+        "hero_title_suffix": "Crisis",
+        "need_label": "The Need is Clear.",
+        "need_text": "India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.",
+        "break_text": "Introducing the Solution",
+        "solution_title_prefix": "Meet",
+        "solution_title_accent": "Vidhyut Saathi Card",
+        "solution_subtitle": "India's #1 Smart Electricity Saver — Engineered for Every Home",
+        "cta_title_prefix": "Start Saving on Your",
+        "cta_title_accent": "Electricity Bill",
+        "cta_title_suffix": "Today",
+        "cta_subtitle": "Join 20 Lakh+ Indian families already saving with Vidhyut Saathi Card",
+        "proof_count": "20 Lakh+",
+        "proof_label": "households trust us",
+        "cta_button_text": "Get Franchise Now",
+        "cta_link": "",
+        "cta_note": "Free Consultation Available"
+      }
+    },
+    "slideshow_qegiTP": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_CUVb3J": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_BRtAXg": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h3>New arrivals</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_7LqByH": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_NWwjej": {
+              "type": "button",
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_BRtAXg",
+            "text_7LqByH",
+            "button_NWwjej"
+          ]
+        },
+        "slide_akwiYq": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-6",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_MHehWx": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2>Bestsellers</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_gKqDJb": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_wCFaqQ": {
+              "type": "button",
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_MHehWx",
+            "text_gKqDJb",
+            "button_wCFaqQ"
+          ]
+        }
+      },
+      "block_order": [
+        "slide_CUVb3J",
+        "slide_akwiYq"
+      ],
+      "name": "t:names.slideshow_full_frame",
+      "settings": {
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
+        "slide_height": "medium",
+        "content_position": "on-media",
+        "color_scheme": "",
+        "icons_style": "arrows_large",
+        "icons_shape": "none",
+        "slideshow_controls_style": "dots",
+        "autoplay": false,
+        "autoplay_speed": 4,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "slideshow_bb7Qbb",
+    "vidhyut_tech_usage_pGXxky",
+    "marquee_ticker_CjTmQC",
+    "vidhyut_expert_video_ppwEB7",
+    "vidhyut_hero_v2_girecJ",
+    "vidhyut_saathi_crisis_U6gFD9",
+    "slideshow_qegiTP"
+  ]
+}
