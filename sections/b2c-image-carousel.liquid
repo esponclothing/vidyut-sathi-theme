@@ -1,0 +1,234 @@
+<style>
+  .b2c-carousel-container-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* Aspect ratio based on 854 / 1354 = ~0.63 */
+    aspect-ratio: 854 / 1354;
+    max-height: 100vh;
+  }
+  
+  .b2c-carousel-track-{{ section.id }} {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .b2c-carousel-track-{{ section.id }}::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .b2c-carousel-slide-{{ section.id }} {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    position: relative;
+    height: 100%;
+  }
+
+  .b2c-carousel-slide-{{ section.id }} a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .b2c-carousel-slide-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .b2c-carousel-dots-{{ section.id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 2;
+  }
+
+  .b2c-carousel-dot-{{ section.id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .b2c-carousel-dot-{{ section.id }}.active {
+    background: rgba(255, 255, 255, 1);
+  }
+</style>
+
+<div class="b2c-carousel-container-{{ section.id }}" data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+  <div class="b2c-carousel-track-{{ section.id }}" id="track-{{ section.id }}">
+    {% for block in section.blocks %}
+      <div class="b2c-carousel-slide-{{ section.id }}" {{ block.shopify_attributes }}>
+        {% if block.settings.link != blank %}
+          <a href="{{ block.settings.link }}">
+        {% endif %}
+        
+        {% if block.settings.image != blank %}
+          {{ block.settings.image | image_url: width: 854 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+        
+        {% if block.settings.link != blank %}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  
+  {% if section.blocks.size > 1 %}
+    <div class="b2c-carousel-dots-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="b2c-carousel-dot-{{ section.id }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.b2c-carousel-container-{{ section.id }}');
+    if (!container) return;
+    
+    const track = container.querySelector('.b2c-carousel-track-{{ section.id }}');
+    const dots = container.querySelectorAll('.b2c-carousel-dot-{{ section.id }}');
+    const slides = container.querySelectorAll('.b2c-carousel-slide-{{ section.id }}');
+    const speed = parseInt(container.getAttribute('data-autoplay-speed'), 10);
+    
+    let currentIndex = 0;
+    let autoplayInterval;
+    
+    function updateDots(index) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function scrollToSlide(index) {
+      if (!slides[index]) return;
+      const scrollLeft = slides[index].offsetLeft;
+      track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      currentIndex = index;
+      updateDots(currentIndex);
+    }
+    
+    function startAutoplay() {
+      if (speed <= 0 || slides.length <= 1) return;
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        let nextIndex = currentIndex + 1;
+        if (nextIndex >= slides.length) {
+          nextIndex = 0;
+        }
+        scrollToSlide(nextIndex);
+      }, speed);
+    }
+    
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+      }
+    }
+    
+    // Manual swipe tracking
+    track.addEventListener('scroll', () => {
+      stopAutoplay();
+      
+      // Calculate current slide based on scroll position
+      const slideWidth = track.clientWidth;
+      const scrollPos = track.scrollLeft;
+      const newIndex = Math.round(scrollPos / slideWidth);
+      
+      if (newIndex !== currentIndex) {
+        currentIndex = newIndex;
+        updateDots(currentIndex);
+      }
+      
+      // Restart autoplay after manual scroll
+      clearTimeout(track.scrollTimeout);
+      track.scrollTimeout = setTimeout(startAutoplay, 3000);
+    });
+    
+    // Dot click handling
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        stopAutoplay();
+        scrollToSlide(index);
+        startAutoplay();
+      });
+    });
+
+    startAutoplay();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "B2C Mobile Hero Carousel",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay speed",
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_slide",
+      "name": "Image Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended aspect ratio 854x1354 (Mobile hero view)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "B2C Mobile Hero Carousel",
+      "blocks": [
+        {
+          "type": "image_slide"
+        },
+        {
+          "type": "image_slide"
+        },
+        {
+          "type": "image_slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -424,6 +415,31 @@
         "cta_link": "",
         "cta_note": "Free Consultation Available"
       }
+    },
+    "b2c_image_carousel": {
+      "type": "b2c-image-carousel",
+      "blocks": {
+        "slide_1": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "slide_2": {
+          "type": "image_slide",
+          "settings": {}
+        },
+        "slide_3": {
+          "type": "image_slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {
+        "autoplay_speed": 3
+      }
     }
   },
   "order": [
@@ -433,6 +449,7 @@
     "marquee_ticker_CjTmQC",
     "vidhyut_expert_video_ppwEB7",
     "vidhyut_hero_v2_girecJ",
-    "vidhyut_saathi_crisis_U6gFD9"
+    "vidhyut_saathi_crisis_U6gFD9",
+    "b2c_image_carousel"
   ]
 }
