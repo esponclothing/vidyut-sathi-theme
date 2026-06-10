@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 {%- assign main_font = section.settings.main_font -%}
@@ -327,85 +327,37 @@
 </script>
 
 {% schema %}
-
 {
-
   "name": "Vidhyut 3D Hero",
-
   "settings": [
-
     { "type": "header", "content": "Typography" },
-
     { "type": "font_picker", "id": "main_font", "label": "Section Font", "default": "poppins_n4" },
-
-
-
     { "type": "header", "content": "Heading Font Size" },
-
-    { "type": "range", "id": "heading_size_desk", "min": 24, "max": 96, "step": 2, "unit": "px", "label": "Heading Size â€“ Desktop", "default": 64 },
-
-    { "type": "range", "id": "heading_size_mob", "min": 18, "max": 64, "step": 2, "unit": "px", "label": "Heading Size â€“ Mobile", "default": 34 },
-
-
-
+    { "type": "range", "id": "heading_size_desk", "min": 24, "max": 96, "step": 2, "unit": "px", "label": "Heading Size – Desktop", "default": 64 },
+    { "type": "range", "id": "heading_size_mob", "min": 18, "max": 64, "step": 2, "unit": "px", "label": "Heading Size – Mobile", "default": 34 },
     { "type": "header", "content": "Subheading Font Size" },
-
-    { "type": "range", "id": "subheading_size_desk", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Subheading Size â€“ Desktop", "default": 18 },
-
-    { "type": "range", "id": "subheading_size_mob", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Subheading Size â€“ Mobile", "default": 16 },
-
-
-
+    { "type": "range", "id": "subheading_size_desk", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Subheading Size – Desktop", "default": 18 },
+    { "type": "range", "id": "subheading_size_mob", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Subheading Size – Mobile", "default": 16 },
     { "type": "header", "content": "Sizes (Editable)" },
-
     { "type": "range", "id": "height_desk", "min": 200, "max": 800, "step": 20, "label": "Desktop Card Height", "default": 500 },
-
     { "type": "range", "id": "height_mob", "min": 100, "max": 500, "step": 10, "label": "Mobile Card Height", "default": 300 },
-
-
-
     { "type": "header", "content": "Colors" },
-
     { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#111111" },
-
     { "type": "color", "id": "primary_color", "label": "Accent Color (Green)", "default": "#007B3E" },
-
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#ffffff" },
-
-   
-
     { "type": "header", "content": "Text Content" },
-
     { "type": "html", "id": "title", "label": "Main Heading", "default": "INDIA'S NO 1 <br><span>ELECTRIC SAVER</span> CARD" },
-
-    { "type": "textarea", "id": "subtitle", "label": "Subheading", "default": "à¤²à¤—à¤¾à¤à¤—à¤¾ INDIA à¤¤à¥‹ à¤¬à¤šà¤¾à¤à¤—à¤¾ INDIA. Lower your electricity bills instantly." },
-
-   
-
+    { "type": "textarea", "id": "subtitle", "label": "Subheading", "default": "लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly." },
     { "type": "header", "content": "Buttons" },
-
     { "type": "text", "id": "btn1_text", "label": "Button 1 Text", "default": "BUY NOW" },
-
     { "type": "url", "id": "btn1_link", "label": "Button 1 Link" },
-
     { "type": "text", "id": "btn2_text", "label": "Button 2 Text", "default": "GET FRANCHISE" },
-
     { "type": "url", "id": "btn2_link", "label": "Button 2 Link" },
-
-
-
     { "type": "header", "content": "3D Settings" },
-
     { "type": "image_picker", "id": "card_image", "label": "Upload 2D Card Image" },
-
     { "type": "range", "id": "spin_speed", "min": 0, "max": 20, "step": 1, "label": "Auto-Spin Speed", "default": 5 },
-
     { "type": "range", "id": "mouse_sense", "min": 0, "max": 10, "step": 1, "label": "Mouse Tilt Sensitivity", "default": 5 }
-
   ],
-
-  "presets": [ { "name": "Vidhyut 3D Hero" } ]
-
+  "presets": [ { "name": "Vidhyut NEW 3D Hero" } ]
 }
-
 {% endschema %}
