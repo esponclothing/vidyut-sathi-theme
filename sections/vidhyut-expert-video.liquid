@@ -32,7 +32,7 @@
   /* --- ANIMATED HEADLINE STYLES (STRICTLY CENTERED) --- */
   .vs-video-headline {
     width: 100%;
-    max-width: min(1280px, 90vw);
+    max-width: 1280px;
     
     /* Strict Centering Rules */
     display: block;
@@ -93,7 +93,8 @@
   /* --- STRICT VERTICAL 9:16 CONTAINER (CENTERED) --- */
   .vs-video-wrapper-outer {
     margin: 0 auto; /* Forces strict horizontal centering */
-    width: min(1280px, 90vw);
+    width: 100%;
+    max-width: 1280px;
     aspect-ratio: 16 / 9;
     border-radius: 24px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.20);
@@ -179,7 +180,7 @@
       font-size: {{ section.settings.headline_size_mobile }}px;
       margin-bottom: {{ section.settings.headline_margin_bottom | divided_by: 1.5 }}px !important;
     }
-    .vs-video-wrapper-outer { width: min(640px, 92vw); border-radius: 16px; margin: 0 auto; }
+    .vs-video-wrapper-outer { width: 100%; max-width: 640px; border-radius: 16px; margin: 0 auto; }
     .vs-play-btn { width: 58px; height: 58px; font-size: 1.4rem; }
     .vs-video-wrapper-outer:hover { transform: translateY(-4px) scale(1.01); }
   }
