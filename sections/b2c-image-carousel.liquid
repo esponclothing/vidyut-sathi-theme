@@ -3,7 +3,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    /* Aspect ratio based on 969 / 1536 = ~0.63 */
+    /* Aspect ratio based on 969 / 1536 */
     aspect-ratio: 969 / 1536;
     max-height: 100vh;
   }
@@ -17,9 +17,6 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
-    padding: 0 10%;
-    gap: 12px;
-    box-sizing: border-box;
   }
 
   .b2c-carousel-track-{{ section.id }}::-webkit-scrollbar {
@@ -27,12 +24,10 @@
   }
 
   .b2c-carousel-slide-{{ section.id }} {
-    flex: 0 0 80%;
-    scroll-snap-align: center;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
     position: relative;
     height: 100%;
-    border-radius: 16px;
-    overflow: hidden;
   }
 
   .b2c-carousel-slide-{{ section.id }} a {
@@ -82,7 +77,7 @@
         {% endif %}
         
         {% if block.settings.image != blank %}
-          {{ block.settings.image | image_url: width: 854 | image_tag: loading: 'lazy' }}
+          {{ block.settings.image | image_url: width: 969 | image_tag: loading: 'lazy' }}
         {% else %}
           {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
@@ -124,8 +119,7 @@
 
     function scrollToSlide(index) {
       if (!slides[index]) return;
-      // Center the active slide in the scroll container
-      const scrollLeft = slides[index].offsetLeft - (track.clientWidth - slides[index].clientWidth) / 2;
+      const scrollLeft = slides[index].offsetLeft;
       track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       currentIndex = index;
       updateDots(currentIndex);
@@ -153,22 +147,13 @@
     track.addEventListener('scroll', () => {
       stopAutoplay();
       
-      // Find the slide whose center is closest to the center of the track
-      const trackCenter = track.scrollLeft + track.clientWidth / 2;
-      let closestIndex = currentIndex;
-      let minDistance = Infinity;
+      // Calculate current slide based on scroll position
+      const slideWidth = track.clientWidth;
+      const scrollPos = track.scrollLeft;
+      const newIndex = Math.round(scrollPos / slideWidth);
       
-      slides.forEach((slide, index) => {
-        const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
-        const distance = Math.abs(trackCenter - slideCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
-      });
-      
-      if (closestIndex !== currentIndex) {
-        currentIndex = closestIndex;
+      if (newIndex !== currentIndex) {
+        currentIndex = newIndex;
         updateDots(currentIndex);
       }
       
@@ -219,7 +204,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Recommended aspect ratio 854x1354 (Mobile hero view)"
+          "info": "Recommended aspect ratio 969x1536 (Mobile hero view)"
         },
         {
           "type": "url",
