@@ -3,8 +3,8 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    /* Aspect ratio based on 969 / 1536 */
-    aspect-ratio: 969 / 1536;
+    /* Aspect ratio based on 500 / 800 */
+    aspect-ratio: 500 / 800;
     max-height: 100vh;
   }
   
@@ -77,7 +77,7 @@
         {% endif %}
         
         {% if block.settings.image != blank %}
-          {{ block.settings.image | image_url: width: 969 | image_tag: loading: 'lazy' }}
+          {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy' }}
         {% else %}
           {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
@@ -204,7 +204,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Recommended aspect ratio 969x1536 (Mobile hero view)"
+          "info": "Recommended aspect ratio 500x800 (Mobile hero view)"
         },
         {
           "type": "url",
