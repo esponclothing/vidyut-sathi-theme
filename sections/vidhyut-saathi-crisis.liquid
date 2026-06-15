@@ -8,17 +8,17 @@
 <style>
   :root {
     --vs-orange:  #F7941D;
+    --vs-orange-light: #FFF4E5;
     --vs-orange2: #E07810;
     --vs-orange3: #FDB44B;
     --vs-green:   #3EAD47;
+    --vs-green-light: #EBF7EC;
     --vs-green2:  #2E7D32;
-    --vs-green3:  #6DD47A;
     --vs-dark:    #111111;
-    --vs-text:    #222222;
-    --vs-muted:   #777777;
-    --vs-bg:      #FAFAF7;
+    --vs-text:    #333333;
+    --vs-muted:   #666666;
+    --vs-bg:      #FCFDFD;
     --vs-card:    #FFFFFF;
-    --vs-cream:   #FFF8EE;
   }
 
   /* ─── SECTION WRAPPER ─── */
@@ -27,7 +27,7 @@
     font-family: 'Nunito', sans-serif;
     position: relative;
     overflow: hidden;
-    padding-bottom: 0;
+    padding: 0 0 40px 0;
   }
 
   /* Ambient glows */
@@ -37,81 +37,58 @@
     border-radius: 50%;
     pointer-events: none;
     z-index: 0;
+    filter: blur(80px);
   }
   .vs-crisis__glow-1 {
-    top: -120px; right: -120px;
-    width: 480px; height: 480px;
-    background: radial-gradient(circle, rgba(247,148,29,.11) 0%, transparent 65%);
+    top: 0; right: 0;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(247,148,29,0.15) 0%, transparent 70%);
   }
   .vs-crisis__glow-2 {
-    bottom: 200px; left: -120px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(62,173,71,.08) 0%, transparent 65%);
-  }
-
-  /* ─── GRADIENT BARS ─── */
-  .vs-crisis__topbar,
-  .vs-crisis__bottombar {
-    width: 100%; height: 6px;
-    background: linear-gradient(90deg,
-      var(--vs-green2) 0%,
-      var(--vs-green)  20%,
-      var(--vs-orange3) 50%,
-      var(--vs-orange) 80%,
-      var(--vs-green2) 100%
-    );
-    display: block;
+    bottom: 100px; left: -100px;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(62,173,71,0.12) 0%, transparent 70%);
   }
 
   /* ─── HERO ─── */
   .vs-crisis__hero {
-    padding: 52px 64px 32px;
+    padding: 60px 5% 30px;
+    max-width: 1200px;
+    margin: 0 auto;
     position: relative;
     z-index: 2;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 24px;
+    text-align: left;
   }
-
-  .vs-crisis__hero-content { flex: 1; }
 
   .vs-crisis__badge {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    background: linear-gradient(135deg, rgba(247,148,29,.14), rgba(247,148,29,.04));
-    border: 1.5px solid rgba(247,148,29,.35);
+    gap: 8px;
+    background: var(--vs-orange-light);
     border-radius: 50px;
-    padding: 6px 20px;
+    padding: 6px 16px;
     margin-bottom: 20px;
   }
   .vs-crisis__badge-dot {
     width: 8px; height: 8px;
     background: var(--vs-orange);
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(247,148,29,.7);
-    animation: vs-pulse 2s ease-in-out infinite;
   }
   .vs-crisis__badge-text {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 12px; font-weight: 800;
-    letter-spacing: 3px;
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--vs-orange2);
-  }
-  @keyframes vs-pulse {
-    0%,100% { transform: scale(1); box-shadow: 0 0 8px rgba(247,148,29,.7); }
-    50%      { transform: scale(1.5); box-shadow: 0 0 16px rgba(247,148,29,.4); }
+    color: var(--vs-orange);
   }
 
   .vs-crisis__title {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 62px; font-weight: 900;
-    line-height: 1.07;
+    font-size: clamp(38px, 5vw, 64px); 
+    font-weight: 900;
+    line-height: 1.1;
     color: var(--vs-dark);
-    letter-spacing: -1.5px;
-    margin: 0 0 20px;
+    margin: 0 0 15px;
   }
   .vs-crisis__title-accent {
     color: var(--vs-orange);
@@ -121,53 +98,59 @@
   .vs-crisis__title-accent::after {
     content: '';
     position: absolute;
-    left: 0; bottom: -2px;
+    left: 0; bottom: 4px;
     width: 100%; height: 4px;
-    background: linear-gradient(90deg, var(--vs-orange), var(--vs-orange3));
+    background: var(--vs-orange);
     border-radius: 2px;
-    opacity: .45;
+    opacity: 0.4;
   }
 
   .vs-crisis__divider {
-    width: 80px; height: 5px;
+    width: 60px; height: 4px;
     background: linear-gradient(90deg, var(--vs-orange), var(--vs-green));
-    border-radius: 3px;
+    border-radius: 2px;
   }
 
   /* Background tower */
   .vs-crisis__tower {
-    flex-shrink: 0;
-    width: 160px; height: 210px;
-    opacity: .12;
-    align-self: center;
-    margin-top: -10px;
+    position: absolute;
+    top: 20px; right: 10%;
+    width: 250px;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
   }
-  .vs-crisis__tower svg { width: 100%; height: 100%; }
 
   /* ─── STATS GRID ─── */
+  .vs-crisis__stats-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    position: relative;
+    z-index: 2;
+  }
+
   .vs-crisis__stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 0 64px;
-    position: relative;
-    z-index: 2;
-    margin-top: 8px;
+    gap: 24px;
   }
 
   .vs-crisis__stat {
     background: var(--vs-card);
     border-radius: 24px;
-    padding: 38px 28px 34px;
-    box-shadow: 0 8px 40px rgba(247,148,29,.14);
-    border: 1.5px solid rgba(247,148,29,.07);
+    padding: 35px 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.03);
     position: relative;
     overflow: hidden;
-    transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
   }
   .vs-crisis__stat:hover {
-    transform: translateY(-7px) scale(1.01);
-    box-shadow: 0 22px 60px rgba(247,148,29,.22);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.08);
   }
 
   /* Top & bottom accent lines */
@@ -181,224 +164,197 @@
   .vs-crisis__stat::before { top: 0; border-radius: 24px 24px 0 0; }
   .vs-crisis__stat::after  { bottom: 0; border-radius: 0 0 24px 24px; }
 
-  .vs-crisis__stat:nth-child(1)::before,
-  .vs-crisis__stat:nth-child(1)::after { background: linear-gradient(90deg, var(--vs-orange), var(--vs-orange3)); }
-  .vs-crisis__stat:nth-child(2)::before,
-  .vs-crisis__stat:nth-child(2)::after { background: linear-gradient(90deg, var(--vs-green), var(--vs-green3)); }
-  .vs-crisis__stat:nth-child(3)::before,
-  .vs-crisis__stat:nth-child(3)::after { background: linear-gradient(90deg, var(--vs-orange3), var(--vs-green)); }
+  /* Accent Colors per Card */
+  .vs-crisis__stat.type-orange::before,
+  .vs-crisis__stat.type-orange::after { background: var(--vs-orange); }
+  .vs-crisis__stat.type-green::before,
+  .vs-crisis__stat.type-green::after { background: var(--vs-green); }
 
-  /* Inner glow blobs */
+  /* Inner glows */
   .vs-crisis__stat-glow {
     position: absolute;
-    top: -40px; right: -40px;
+    top: -30px; right: -30px;
     width: 150px; height: 150px;
     border-radius: 50%;
-    pointer-events: none;
-    opacity: .3;
+    filter: blur(40px);
+    opacity: 0.4;
+    z-index: 0;
   }
-  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(247,148,29,.5), transparent 70%); }
-  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(62,173,71,.5), transparent 70%); }
-  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-glow { background: radial-gradient(circle, rgba(247,148,29,.35), transparent 70%); }
+  .vs-crisis__stat.type-orange .vs-crisis__stat-glow { background: var(--vs-orange); }
+  .vs-crisis__stat.type-green .vs-crisis__stat-glow { background: var(--vs-green); }
 
-  /* Icon */
+  /* Icons */
   .vs-crisis__stat-icon {
-    width: 64px; height: 64px;
-    border-radius: 16px;
+    width: 50px; height: 50px;
+    border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
     position: relative; z-index: 1;
   }
-  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-icon { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); box-shadow: 0 6px 20px rgba(247,148,29,.2); }
-  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-icon { background: linear-gradient(135deg,#E8F5E9,#C8E6C9); box-shadow: 0 6px 20px rgba(62,173,71,.2); }
-  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-icon { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); box-shadow: 0 6px 20px rgba(247,148,29,.2); }
-  .vs-crisis__stat-icon svg { width: 30px; height: 30px; }
+  .vs-crisis__stat.type-orange .vs-crisis__stat-icon { background: var(--vs-orange-light); }
+  .vs-crisis__stat.type-green .vs-crisis__stat-icon { background: var(--vs-green-light); }
+  .vs-crisis__stat-icon svg { width: 24px; height: 24px; }
 
   .vs-crisis__stat-number {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 48px; font-weight: 900;
-    line-height: 1;
-    letter-spacing: -1px;
+    font-size: clamp(32px, 4vw, 42px);
+    font-weight: 900;
+    line-height: 1.1;
     margin-bottom: 12px;
     position: relative; z-index: 1;
   }
-  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-number,
-  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-number { color: var(--vs-orange); }
-  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-number { color: var(--vs-green); }
-
-  .vs-crisis__stat-line {
-    width: 40px; height: 3px;
-    border-radius: 2px;
-    margin-bottom: 14px;
-    position: relative; z-index: 1;
-  }
-  .vs-crisis__stat:nth-child(1) .vs-crisis__stat-line,
-  .vs-crisis__stat:nth-child(3) .vs-crisis__stat-line { background: linear-gradient(90deg, var(--vs-orange), transparent); }
-  .vs-crisis__stat:nth-child(2) .vs-crisis__stat-line { background: linear-gradient(90deg, var(--vs-green), transparent); }
+  .vs-crisis__stat.type-orange .vs-crisis__stat-number { color: var(--vs-orange); }
+  .vs-crisis__stat.type-green .vs-crisis__stat-number { color: var(--vs-green); }
 
   .vs-crisis__stat-desc {
-    font-size: 15px; font-weight: 800;
-    color: var(--vs-dark);
-    line-height: 1.55;
+    font-size: 15px; font-weight: 700;
+    color: var(--vs-text);
+    line-height: 1.5;
     position: relative; z-index: 1;
   }
 
   /* ─── NEED BANNER ─── */
   .vs-crisis__need {
-    margin: 28px 64px 0;
-    background: linear-gradient(135deg, #FFFBF3, #FFF3E0, #FFFBF3);
-    border: 2px solid rgba(247,148,29,.22);
-    border-radius: 20px;
-    padding: 26px 34px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+    background: linear-gradient(90deg, #FFF9F0, #FFFFFF);
+    border: 1px solid rgba(247,148,29,0.15);
+    border-radius: 16px;
+    padding: 24px 30px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
     position: relative; z-index: 2;
-    box-shadow: 0 4px 24px rgba(247,148,29,.11), inset 0 1px 0 rgba(255,255,255,.8);
+    box-shadow: 0 4px 20px rgba(247,148,29,0.05);
+  }
+  
+  .vs-crisis__need-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
   }
 
   .vs-crisis__need-icon {
-    width: 58px; height: 58px; flex-shrink: 0;
+    width: 48px; height: 48px;
     background: white;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 20px rgba(247,148,29,.22);
-    border: 2px solid rgba(247,148,29,.14);
+    box-shadow: 0 4px 15px rgba(247,148,29,0.15);
   }
 
   .vs-crisis__need-sep {
-    width: 3px; height: 50px;
-    background: linear-gradient(180deg, var(--vs-orange), var(--vs-green));
-    border-radius: 2px; flex-shrink: 0;
+    width: 2px; height: 40px;
+    background: var(--vs-orange);
+    opacity: 0.3;
   }
 
   .vs-crisis__need-label {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 22px; font-weight: 900;
+    font-size: 22px; font-weight: 800;
     color: var(--vs-orange);
     white-space: nowrap;
   }
 
   .vs-crisis__need-body {
-    font-size: 15px; font-weight: 700;
+    font-size: 15px; font-weight: 600;
     color: var(--vs-text);
-    line-height: 1.65;
+    line-height: 1.5;
   }
 
   /* ─── SECTION BREAK ─── */
   .vs-crisis__break {
-    margin: 48px 64px 32px;
-    display: flex; align-items: center; gap: 18px;
+    max-width: 1200px;
+    margin: 60px auto 40px;
+    display: flex; align-items: center; gap: 20px;
     position: relative; z-index: 2;
+    padding: 0 5%;
   }
   .vs-crisis__break-line {
     flex: 1; height: 1px;
-    background: linear-gradient(90deg, rgba(247,148,29,.35), transparent);
-  }
-  .vs-crisis__break-line--rev {
-    background: linear-gradient(270deg, rgba(247,148,29,.35), transparent);
+    background: linear-gradient(90deg, transparent, rgba(247,148,29,0.3), transparent);
   }
   .vs-crisis__break-pill {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 11px; font-weight: 800;
-    letter-spacing: 3px; text-transform: uppercase;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
     color: var(--vs-orange2);
-    background: linear-gradient(135deg, rgba(247,148,29,.1), transparent);
-    padding: 6px 18px; border-radius: 50px;
-    border: 1px solid rgba(247,148,29,.2);
+    background: var(--vs-orange-light);
+    padding: 6px 20px; border-radius: 50px;
     white-space: nowrap;
   }
 
   /* ─── SOLUTION HEADER ─── */
   .vs-crisis__solution {
-    padding: 0 64px;
+    padding: 0 5%;
     position: relative; z-index: 2;
     text-align: center;
     margin-bottom: 40px;
   }
-  .vs-crisis__solution-sparks::before,
-  .vs-crisis__solution-sparks::after {
-    position: absolute;
-    font-size: 20px; opacity: .22;
-  }
   .vs-crisis__solution h2 {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 46px; font-weight: 900;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 900;
     color: var(--vs-dark);
-    line-height: 1.15;
-    letter-spacing: -.5px;
+    line-height: 1.2;
     margin: 0 0 10px;
   }
   .vs-crisis__solution h2 span { color: var(--vs-orange); }
   .vs-crisis__solution p {
-    font-size: 20px; font-weight: 700;
+    font-size: clamp(16px, 2vw, 18px); 
+    font-weight: 700;
     color: var(--vs-muted);
+    margin: 0;
   }
   .vs-crisis__solution-underline {
     display: inline-block;
-    margin-top: 14px;
-    width: 72px; height: 4px;
-    background: linear-gradient(90deg, var(--vs-orange), var(--vs-green));
+    margin-top: 15px;
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--vs-green), var(--vs-orange));
     border-radius: 2px;
   }
 
   /* ─── CTA CARD ─── */
   .vs-crisis__cta {
-    margin: 0 64px;
-    background: linear-gradient(135deg, #FFFDF8, #FFF6E8, #FFFDF8);
-    border-radius: 26px;
-    padding: 40px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #FFFDF8, #FFF5E5);
+    border-radius: 24px;
+    padding: 40px 50px;
     display: flex; align-items: center;
-    justify-content: space-between; gap: 32px;
-    border: 2px solid rgba(247,148,29,.16);
-    box-shadow: 0 8px 40px rgba(247,148,29,.11), inset 0 1px 0 rgba(255,255,255,.9);
+    justify-content: space-between; gap: 30px;
+    box-shadow: 0 10px 40px rgba(247,148,29,0.1);
     position: relative; z-index: 2;
-    overflow: hidden;
-  }
-  .vs-crisis__cta::before {
-    content: '';
-    position: absolute;
-    top: -50px; left: -50px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(247,148,29,.1), transparent 65%);
-    pointer-events: none;
-  }
-  .vs-crisis__cta::after {
-    content: '';
-    position: absolute;
-    bottom: -40px; right: -40px;
-    width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(62,173,71,.08), transparent 65%);
-    pointer-events: none;
+    width: 90%;
   }
 
-  .vs-crisis__cta-left { position: relative; z-index: 1; }
   .vs-crisis__cta-left h3 {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 28px; font-weight: 900;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 900;
     color: var(--vs-dark);
     line-height: 1.2;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
   }
   .vs-crisis__cta-left h3 span { color: var(--vs-orange); }
   .vs-crisis__cta-left p {
-    font-size: 16px; font-weight: 700;
+    font-size: 16px; font-weight: 600;
     color: var(--vs-muted);
-    margin: 0 0 14px;
+    margin: 0 0 20px;
   }
 
   /* Social proof */
   .vs-crisis__proof {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 12px;
   }
   .vs-crisis__proof-avatars { display: flex; }
   .vs-crisis__proof-avatars span {
-    width: 30px; height: 30px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     border: 2px solid white;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 800;
-    margin-left: -7px;
+    margin-left: -10px;
     color: white;
   }
   .vs-crisis__proof-avatars span:first-child { margin-left: 0; background: var(--vs-orange); }
@@ -411,234 +367,171 @@
   .vs-crisis__proof-text strong { color: var(--vs-orange); }
 
   .vs-crisis__cta-right {
-    position: relative; z-index: 1;
-    flex-shrink: 0; text-align: center;
+    text-align: center;
+    flex-shrink: 0;
   }
 
   .vs-crisis__btn {
     display: inline-flex; align-items: center; gap: 10px;
-    background: linear-gradient(135deg, var(--vs-orange), var(--vs-orange2));
+    background: var(--vs-orange);
     color: white;
     font-family: 'Baloo 2', sans-serif;
-    font-size: 18px; font-weight: 900;
-    padding: 16px 40px;
+    font-size: 18px; font-weight: 800;
+    padding: 16px 36px;
     border-radius: 50px;
     text-decoration: none;
-    box-shadow: 0 10px 32px rgba(247,148,29,.38), 0 2px 0 rgba(0,0,0,.1) inset;
-    letter-spacing: .3px;
-    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s;
-    white-space: nowrap;
+    box-shadow: 0 8px 25px rgba(247,148,29,0.3);
+    transition: all 0.3s ease;
   }
   .vs-crisis__btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 18px 48px rgba(247,148,29,.52);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(247,148,29,0.4);
+    background: var(--vs-orange2);
   }
-  .vs-crisis__btn svg { width: 20px; height: 20px; }
+  .vs-crisis__btn svg { width: 18px; height: 18px; fill: currentColor; }
 
   .vs-crisis__btn-note {
-    margin-top: 10px;
-    font-size: 12px; font-weight: 700;
-    color: var(--vs-green2);
-    display: flex; align-items: center; justify-content: center; gap: 5px;
+    margin-top: 12px;
+    font-size: 12px; font-weight: 800;
+    color: var(--vs-green);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .vs-crisis__btn-note::before { content: '✓'; font-weight: 900; }
 
-  /* ─── MOBILE ─── */
-  @media (max-width: 768px) {
-    .vs-crisis__glow-1,
-    .vs-crisis__glow-2 { display: none; }
-
-    .vs-crisis__hero {
-      padding: 32px 20px 20px;
-      flex-direction: column; gap: 0;
+  /* ─── MOBILE RESPONSIVENESS ─── */
+  @media (max-width: 900px) {
+    .vs-crisis__cta {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px 24px;
     }
-    .vs-crisis__tower { display: none; }
-
-    .vs-crisis__title { font-size: 36px; letter-spacing: -.5px; }
-
-    .vs-crisis__stats {
-      grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 0 20px;
+    .vs-crisis__proof {
+      justify-content: center;
     }
-
-    .vs-crisis__stat {
-      padding: 24px 22px 20px;
-      display: grid;
-      grid-template-columns: 56px 1fr;
-      grid-template-rows: auto auto auto;
-      column-gap: 16px;
-      align-items: start;
-    }
-
-    .vs-crisis__stat-glow { display: none; }
-
-    .vs-crisis__stat-icon {
-      width: 50px; height: 50px;
-      border-radius: 14px;
-      margin-bottom: 0;
-      grid-row: 1 / 4;
-      align-self: center;
-    }
-    .vs-crisis__stat-icon svg { width: 24px; height: 24px; }
-
-    .vs-crisis__stat-number {
-      font-size: 30px;
-      margin-bottom: 4px;
-      grid-column: 2;
-    }
-
-    .vs-crisis__stat-line { display: none; }
-
-    .vs-crisis__stat-desc {
-      font-size: 13px;
-      grid-column: 2;
-    }
-
     .vs-crisis__need {
-      margin: 20px 20px 0;
-      padding: 20px 20px;
-      flex-wrap: wrap;
-      gap: 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin: 30px 5% 0;
     }
     .vs-crisis__need-sep { display: none; }
-    .vs-crisis__need-icon { width: 44px; height: 44px; }
-    .vs-crisis__need-label { font-size: 18px; }
-    .vs-crisis__need-body { font-size: 14px; flex: 1 1 100%; }
-
-    .vs-crisis__break {
-      margin: 32px 20px 24px;
-    }
-
-    .vs-crisis__solution {
-      padding: 0 20px;
-      margin-bottom: 28px;
-    }
-    .vs-crisis__solution h2 { font-size: 28px; }
-    .vs-crisis__solution p { font-size: 16px; }
-
-    .vs-crisis__cta {
-      margin: 0 20px;
-      flex-direction: column;
-      padding: 28px 24px;
-      gap: 24px;
-    }
-    .vs-crisis__cta-left h3 { font-size: 22px; }
-    .vs-crisis__cta-left p { font-size: 14px; }
-    .vs-crisis__cta-right { width: 100%; }
-    .vs-crisis__btn {
-      width: 100%;
-      justify-content: center;
-      font-size: 17px;
-      padding: 15px 32px;
-    }
-
-    .vs-crisis__topbar,
-    .vs-crisis__bottombar { height: 5px; }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .vs-crisis__hero { padding: 44px 44px 24px; }
-    .vs-crisis__stats { padding: 0 44px; gap: 16px; }
-    .vs-crisis__title { font-size: 50px; }
-    .vs-crisis__stat { padding: 30px 22px 26px; }
-    .vs-crisis__stat-number { font-size: 40px; }
-    .vs-crisis__need { margin: 24px 44px 0; }
-    .vs-crisis__break { margin: 40px 44px 28px; }
-    .vs-crisis__solution { padding: 0 44px; }
-    .vs-crisis__cta { margin: 0 44px; padding: 32px 36px; }
+  @media (max-width: 768px) {
+    .vs-crisis__hero { padding: 40px 5% 20px; }
+    
+    /* App-like Horizontal Scroll for Mobile Cards */
+    .vs-crisis__stats-wrapper {
+      padding: 0; /* Remove padding to let cards bleed off edge */
+    }
+    .vs-crisis__stats {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 10px 5% 20px;
+      gap: 16px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .vs-crisis__stats::-webkit-scrollbar {
+      display: none; /* Safari/Chrome */
+    }
+    .vs-crisis__stat {
+      flex: 0 0 85%; /* Cards take up 85% of screen width */
+      scroll-snap-align: center;
+      padding: 24px;
+    }
+
+    .vs-crisis__stat-icon { width: 44px; height: 44px; margin-bottom: 16px; }
+    .vs-crisis__stat-icon svg { width: 20px; height: 20px; }
+    
+    .vs-crisis__need-left {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .vs-crisis__need-icon { width: 40px; height: 40px; }
+    .vs-crisis__need-icon svg { width: 20px; height: 20px; }
+
+    .vs-crisis__btn { width: 100%; justify-content: center; }
   }
 </style>
 
 <section class="vs-crisis" id="vs-crisis-{{ section.id }}">
 
-  <!-- Glow blobs -->
   <div class="vs-crisis__glow-1" aria-hidden="true"></div>
   <div class="vs-crisis__glow-2" aria-hidden="true"></div>
 
-  <!-- Top bar -->
-  <div class="vs-crisis__topbar"></div>
-
   <!-- ── HERO ── -->
   <div class="vs-crisis__hero">
-    <div class="vs-crisis__hero-content">
-      <div class="vs-crisis__badge">
-        <div class="vs-crisis__badge-dot"></div>
-        <span class="vs-crisis__badge-text">{{ section.settings.badge_label | default: 'The Problem' }}</span>
-      </div>
-      <h1 class="vs-crisis__title">
-        {{ section.settings.hero_title_prefix | default: "India's" }}
-        <span class="vs-crisis__title-accent">{{ section.settings.hero_title_accent | default: 'Electricity' }}</span>
-        {{ section.settings.hero_title_suffix | default: 'Crisis' }}
-      </h1>
-      <div class="vs-crisis__divider"></div>
+    <div class="vs-crisis__badge">
+      <div class="vs-crisis__badge-dot"></div>
+      <span class="vs-crisis__badge-text">{{ section.settings.badge_label | default: 'The Problem' }}</span>
     </div>
+    <h1 class="vs-crisis__title">
+      {{ section.settings.hero_title_prefix | default: "India's" }}
+      <span class="vs-crisis__title-accent">{{ section.settings.hero_title_accent | default: 'Electricity' }}</span>
+      <br>{{ section.settings.hero_title_suffix | default: 'Crisis' }}
+    </h1>
+    <div class="vs-crisis__divider"></div>
 
     <!-- Tower SVG -->
-    <div class="vs-crisis__tower" aria-hidden="true">
-      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="100" y1="0"   x2="100" y2="280" stroke="#F7941D" stroke-width="4"/>
-        <line x1="100" y1="40"  x2="20"  y2="100" stroke="#F7941D" stroke-width="3"/>
-        <line x1="100" y1="40"  x2="180" y2="100" stroke="#F7941D" stroke-width="3"/>
-        <line x1="100" y1="100" x2="30"  y2="150" stroke="#F7941D" stroke-width="2.5"/>
-        <line x1="100" y1="100" x2="170" y2="150" stroke="#F7941D" stroke-width="2.5"/>
-        <line x1="100" y1="160" x2="50"  y2="200" stroke="#F7941D" stroke-width="2"/>
-        <line x1="100" y1="160" x2="150" y2="200" stroke="#F7941D" stroke-width="2"/>
-        <line x1="20"  y1="100" x2="30"  y2="150" stroke="#F7941D" stroke-width="2"/>
-        <line x1="180" y1="100" x2="170" y2="150" stroke="#F7941D" stroke-width="2"/>
-        <circle cx="100" cy="40"  r="6" fill="#F7941D"/>
-        <circle cx="100" cy="100" r="6" fill="#F7941D"/>
-        <circle cx="100" cy="160" r="6" fill="#F7941D"/>
-      </svg>
-    </div>
+    <svg class="vs-crisis__tower" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="100" y1="0"   x2="100" y2="280" stroke="#F7941D" stroke-width="4"/>
+      <line x1="100" y1="40"  x2="20"  y2="100" stroke="#F7941D" stroke-width="3"/>
+      <line x1="100" y1="40"  x2="180" y2="100" stroke="#F7941D" stroke-width="3"/>
+      <line x1="100" y1="100" x2="30"  y2="150" stroke="#F7941D" stroke-width="2.5"/>
+      <line x1="100" y1="100" x2="170" y2="150" stroke="#F7941D" stroke-width="2.5"/>
+    </svg>
   </div>
 
   <!-- ── STAT CARDS ── -->
-  <div class="vs-crisis__stats">
+  <div class="vs-crisis__stats-wrapper">
+    <div class="vs-crisis__stats">
+      {% for block in section.blocks %}
+        {% if block.type == 'stat_card' %}
+          <!-- Determine Card Styling based on index -->
+          {% assign card_type = 'type-orange' %}
+          {% if forloop.index == 2 %}{% assign card_type = 'type-green' %}{% endif %}
 
-    {% for block in section.blocks %}
-      {% if block.type == 'stat_card' %}
-        <div class="vs-crisis__stat" {{ block.shopify_attributes }}>
-          <div class="vs-crisis__stat-glow"></div>
-          <div class="vs-crisis__stat-icon">
-            {% if forloop.index == 1 %}
-              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-size="20" font-weight="900" fill="#F7941D" font-family="sans-serif">₹</text>
-              </svg>
-            {% elsif forloop.index == 2 %}
-              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="17,4 10,16 15,16 13,26 21,14 16,14" fill="#3EAD47"/>
-              </svg>
-            {% else %}
-              <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="4" fill="#F7941D" opacity=".7"/>
-                <circle cx="20" cy="11" r="4" fill="#F7941D" opacity=".7"/>
-                <circle cx="15.5" cy="8.5" r="4" fill="#F7941D"/>
-                <path d="M5 24c0-4 4.5-6.5 10.5-6.5S26 20 26 24" fill="#F7941D" opacity=".45"/>
-              </svg>
-            {% endif %}
+          <div class="vs-crisis__stat {{ card_type }}" {{ block.shopify_attributes }}>
+            <div class="vs-crisis__stat-glow"></div>
+            <div class="vs-crisis__stat-icon">
+              {% if forloop.index == 1 %}
+                <!-- Rupee Icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 4H18M6 8H18M14 12C14 15.3137 11.3137 18 8 18L15 24M6 12H9C11.2091 12 13 10.2091 13 8C13 5.79086 11.2091 4 9 4H6V12Z" stroke="#F7941D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% elsif forloop.index == 2 %}
+                <!-- Lightning Icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#3EAD47"/>
+                </svg>
+              {% else %}
+                <!-- People/House Icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9984 18.1158 22.7093 17.2573 22.1804 16.5658C21.6515 15.8743 20.9142 15.3912 20.09 15.21M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="#F7941D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% endif %}
+            </div>
+            <div class="vs-crisis__stat-number">{{ block.settings.stat_value }}</div>
+            <div class="vs-crisis__stat-desc">{{ block.settings.stat_desc }}</div>
           </div>
-          <div class="vs-crisis__stat-number">{{ block.settings.stat_value }}</div>
-          <div class="vs-crisis__stat-line"></div>
-          <div class="vs-crisis__stat-desc">{{ block.settings.stat_desc }}</div>
-        </div>
-      {% endif %}
-    {% endfor %}
-
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
 
   <!-- ── NEED BANNER ── -->
   <div class="vs-crisis__need">
-    <div class="vs-crisis__need-icon">
-      <svg width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="15" cy="11" r="7.5" stroke="#F7941D" stroke-width="2.2" fill="none"/>
-        <path d="M12 11c0-1.66 1.34-3 3-3" stroke="#F7941D" stroke-width="2" stroke-linecap="round"/>
-        <line x1="15" y1="19" x2="15" y2="23" stroke="#F7941D" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="11" y1="26" x2="19" y2="26" stroke="#F7941D" stroke-width="2.2" stroke-linecap="round"/>
-      </svg>
+    <div class="vs-crisis__need-left">
+      <div class="vs-crisis__need-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18H15M12 22V18M12 14C14.7614 14 17 11.7614 17 9C17 6.23858 14.7614 4 12 4C9.23858 4 7 6.23858 7 9C7 11.7614 9.23858 14 12 14Z" stroke="#F7941D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="vs-crisis__need-label">{{ section.settings.need_label | default: 'The Need is Clear.' }}</div>
     </div>
     <div class="vs-crisis__need-sep"></div>
-    <div class="vs-crisis__need-label">{{ section.settings.need_label | default: 'The Need is Clear.' }}</div>
     <div class="vs-crisis__need-body">{{ section.settings.need_text | default: 'India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.' }}</div>
   </div>
 
@@ -646,7 +539,7 @@
   <div class="vs-crisis__break">
     <div class="vs-crisis__break-line"></div>
     <div class="vs-crisis__break-pill">{{ section.settings.break_text | default: 'Introducing the Solution' }}</div>
-    <div class="vs-crisis__break-line vs-crisis__break-line--rev"></div>
+    <div class="vs-crisis__break-line"></div>
   </div>
 
   <!-- ── SOLUTION HEADER ── -->
@@ -659,7 +552,7 @@
   <!-- ── CTA ── -->
   <div class="vs-crisis__cta">
     <div class="vs-crisis__cta-left">
-      <h3>{{ section.settings.cta_title_prefix | default: 'Start Saving on Your' }} <span>{{ section.settings.cta_title_accent | default: 'Electricity Bill' }}</span> {{ section.settings.cta_title_suffix | default: 'Today' }}</h3>
+      <h3>{{ section.settings.cta_title_prefix | default: 'Start Saving on Your' }} <br><span>{{ section.settings.cta_title_accent | default: 'Electricity Bill' }}</span> {{ section.settings.cta_title_suffix | default: 'Today' }}</h3>
       <p>{{ section.settings.cta_subtitle | default: 'Join 20 Lakh+ Indian families already saving with Vidhyut Saathi Card' }}</p>
       <div class="vs-crisis__proof">
         <div class="vs-crisis__proof-avatars">
@@ -670,17 +563,17 @@
     </div>
     <div class="vs-crisis__cta-right">
       <a href="{{ section.settings.cta_link | default: '#' }}" class="vs-crisis__btn">
-        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="11,3 7,12 11,12 10,19 15,10 11,10" fill="white"/>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
         </svg>
         {{ section.settings.cta_button_text | default: 'Get Franchise Now' }}
       </a>
-      <div class="vs-crisis__btn-note">{{ section.settings.cta_note | default: 'Free Consultation Available' }}</div>
+      <div class="vs-crisis__btn-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="#3EAD47" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {{ section.settings.cta_note | default: 'Free Consultation Available' }}
+      </div>
     </div>
   </div>
-
-  <!-- Bottom bar -->
-  <div class="vs-crisis__bottombar" style="margin-top: 48px;"></div>
 
 </section>
 
