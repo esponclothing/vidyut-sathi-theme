@@ -127,7 +127,7 @@
 
   @media screen and (max-width: 768px) {
     .b2c-carousel-nav-{{ section.id }} {
-      display: none; /* Hide arrows on mobile by default to favor swiping */
+      display: none; /* Mobile favors swiping over arrows */
     }
   }
 {%- endstyle -%}
@@ -270,7 +270,7 @@
       });
     }
     
-    // Highly optimized scroll listener using IntersectionObserver
+    // Performance Optimized Observer for Swipe Tracking
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -283,18 +283,17 @@
       });
     }, {
       root: track,
-      threshold: 0.6 // Triggers when slide is 60% visible
+      threshold: 0.6
     });
 
     slides.forEach(slide => observer.observe(slide));
 
-    // Pause Autoplay on Hover/Focus for Accessibility
+    // Focus/Hover handling for standard compliant screen reader access
     container.addEventListener('mouseenter', () => { isHoveredOrFocused = true; stopAutoplay(); });
     container.addEventListener('mouseleave', () => { isHoveredOrFocused = false; startAutoplay(); });
     container.addEventListener('focusin', () => { isHoveredOrFocused = true; stopAutoplay(); });
     container.addEventListener('focusout', () => { isHoveredOrFocused = false; startAutoplay(); });
     
-    // Manual swipe tracking to reset interval
     track.addEventListener('scroll', () => {
       stopAutoplay();
       clearTimeout(track.scrollTimeout);
@@ -303,7 +302,6 @@
       }
     }, { passive: true });
     
-    // Dot click handling
     dots.forEach((dot, index) => {
       dot.addEventListener('click', () => {
         stopAutoplay();
@@ -312,7 +310,6 @@
       });
     });
 
-    // Initialize Accessibility States
     updateA11yAndDots(currentIndex);
     startAutoplay();
   });
@@ -342,8 +339,8 @@
       "type": "text",
       "id": "aspect_ratio_mobile",
       "label": "Mobile Aspect Ratio",
-      "default": "650 / 350",
-      "info": "Format: Width / Height (e.g. 650 / 350, 4 / 5)"
+      "default": "350 / 650",
+      "info": "Format: Width / Height (e.g. 350 / 650, 4 / 5)"
     },
     {
       "type": "header",
@@ -408,7 +405,8 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image",
+          "info": "Recommended portrait format for mobile setup."
         },
         {
           "type": "url",
@@ -419,7 +417,7 @@
           "type": "text",
           "id": "title",
           "label": "Image Alt Text",
-          "info": "Leave empty to use the image's default alt text. Important for SEO and accessibility."
+          "info": "Leave empty to use image's default alt text. Crucial for SEO."
         }
       ]
     }
