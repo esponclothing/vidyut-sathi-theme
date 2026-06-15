@@ -330,8 +330,6 @@
       "name": "Vidhyut Video 9:16",
       "settings": {
         "max_width": 1200,
-        "margin_left": "30",
-        "margin_right": "30",
         "headline_text": "WE ARE THE EXPERT YOU EXACTLY NEED",
         "headline_font": "poppins_n7",
         "enable_shimmer": true,
@@ -409,7 +407,7 @@
         "hero_title_accent": "Electricity",
         "hero_title_suffix": "Crisis",
         "need_label": "The Need is Clear.",
-        "need_text": "India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.",
+        "need_text": "",
         "break_text": "Introducing the Solution",
         "solution_title_prefix": "Meet",
         "solution_title_accent": "Vidhyut Saathi Card",
