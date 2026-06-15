@@ -12,6 +12,33 @@
     background: {{ section.settings.section_background }};
   }
 
+  /* --- Creative Section Header Styles --- */
+  .b2c-section-header-{{ section.id }} {
+    padding: 0 {{ section.settings.edge_padding }}px;
+    margin-bottom: {{ section.settings.header_margin_bottom }}px;
+    text-align: {{ section.settings.header_alignment }};
+  }
+
+  .b2c-section-title-{{ section.id }} {
+    font-size: {{ section.settings.section_title_size }}px;
+    font-weight: {{ section.settings.section_title_weight }};
+    color: {{ section.settings.section_title_color }};
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: {{ section.settings.section_title_transform }};
+  }
+
+  .b2c-section-subtitle-{{ section.id }} {
+    font-size: {{ section.settings.section_subtitle_size }}px;
+    color: {{ section.settings.section_subtitle_color }};
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* --- Carousel Track & Slides --- */
   .b2c-peek-track-{{ section.id }} {
     display: flex;
     overflow-x: auto;
@@ -31,8 +58,8 @@
 
   .b2c-peek-slide-{{ section.id }} {
     /* On mobile: show ~65% of first card so ~30% of next peeks through.
-      Formula: 100% - edge_padding - gap - peek_amount = card width
-      Shopify liquid can't do full math, so we use calc() in CSS with custom props.
+       Formula: 100% - edge_padding - gap - peek_amount = card width
+       Shopify liquid can't do full math, so we use calc() in CSS with custom props.
     */
     flex: 0 0 calc({{ section.settings.card_width_mobile }}% - {{ section.settings.edge_padding | times: 2 | divided_by: section.blocks.size }}px);
     scroll-snap-align: start;
@@ -145,6 +172,18 @@
   aria-label="{{ section.settings.accessibility_info | escape | default: 'Promotional banners' }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
 >
+  {%- comment -%} Custom Section Header Addition {%- endcomment -%}
+  {% if section.settings.section_title != blank or section.settings.section_subtitle != blank %}
+    <div class="b2c-section-header-{{ section.id }}">
+      {% if section.settings.section_title != blank %}
+        <h2 class="b2c-section-title-{{ section.id }}">{{ section.settings.section_title | escape }}</h2>
+      {% endif %}
+      {% if section.settings.section_subtitle != blank %}
+        <p class="b2c-section-subtitle-{{ section.id }}">{{ section.settings.section_subtitle | escape }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
   <div
     class="b2c-peek-track-{{ section.id }}"
     id="b2c-peek-track-{{ section.id }}"
@@ -266,8 +305,8 @@
     // Pause on hover / focus
     sectionEl.addEventListener('mouseenter', function() { isPaused = true; stopAutoplay(); });
     sectionEl.addEventListener('mouseleave', function() { isPaused = false; startAutoplay(); });
-    sectionEl.addEventListener('focusin',    function() { isPaused = true; stopAutoplay(); });
-    sectionEl.addEventListener('focusout',   function() { isPaused = false; startAutoplay(); });
+    sectionEl.addEventListener('focusin',     function() { isPaused = true; stopAutoplay(); });
+    sectionEl.addEventListener('focusout',    function() { isPaused = false; startAutoplay(); });
 
     // Resume after manual scroll
     var scrollDebounce;
@@ -291,6 +330,98 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header & Typography"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Heading Text",
+      "default": "Top Deals & Offers"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Subtitle Text",
+      "default": "Handpicked dynamic collections for you"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "section_title_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "section_title_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "section_title_transform",
+      "label": "Heading Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "uppercase", "label": "Uppercase" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "section_subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "section_subtitle_size",
+      "min": 11,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Header Spacing Bottom",
+      "default": 16
+    },
     {
       "type": "header",
       "content": "Card Size & Layout"
