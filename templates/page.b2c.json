@@ -426,35 +426,67 @@
     "b2c_image_carousel": {
       "type": "b2c-image-carousel",
       "blocks": {
-        "slide_1": {
-          "type": "image_slide",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg",
-            "link": ""
-          }
-        },
-        "slide_2": {
-          "type": "image_slide",
-          "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg",
-            "link": ""
-          }
-        },
-        "slide_3": {
-          "type": "image_slide",
+        "banner_card_n3Dtkp": {
+          "type": "banner_card",
           "settings": {
             "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg",
+            "title": "Karigar Mela",
+            "subtitle": "Discover India's Handcrafted Treasures",
+            "badge": "",
+            "bottom_label": "*T&C apply",
+            "link": ""
+          }
+        },
+        "banner_card_BiWiPp": {
+          "type": "banner_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg",
+            "title": "Karigar Mela",
+            "subtitle": "Discover India's Handcrafted Treasures",
+            "badge": "",
+            "bottom_label": "*T&C apply",
+            "link": ""
+          }
+        },
+        "banner_card_xyLHwy": {
+          "type": "banner_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg",
+            "title": "Karigar Mela",
+            "subtitle": "Discover India's Handcrafted Treasures",
+            "badge": "",
+            "bottom_label": "*T&C apply",
             "link": ""
           }
         }
       },
       "block_order": [
-        "slide_1",
-        "slide_2",
-        "slide_3"
+        "banner_card_n3Dtkp",
+        "banner_card_BiWiPp",
+        "banner_card_xyLHwy"
       ],
       "settings": {
-        "autoplay_speed": 1
+        "card_width_mobile": 65,
+        "card_width_desktop": 30,
+        "card_aspect_ratio_mobile": "4/ 7",
+        "card_aspect_ratio_desktop": "4 / 5",
+        "card_border_radius": 14,
+        "card_gap": 10,
+        "edge_padding": 12,
+        "section_padding_vertical": 8,
+        "card_text_padding": 14,
+        "overlay_top_opacity": 45,
+        "overlay_bottom_opacity": 20,
+        "title_font_size": 22,
+        "title_color": "#ffffff",
+        "subtitle_font_size": 14,
+        "subtitle_color": "#eeeeee",
+        "badge_font_size": 11,
+        "badge_background": "#ff9900",
+        "badge_color": "#111111",
+        "section_background": "#f0f2f2",
+        "autoplay_speed": 1,
+        "accessibility_info": "Promotional banners carousel"
       }
     }
   },
