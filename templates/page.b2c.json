@@ -490,6 +490,16 @@
         "banner_card_xyLHwy"
       ],
       "settings": {
+        "section_title": "Benifits Of Vidhyut Saathi Card",
+        "section_subtitle": "Handpicked dynamic collections for you",
+        "header_alignment": "left",
+        "section_title_color": "#111111",
+        "section_title_size": 21,
+        "section_title_weight": "700",
+        "section_title_transform": "none",
+        "section_subtitle_color": "#555555",
+        "section_subtitle_size": 14,
+        "header_margin_bottom": 16,
         "card_width_mobile": 75,
         "card_width_desktop": 30,
         "card_aspect_ratio_mobile": "5/ 9",
