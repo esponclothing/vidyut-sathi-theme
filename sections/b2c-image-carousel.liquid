@@ -1,11 +1,21 @@
-<style>
+{%- style -%}
   .b2c-carousel-container-{{ section.id }} {
+    --carousel-ratio: {{ section.settings.aspect_ratio_desktop }};
+    --dot-color: {{ section.settings.dot_color }};
+    --dot-active-color: {{ section.settings.dot_active_color }};
+    
     position: relative;
     width: 100%;
     overflow: hidden;
-    /* Aspect ratio based on 500 / 800 */
-    aspect-ratio: 500 / 800;
+    aspect-ratio: var(--carousel-ratio);
     max-height: 100vh;
+    background-color: #f4f4f4; /* Skeleton loading color */
+  }
+
+  @media screen and (max-width: 768px) {
+    .b2c-carousel-container-{{ section.id }} {
+      --carousel-ratio: {{ section.settings.aspect_ratio_mobile }};
+    }
   }
   
   .b2c-carousel-track-{{ section.id }} {
@@ -16,11 +26,11 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
 
   .b2c-carousel-track-{{ section.id }}::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+    display: none;
   }
 
   .b2c-carousel-slide-{{ section.id }} {
@@ -43,6 +53,7 @@
     display: block;
   }
 
+  /* Pagination Dots */
   .b2c-carousel-dots-{{ section.id }} {
     position: absolute;
     bottom: 20px;
@@ -50,34 +61,109 @@
     right: 0;
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     z-index: 2;
+    pointer-events: none;
   }
 
   .b2c-carousel-dot-{{ section.id }} {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--dot-color);
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
+    border: none;
+    padding: 0;
+    pointer-events: auto;
   }
 
   .b2c-carousel-dot-{{ section.id }}.active {
+    background: var(--dot-active-color);
+    transform: scale(1.2);
+  }
+
+  .b2c-carousel-dot-{{ section.id }}:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+  }
+
+  /* Navigation Arrows */
+  .b2c-carousel-nav-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s, opacity 0.3s;
+    color: #333;
+  }
+
+  .b2c-carousel-nav-{{ section.id }}:hover {
     background: rgba(255, 255, 255, 1);
   }
-</style>
 
-<div class="b2c-carousel-container-{{ section.id }}" data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+  .b2c-carousel-nav-{{ section.id }}:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+  }
+
+  .b2c-carousel-nav-prev-{{ section.id }} { left: 15px; }
+  .b2c-carousel-nav-next-{{ section.id }} { right: 15px; }
+  
+  .b2c-carousel-nav-{{ section.id }} svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  @media screen and (max-width: 768px) {
+    .b2c-carousel-nav-{{ section.id }} {
+      display: none; /* Hide arrows on mobile by default to favor swiping */
+    }
+  }
+{%- endstyle -%}
+
+<section 
+  class="b2c-carousel-container-{{ section.id }}" 
+  data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+  role="region" 
+  aria-roledescription="carousel" 
+  aria-label="{{ section.settings.accessibility_info | escape | default: 'Image Carousel' }}"
+>
   <div class="b2c-carousel-track-{{ section.id }}" id="track-{{ section.id }}">
     {% for block in section.blocks %}
-      <div class="b2c-carousel-slide-{{ section.id }}" {{ block.shopify_attributes }}>
+      <div 
+        class="b2c-carousel-slide-{{ section.id }}" 
+        role="group" 
+        aria-roledescription="slide" 
+        aria-label="Slide {{ forloop.index }} of {{ section.blocks.size }}"
+        {{ block.shopify_attributes }}
+      >
         {% if block.settings.link != blank %}
-          <a href="{{ block.settings.link }}">
+          <a href="{{ block.settings.link }}" tabindex="0">
         {% endif %}
         
         {% if block.settings.image != blank %}
-          {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy' }}
+          {%- liquid
+            assign image_width = 1200
+            assign loading_attr = 'lazy'
+            assign fetch_priority = 'auto'
+            
+            if forloop.first
+              assign loading_attr = 'eager'
+              assign fetch_priority = 'high'
+            endif
+          -%}
+          {{ block.settings.image | image_url: width: image_width | image_tag: loading: loading_attr, fetchpriority: fetch_priority, alt: block.settings.image.alt | default: block.settings.title }}
         {% else %}
           {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {% endif %}
@@ -90,13 +176,30 @@
   </div>
   
   {% if section.blocks.size > 1 %}
-    <div class="b2c-carousel-dots-{{ section.id }}">
-      {% for block in section.blocks %}
-        <div class="b2c-carousel-dot-{{ section.id }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
-      {% endfor %}
-    </div>
+    {% if section.settings.show_arrows %}
+      <button class="b2c-carousel-nav-{{ section.id }} b2c-carousel-nav-prev-{{ section.id }}" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <button class="b2c-carousel-nav-{{ section.id }} b2c-carousel-nav-next-{{ section.id }}" aria-label="Next slide">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    {% endif %}
+
+    {% if section.settings.show_dots %}
+      <div class="b2c-carousel-dots-{{ section.id }}" role="tablist">
+        {% for block in section.blocks %}
+          <button 
+            class="b2c-carousel-dot-{{ section.id }} {% if forloop.first %}active{% endif %}" 
+            role="tab" 
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" 
+            aria-label="Go to slide {{ forloop.index }}"
+            data-index="{{ forloop.index0 }}">
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
   {% endif %}
-</div>
+</section>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -106,14 +209,26 @@
     const track = container.querySelector('.b2c-carousel-track-{{ section.id }}');
     const dots = container.querySelectorAll('.b2c-carousel-dot-{{ section.id }}');
     const slides = container.querySelectorAll('.b2c-carousel-slide-{{ section.id }}');
+    const prevBtn = container.querySelector('.b2c-carousel-nav-prev-{{ section.id }}');
+    const nextBtn = container.querySelector('.b2c-carousel-nav-next-{{ section.id }}');
     const speed = parseInt(container.getAttribute('data-autoplay-speed'), 10);
     
     let currentIndex = 0;
     let autoplayInterval;
+    let isHoveredOrFocused = false;
     
-    function updateDots(index) {
+    function updateA11yAndDots(index) {
       dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+        const isActive = i === index;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-selected', isActive);
+      });
+
+      slides.forEach((slide, i) => {
+        const isActive = i === index;
+        slide.setAttribute('aria-hidden', !isActive);
+        const links = slide.querySelectorAll('a');
+        links.forEach(link => link.setAttribute('tabindex', isActive ? '0' : '-1'));
       });
     }
 
@@ -122,45 +237,71 @@
       const scrollLeft = slides[index].offsetLeft;
       track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       currentIndex = index;
-      updateDots(currentIndex);
+      updateA11yAndDots(currentIndex);
     }
     
     function startAutoplay() {
-      if (speed <= 0 || slides.length <= 1) return;
+      if (speed <= 0 || slides.length <= 1 || isHoveredOrFocused) return;
       stopAutoplay();
       autoplayInterval = setInterval(() => {
-        let nextIndex = currentIndex + 1;
-        if (nextIndex >= slides.length) {
-          nextIndex = 0;
-        }
+        let nextIndex = currentIndex >= slides.length - 1 ? 0 : currentIndex + 1;
         scrollToSlide(nextIndex);
       }, speed);
     }
     
     function stopAutoplay() {
-      if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-      }
+      if (autoplayInterval) clearInterval(autoplayInterval);
+    }
+
+    // Arrow Controls
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        stopAutoplay();
+        let prevIndex = currentIndex <= 0 ? slides.length - 1 : currentIndex - 1;
+        scrollToSlide(prevIndex);
+        startAutoplay();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        stopAutoplay();
+        let nextIndex = currentIndex >= slides.length - 1 ? 0 : currentIndex + 1;
+        scrollToSlide(nextIndex);
+        startAutoplay();
+      });
     }
     
-    // Manual swipe tracking
+    // Highly optimized scroll listener using IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(slides).indexOf(entry.target);
+          if (index !== currentIndex) {
+            currentIndex = index;
+            updateA11yAndDots(currentIndex);
+          }
+        }
+      });
+    }, {
+      root: track,
+      threshold: 0.6 // Triggers when slide is 60% visible
+    });
+
+    slides.forEach(slide => observer.observe(slide));
+
+    // Pause Autoplay on Hover/Focus for Accessibility
+    container.addEventListener('mouseenter', () => { isHoveredOrFocused = true; stopAutoplay(); });
+    container.addEventListener('mouseleave', () => { isHoveredOrFocused = false; startAutoplay(); });
+    container.addEventListener('focusin', () => { isHoveredOrFocused = true; stopAutoplay(); });
+    container.addEventListener('focusout', () => { isHoveredOrFocused = false; startAutoplay(); });
+    
+    // Manual swipe tracking to reset interval
     track.addEventListener('scroll', () => {
       stopAutoplay();
-      
-      // Calculate current slide based on scroll position
-      const slideWidth = track.clientWidth;
-      const scrollPos = track.scrollLeft;
-      const newIndex = Math.round(scrollPos / slideWidth);
-      
-      if (newIndex !== currentIndex) {
-        currentIndex = newIndex;
-        updateDots(currentIndex);
-      }
-      
-      // Restart autoplay after manual scroll
       clearTimeout(track.scrollTimeout);
-      track.scrollTimeout = setTimeout(startAutoplay, 3000);
-    });
+      if (!isHoveredOrFocused) {
+        track.scrollTimeout = setTimeout(startAutoplay, 3000);
+      }
+    }, { passive: true });
     
     // Dot click handling
     dots.forEach((dot, index) => {
@@ -171,13 +312,15 @@
       });
     });
 
+    // Initialize Accessibility States
+    updateA11yAndDots(currentIndex);
     startAutoplay();
   });
 </script>
 
 {% schema %}
 {
-  "name": "B2C Mobile Hero Carousel",
+  "name": "B2C Hero Carousel (Pro)",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -185,14 +328,76 @@
   },
   "settings": [
     {
+      "type": "header",
+      "content": "Sizing & Ratios"
+    },
+    {
+      "type": "text",
+      "id": "aspect_ratio_desktop",
+      "label": "Desktop Aspect Ratio",
+      "default": "16 / 6",
+      "info": "Format: Width / Height (e.g. 16 / 9, 21 / 9)"
+    },
+    {
+      "type": "text",
+      "id": "aspect_ratio_mobile",
+      "label": "Mobile Aspect Ratio",
+      "default": "650 / 350",
+      "info": "Format: Width / Height (e.g. 650 / 350, 4 / 5)"
+    },
+    {
+      "type": "header",
+      "content": "Behavior & Navigation"
+    },
+    {
       "type": "range",
       "id": "autoplay_speed",
-      "min": 1,
+      "min": 0,
       "max": 10,
       "step": 1,
       "unit": "s",
       "label": "Autoplay speed",
-      "default": 3
+      "info": "Set to 0 to disable autoplay",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show pagination dots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot Color (Inactive)",
+      "default": "rgba(255, 255, 255, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Dot Color (Active)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Accessibility"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_info",
+      "label": "Carousel Description",
+      "default": "Promotional offers carousel",
+      "info": "Describe the purpose of this section for screen readers."
     }
   ],
   "blocks": [
@@ -203,30 +408,29 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image",
-          "info": "Recommended aspect ratio 500x800 (Mobile hero view)"
+          "label": "Image"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Link"
+          "label": "Slide Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Image Alt Text",
+          "info": "Leave empty to use the image's default alt text. Important for SEO and accessibility."
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "B2C Mobile Hero Carousel",
+      "name": "B2C Hero Carousel (Pro)",
       "blocks": [
-        {
-          "type": "image_slide"
-        },
-        {
-          "type": "image_slide"
-        },
-        {
-          "type": "image_slide"
-        }
+        { "type": "image_slide" },
+        { "type": "image_slide" },
+        { "type": "image_slide" }
       ]
     }
   ]
