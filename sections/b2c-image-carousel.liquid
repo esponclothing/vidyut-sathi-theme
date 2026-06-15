@@ -1,4 +1,8 @@
 {%- style -%}
+  /* Render Native Shopify Fonts */
+  {{ section.settings.section_title_font | font_face }}
+  {{ section.settings.card_title_font | font_face }}
+
   /* =============================================
      B2C Hero Carousel — Amazon-style Peek Layout
      Two cards visible: ~65% + ~30% peek, swipeable
@@ -20,6 +24,8 @@
   }
 
   .b2c-section-title-{{ section.id }} {
+    font-family: {{ section.settings.section_title_font.family }}, {{ section.settings.section_title_font.fallback_families }};
+    font-style: {{ section.settings.section_title_font.style }};
     font-size: {{ section.settings.section_title_size }}px;
     font-weight: {{ section.settings.section_title_weight }};
     color: {{ section.settings.section_title_color }};
@@ -112,6 +118,8 @@
   }
 
   .b2c-peek-slide-{{ section.id }} .b2c-card-title {
+    font-family: {{ section.settings.card_title_font.family }}, {{ section.settings.card_title_font.fallback_families }};
+    font-style: {{ section.settings.card_title_font.style }};
     font-size: {{ section.settings.title_font_size }}px;
     font-weight: 700;
     line-height: 1.15;
@@ -347,6 +355,12 @@
       "default": "Handpicked dynamic collections for you"
     },
     {
+      "type": "font_picker",
+      "id": "section_title_font",
+      "label": "Heading Font Family",
+      "default": "assistant_n4"
+    },
+    {
       "type": "select",
       "id": "header_alignment",
       "label": "Header Alignment",
@@ -504,6 +518,12 @@
     {
       "type": "header",
       "content": "Text & Overlay"
+    },
+    {
+      "type": "font_picker",
+      "id": "card_title_font",
+      "label": "Card Title Font Family",
+      "default": "assistant_n4"
     },
     {
       "type": "range",
