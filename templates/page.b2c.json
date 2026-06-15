@@ -468,7 +468,7 @@
       "settings": {
         "card_width_mobile": 65,
         "card_width_desktop": 30,
-        "card_aspect_ratio_mobile": "5/ 8",
+        "card_aspect_ratio_mobile": "5/ 9",
         "card_aspect_ratio_desktop": "4 / 5",
         "card_border_radius": 14,
         "card_gap": 10,
