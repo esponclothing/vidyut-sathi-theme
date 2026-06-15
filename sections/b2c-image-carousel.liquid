@@ -9,7 +9,7 @@
     overflow: hidden;
     aspect-ratio: var(--carousel-ratio);
     max-height: 100vh;
-    background-color: #f4f4f4; /* Skeleton loading color */
+    background-color: #f4f4f4; /* Skeleton loading background */
   }
 
   @media screen and (max-width: 768px) {
@@ -127,7 +127,7 @@
 
   @media screen and (max-width: 768px) {
     .b2c-carousel-nav-{{ section.id }} {
-      display: none; /* Mobile favors swiping over arrows */
+      display: none; /* Mobile UI prioritizes touch-swiping over arrows */
     }
   }
 {%- endstyle -%}
@@ -288,7 +288,7 @@
 
     slides.forEach(slide => observer.observe(slide));
 
-    // Focus/Hover handling for standard compliant screen reader access
+    // Pause Autoplay on Hover/Focus (A11y Compliance)
     container.addEventListener('mouseenter', () => { isHoveredOrFocused = true; stopAutoplay(); });
     container.addEventListener('mouseleave', () => { isHoveredOrFocused = false; startAutoplay(); });
     container.addEventListener('focusin', () => { isHoveredOrFocused = true; stopAutoplay(); });
@@ -339,8 +339,8 @@
       "type": "text",
       "id": "aspect_ratio_mobile",
       "label": "Mobile Aspect Ratio",
-      "default": "350 / 650",
-      "info": "Format: Width / Height (e.g. 350 / 650, 4 / 5)"
+      "default": "230 / 480",
+      "info": "Format: Width / Height (e.g. 230 / 480, 9 / 16)"
     },
     {
       "type": "header",
@@ -406,7 +406,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Recommended portrait format for mobile setup."
+          "info": "Recommended tall portrait format for ultra-narrow mobile viewports."
         },
         {
           "type": "url",
@@ -417,7 +417,7 @@
           "type": "text",
           "id": "title",
           "label": "Image Alt Text",
-          "info": "Leave empty to use image's default alt text. Crucial for SEO."
+          "info": "Leave empty to use image's default alt text. Crucial for SEO optimization."
         }
       ]
     }
