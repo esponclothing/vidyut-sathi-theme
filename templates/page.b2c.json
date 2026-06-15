@@ -492,8 +492,9 @@
       "settings": {
         "section_title": "Benifits Of Vidhyut Saathi Card",
         "section_subtitle": "Handpicked dynamic collections for you",
+        "section_title_font": "inherit",
         "header_alignment": "left",
-        "section_title_color": "#111111",
+        "section_title_color": "#F7941D",
         "section_title_size": 21,
         "section_title_weight": "700",
         "section_title_transform": "none",
@@ -508,6 +509,7 @@
         "card_gap": 10,
         "edge_padding": 12,
         "section_padding_vertical": 8,
+        "card_title_font": "inherit",
         "card_text_padding": 14,
         "overlay_top_opacity": 45,
         "overlay_bottom_opacity": 20,
