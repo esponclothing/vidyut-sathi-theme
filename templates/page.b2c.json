@@ -426,6 +426,28 @@
     "b2c_image_carousel": {
       "type": "b2c-image-carousel",
       "blocks": {
+        "banner_card_nJDJXm": {
+          "type": "banner_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-05-16_at_13.44.13_1.jpg",
+            "title": "Karigar Mela",
+            "subtitle": "Discover India's Handcrafted Treasures",
+            "badge": "",
+            "bottom_label": "*T&C apply",
+            "link": ""
+          }
+        },
+        "banner_card_bbQ8A8": {
+          "type": "banner_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg",
+            "title": "Karigar Mela",
+            "subtitle": "Discover India's Handcrafted Treasures",
+            "badge": "",
+            "bottom_label": "*T&C apply",
+            "link": ""
+          }
+        },
         "banner_card_n3Dtkp": {
           "type": "banner_card",
           "settings": {
@@ -461,12 +483,14 @@
         }
       },
       "block_order": [
+        "banner_card_nJDJXm",
+        "banner_card_bbQ8A8",
         "banner_card_n3Dtkp",
         "banner_card_BiWiPp",
         "banner_card_xyLHwy"
       ],
       "settings": {
-        "card_width_mobile": 73,
+        "card_width_mobile": 75,
         "card_width_desktop": 30,
         "card_aspect_ratio_mobile": "5/ 9",
         "card_aspect_ratio_desktop": "4 / 5",
