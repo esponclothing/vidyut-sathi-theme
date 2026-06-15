@@ -445,9 +445,9 @@
     .vs-crisis__stat-icon svg { width: 20px; height: 20px; }
     
     .vs-crisis__need-left {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
     }
     .vs-crisis__need-icon { width: 40px; height: 40px; }
     .vs-crisis__need-icon svg { width: 20px; height: 20px; }
@@ -529,10 +529,12 @@
           <path d="M9 18H15M12 22V18M12 14C14.7614 14 17 11.7614 17 9C17 6.23858 14.7614 4 12 4C9.23858 4 7 6.23858 7 9C7 11.7614 9.23858 14 12 14Z" stroke="#F7941D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="vs-crisis__need-label">{{ section.settings.need_label | default: 'The Need is Clear.' }}</div>
+      <div class="vs-crisis__need-label" {% if section.settings.need_label_size != blank %}style="font-size: {{ section.settings.need_label_size }}px;"{% endif %}>{{ section.settings.need_label }}</div>
     </div>
+    {% if section.settings.need_text != blank %}
     <div class="vs-crisis__need-sep"></div>
-    <div class="vs-crisis__need-body">{{ section.settings.need_text | default: 'India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household.' }}</div>
+    <div class="vs-crisis__need-body" {% if section.settings.need_text_size != blank %}style="font-size: {{ section.settings.need_text_size }}px;"{% endif %}>{{ section.settings.need_text }}</div>
+    {% endif %}
   </div>
 
   <!-- ── SECTION BREAK ── -->
@@ -622,10 +624,30 @@
       "default": "The Need is Clear."
     },
     {
+      "type": "range",
+      "id": "need_label_size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 22
+    },
+    {
       "type": "textarea",
       "id": "need_text",
       "label": "Need Description",
       "default": "India needs a smart, affordable and effective solution to save electricity and reduce bills significantly across every household."
+    },
+    {
+      "type": "range",
+      "id": "need_text_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 15
     },
     {
       "type": "header",
