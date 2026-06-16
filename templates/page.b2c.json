@@ -362,7 +362,7 @@
         "title": "INDIA'S NO 1 <br><span>ELECTRIC SAVER</span> CARD",
         "subtitle": "लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly.",
         "btn1_text": "BUY NOW",
-        "btn1_link": "",
+        "btn1_link": "shopify://collections/vidhyut-saathi-electric-saver-card-3-cards-combos",
         "btn2_text": "GET FRANCHISE",
         "btn2_link": "",
         "card_image": "shopify://shop_images/VS_Card_Final_Design_Golden_1.png",
@@ -522,7 +522,7 @@
         "badge_font_size": 11,
         "badge_background": "#ff9900",
         "badge_color": "#111111",
-        "section_background": "#FFF6E7",
+        "section_background": "#fff6e7",
         "autoplay_speed": 1,
         "accessibility_info": "Promotional banners carousel"
       }
