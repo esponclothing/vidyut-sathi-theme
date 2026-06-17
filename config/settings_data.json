@@ -125,9 +125,9 @@
         "settings": {
           "enable_marquee": true,
           "marquee_font": "work_sans_n7",
-          "marquee_bg": "#EC5C0A",
-          "marquee_text_color": "#1F1B1B",
-          "marquee_icon_color": "#47962C",
+          "marquee_bg": "#ec5c0a",
+          "marquee_text_color": "#1f1b1b",
+          "marquee_icon_color": "#47962c",
           "marquee_border_color": "#00000014",
           "marquee_font_desktop": 14,
           "marquee_font_mobile": 11,
@@ -149,6 +149,7 @@
           "top_bar_bg": "#f8f8f8",
           "top_bar_text_color": "#1a1a1a",
           "top_bar_font_size": 13,
+          "logo": "shopify://shop_images/Untitled_design_5.png",
           "logo_width": 160,
           "logo_width_mobile": 100,
           "menu": "",
@@ -163,6 +164,13 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "0517247467025151680": {
+        "type": "shopify://apps/air-reviews-1/blocks/app-embed/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
