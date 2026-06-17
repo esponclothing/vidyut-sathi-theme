@@ -15,7 +15,7 @@
     --primary-btn-text: {{ section.settings.primary_button_text }};
     --border-color: {{ section.settings.border_color }};
     
-    /* New Offer Section Colors */
+    /* Swipeable Offer Section Colors */
     --offer-section-bg: {{ section.settings.offer_section_bg }};
     --offer-icon-bg: {{ section.settings.offer_icon_bg }};
     --offer-link-color: {{ section.settings.offer_link_color }};
@@ -65,7 +65,7 @@
   }
   .by-wishlist-btn { background: none; border: none; cursor: pointer; padding: 4px; }
   
-  /* --- MAIN PRICING (DYNAMIC) --- */
+  /* --- MAIN PRICING --- */
   .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transition: opacity 0.2s ease; }
   .by-current-price { font-size: 1.6rem; font-weight: 800; color: var(--text-color); }
   .by-compare-price { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
@@ -74,7 +74,7 @@
     font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
   }
 
-  /* --- NEW OFFERS SECTION --- */
+  /* --- OFFERS SECTION --- */
   .by-offers-section {
     background: var(--offer-section-bg);
     border-radius: 8px;
@@ -82,10 +82,7 @@
     margin-bottom: 28px;
   }
   .by-offers-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
   }
   .by-offers-title {
     display: flex; align-items: center; gap: 10px;
@@ -104,7 +101,7 @@
   .by-offers-scroll {
     display: flex; overflow-x: auto; gap: 16px;
     scrollbar-width: none; scroll-snap-type: x mandatory;
-    padding-bottom: 12px; /* Space for overlapping badge */
+    padding-bottom: 12px;
   }
   .by-offers-scroll::-webkit-scrollbar { display: none; }
   .by-offer-card {
@@ -131,44 +128,28 @@
   }
 
   /* --- COMBO PACK SELECTION --- */
-  .by-section-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px; margin-top: 24px;
-  }
+  .by-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 24px; }
   .by-section-title { font-weight: 800; font-size: 1.15rem; }
   
   .by-install-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 0.8rem; font-weight: 600; color: var(--text-color);
-    background: #fff; padding: 6px 14px; border-radius: 20px;
-    border: 1px solid var(--border-color); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-color);
+    background: #fff; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color); text-decoration: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease;
   }
   .by-install-btn:hover { border-color: var(--text-color); }
   
   .by-combo-grid { display: flex; flex-direction: column; gap: 14px; }
   .by-combo-card {
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    border: 1.5px solid var(--border-color); padding: 18px 16px; 
-    border-radius: 10px; cursor: pointer; position: relative;
-    background: #fff; transition: all 0.3s ease;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1.5px solid var(--border-color); 
+    padding: 18px 16px; border-radius: 10px; cursor: pointer; position: relative; background: #fff; transition: all 0.3s ease;
   }
   .by-combo-card:hover { border-color: #ccc; }
-  .by-combo-card.active {
-    border-color: var(--primary-btn); background: #FFFAEB;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
+  .by-combo-card.active { border-color: var(--primary-btn); background: #FFFAEB; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
   
   .by-combo-left { display: flex; align-items: center; gap: 12px; }
-  .by-combo-radio {
-    width: 24px; height: 24px; border-radius: 50%;
-    border: 2px solid #ccc; position: relative; flex-shrink: 0;
-  }
+  .by-combo-radio { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; position: relative; flex-shrink: 0; }
   .by-combo-card.active .by-combo-radio { border-color: var(--primary-btn); }
-  .by-combo-card.active .by-combo-radio::after {
-    content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
-    background: var(--primary-btn); border-radius: 50%;
-  }
+  .by-combo-card.active .by-combo-radio::after { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; background: var(--primary-btn); border-radius: 50%; }
   
   .by-combo-info { display: flex; flex-direction: column; gap: 3px; }
   .by-combo-title { font-weight: 800; font-size: 1.05rem; color: var(--text-color); }
@@ -179,10 +160,8 @@
   .by-combo-compare { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-bottom: 2px; }
   
   .by-combo-badge {
-    position: absolute; left: 16px; top: -10px; 
-    background: var(--primary-btn); color: var(--primary-btn-text);
-    font-size: 0.75rem; font-weight: 800; padding: 4px 12px;
-    border-radius: 20px; text-transform: uppercase;
+    position: absolute; left: 16px; top: -10px; background: var(--primary-btn); color: var(--primary-btn-text);
+    font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
@@ -203,18 +182,14 @@
 
   /* --- STICKY BOTTOM ACTIONS --- */
   .by-sticky-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--bg-color); padding: 16px;
+    position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-color); padding: 16px;
     box-shadow: 0 -10px 30px rgba(0,0,0,0.08); display: flex; z-index: 999;
     max-width: 768px; margin: 0 auto; border-top: 1px solid var(--border-color);
   }
   .by-btn-add {
-    width: 100%; padding: 18px; border: none; border-radius: 8px;
-    font-weight: 800; font-size: 1.15rem; cursor: pointer;
-    text-transform: uppercase; letter-spacing: 1px;
-    background: var(--primary-btn); color: var(--primary-btn-text);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease;
-    display: flex; justify-content: center; align-items: center; gap: 8px;
+    width: 100%; padding: 18px; border: none; border-radius: 8px; font-weight: 800; font-size: 1.15rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 1px; background: var(--primary-btn); color: var(--primary-btn-text);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px;
   }
   .by-btn-add:active { transform: scale(0.98); }
   .by-btn-add.loading { opacity: 0.8; pointer-events: none; }
@@ -251,11 +226,9 @@
         <span class="by-current-price" id="TopPrice-{{ section.id }}">
           {{ current_variant.price | default: 199900 | money }}
         </span>
-        
         <span class="by-compare-price" id="TopComparePrice-{{ section.id }}" {% unless current_variant.compare_at_price > current_variant.price %}style="display:none;"{% endunless %}>
           {{ current_variant.compare_at_price | money }}
         </span>
-        
         {%- assign top_save_percent = 0 -%}
         {%- if current_variant.compare_at_price > current_variant.price -%}
           {%- assign top_save_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
@@ -265,13 +238,8 @@
         </span>
       </div>
 
-      <!-- OFFERS & DISCOUNTS SECTION -->
-      {%- assign has_offers = false -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'offer' -%}{%- assign has_offers = true -%}{%- break -%}{%- endif -%}
-      {%- endfor -%}
-
-      {%- if has_offers -%}
+      <!-- SWIPEABLE OFFERS & DISCOUNTS SECTION -->
+      {%- if section.settings.enable_offers_section -%}
         <div class="by-offers-section">
           <div class="by-offers-header">
             <div class="by-offers-title">
@@ -286,8 +254,10 @@
           </div>
           
           <div class="by-offers-scroll">
+            {%- assign has_offers = false -%}
             {%- for block in section.blocks -%}
               {%- if block.type == 'offer' -%}
+                {%- assign has_offers = true -%}
                 <div class="by-offer-card" {{ block.shopify_attributes }}>
                   <strong>{{ block.settings.title }}</strong>
                   <p>{{ block.settings.subtitle }}</p>
@@ -303,6 +273,19 @@
                 </div>
               {%- endif -%}
             {%- endfor -%}
+
+            <!-- Fallback exactly like the image if you haven't added Blocks yet -->
+            {%- if has_offers == false -%}
+              <div class="by-offer-card">
+                <strong>Freeship</strong>
+                <p>Get Free Shipping on all orders</p>
+                <button type="button" class="by-offer-copy" data-code="FREESHIP">
+                  <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <span>CLICK TO COPY</span>
+                </button>
+                <div class="by-offer-badge">Ends in 07h 06m 01s</div>
+              </div>
+            {%- endif -%}
           </div>
         </div>
       {%- endif -%}
@@ -319,12 +302,10 @@
       
       <!-- DYNAMIC VARIANTS LOOP -->
       <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
-        <!-- Hidden Input for Cart -->
         <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
         <input type="hidden" name="quantity" value="1">
         
         {%- for variant in product.variants -%}
-          
           {%- assign save_percent = 0 -%}
           {%- if variant.compare_at_price > variant.price -%}
             {%- assign save_percent = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
@@ -340,24 +321,12 @@
           {%- endfor -%}
 
           <label class="by-combo-card {% if variant.id == current_variant.id %}active{% endif %}">
-            
-            <input 
-              type="radio" 
-              name="combo_selector_radio" 
-              value="{{ variant.id }}" 
-              {% if variant.id == current_variant.id %}checked{% endif %} 
-              data-price="{{ variant.price | money | escape }}"
-              data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
-              data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}"
-              style="display:none;"
-            >
-            
+            <input type="radio" name="combo_selector_radio" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %} data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}" style="display:none;">
             {%- if custom_badge != blank -%}
               <span class="by-combo-badge">{{ custom_badge }}</span>
             {%- elsif save_percent > 0 -%}
               <span class="by-combo-badge">Save {{ save_percent }}%</span>
             {%- endif -%}
-
             <div class="by-combo-left">
               <div class="by-combo-radio"></div>
               <div class="by-combo-info">
@@ -367,7 +336,6 @@
                 {%- endif -%}
               </div>
             </div>
-            
             <div class="by-combo-right">
               {%- if variant.compare_at_price > variant.price -%}
                 <span class="by-combo-compare">{{ variant.compare_at_price | money }}</span>
@@ -420,13 +388,12 @@
       </div>
 
     {%- endform -%}
-
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 1. Combo Selection Logic
+    // Combo Selection Logic
     const grid = document.getElementById('ComboGrid-{{ section.id }}');
     const mainVariantInput = document.getElementById('SelectedVariantID-{{ section.id }}');
     const topPrice = document.getElementById('TopPrice-{{ section.id }}');
@@ -444,9 +411,7 @@
           const radio = this.querySelector('input[type="radio"]');
           if(radio) {
             radio.checked = true;
-            if(mainVariantInput) {
-              mainVariantInput.value = radio.value;
-            }
+            if(mainVariantInput) mainVariantInput.value = radio.value;
             
             priceWrapper.style.opacity = '0';
             setTimeout(() => {
@@ -476,7 +441,7 @@
       });
     }
 
-    // 2. Copy Coupon Logic
+    // Copy Coupon Logic
     const copyBtns = document.querySelectorAll('.by-offer-copy');
     copyBtns.forEach(btn => {
       btn.addEventListener('click', function() {
@@ -489,7 +454,6 @@
             setTimeout(() => { span.innerText = 'CLICK TO COPY'; }, 2000);
           });
         } else {
-          // Fallback
           const textArea = document.createElement("textarea");
           textArea.value = code;
           document.body.appendChild(textArea);
@@ -502,7 +466,7 @@
       });
     });
 
-    // 3. Button Loading State
+    // Button Loading State
     const form = document.getElementById('{{ product_form_id }}');
     const btn = document.getElementById('SubmitBtn-{{ section.id }}');
     if(form && btn) {
@@ -558,7 +522,13 @@
     },
     {
       "type": "header",
-      "content": "Offers Section Configuration"
+      "content": "Swipeable Offers Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_offers_section",
+      "label": "Enable Offers Section",
+      "default": true
     },
     {
       "type": "color",
