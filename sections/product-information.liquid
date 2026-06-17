@@ -59,7 +59,7 @@
   }
   .by-wishlist-btn { background: none; border: none; cursor: pointer; padding: 4px; }
   
-  /* --- PRICING --- */
+  /* --- MAIN PRICING --- */
   .by-price-wrapper {
     display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
   }
@@ -109,16 +109,19 @@
 
   .by-combo-grid { display: flex; flex-direction: column; gap: 14px; }
   .by-combo-card {
-    display: flex; align-items: center; gap: 16px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
     border: 1.5px solid var(--border-color); padding: 18px 16px; 
     border-radius: 10px; cursor: pointer; position: relative;
     background: #fff; transition: all 0.3s ease;
   }
   .by-combo-card:hover { border-color: #ccc; }
   .by-combo-card.active {
-    border-color: var(--primary-btn); background: #FFFAEB; /* Light warm tint */
+    border-color: var(--primary-btn); background: #FFFAEB;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   }
+  
+  .by-combo-left { display: flex; align-items: center; gap: 12px; }
+  
   .by-combo-radio {
     width: 24px; height: 24px; border-radius: 50%;
     border: 2px solid #ccc; position: relative; flex-shrink: 0;
@@ -128,12 +131,17 @@
     content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
     background: var(--primary-btn); border-radius: 50%;
   }
+  
   .by-combo-info { display: flex; flex-direction: column; gap: 3px; }
   .by-combo-title { font-weight: 800; font-size: 1.05rem; color: var(--text-color); }
   .by-combo-desc { font-size: 0.85rem; color: var(--text-light); }
+
+  .by-combo-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+  .by-combo-price { font-weight: 800; font-size: 1.15rem; color: var(--text-color); }
+  .by-combo-compare { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-bottom: 2px; }
   
   .by-combo-badge {
-    position: absolute; right: 16px; top: -10px;
+    position: absolute; left: 16px; top: -10px; /* Moved to left for better balance with right-aligned prices */
     background: var(--primary-btn); color: var(--primary-btn-text);
     font-size: 0.75rem; font-weight: 800; padding: 4px 12px;
     border-radius: 20px; text-transform: uppercase;
@@ -241,7 +249,6 @@
           Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
         </span>
       {%- elsif product == blank -%}
-        <!-- Fallback for Theme Editor preview without a product -->
         <span class="by-compare-price">{{ 299900 | money }}</span>
         <span class="by-save-badge">Save 33%</span>
       {%- endif -%}
@@ -273,47 +280,77 @@
     
     <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
       
-      <!-- Option 1 -->
+      <!-- Option 1: Single Pack -->
       {%- if section.settings.pack_1_enable -%}
       <label class="by-combo-card active">
         <input type="radio" name="combo_selection" value="pack1" checked style="display:none;">
         {%- if section.settings.pack_1_badge != blank -%}
           <span class="by-combo-badge">{{ section.settings.pack_1_badge }}</span>
         {%- endif -%}
-        <div class="by-combo-radio"></div>
-        <div class="by-combo-info">
-          <span class="by-combo-title">{{ section.settings.pack_1_title }}</span>
-          <span class="by-combo-desc">{{ section.settings.pack_1_subtitle }}</span>
+        <div class="by-combo-left">
+          <div class="by-combo-radio"></div>
+          <div class="by-combo-info">
+            <span class="by-combo-title">{{ section.settings.pack_1_title }}</span>
+            <span class="by-combo-desc">{{ section.settings.pack_1_subtitle }}</span>
+          </div>
+        </div>
+        <div class="by-combo-right">
+          {%- if section.settings.pack_1_compare_price != blank -%}
+            <span class="by-combo-compare">{{ section.settings.pack_1_compare_price }}</span>
+          {%- endif -%}
+          {%- if section.settings.pack_1_price != blank -%}
+            <span class="by-combo-price">{{ section.settings.pack_1_price }}</span>
+          {%- endif -%}
         </div>
       </label>
       {%- endif -%}
 
-      <!-- Option 2 -->
+      <!-- Option 2: Trio Pack -->
       {%- if section.settings.pack_2_enable -%}
       <label class="by-combo-card">
         <input type="radio" name="combo_selection" value="pack2" style="display:none;">
         {%- if section.settings.pack_2_badge != blank -%}
           <span class="by-combo-badge">{{ section.settings.pack_2_badge }}</span>
         {%- endif -%}
-        <div class="by-combo-radio"></div>
-        <div class="by-combo-info">
-          <span class="by-combo-title">{{ section.settings.pack_2_title }}</span>
-          <span class="by-combo-desc">{{ section.settings.pack_2_subtitle }}</span>
+        <div class="by-combo-left">
+          <div class="by-combo-radio"></div>
+          <div class="by-combo-info">
+            <span class="by-combo-title">{{ section.settings.pack_2_title }}</span>
+            <span class="by-combo-desc">{{ section.settings.pack_2_subtitle }}</span>
+          </div>
+        </div>
+        <div class="by-combo-right">
+          {%- if section.settings.pack_2_compare_price != blank -%}
+            <span class="by-combo-compare">{{ section.settings.pack_2_compare_price }}</span>
+          {%- endif -%}
+          {%- if section.settings.pack_2_price != blank -%}
+            <span class="by-combo-price">{{ section.settings.pack_2_price }}</span>
+          {%- endif -%}
         </div>
       </label>
       {%- endif -%}
 
-      <!-- Option 3 -->
+      <!-- Option 3: Pack of 5 -->
       {%- if section.settings.pack_3_enable -%}
       <label class="by-combo-card">
         <input type="radio" name="combo_selection" value="pack3" style="display:none;">
         {%- if section.settings.pack_3_badge != blank -%}
           <span class="by-combo-badge">{{ section.settings.pack_3_badge }}</span>
         {%- endif -%}
-        <div class="by-combo-radio"></div>
-        <div class="by-combo-info">
-          <span class="by-combo-title">{{ section.settings.pack_3_title }}</span>
-          <span class="by-combo-desc">{{ section.settings.pack_3_subtitle }}</span>
+        <div class="by-combo-left">
+          <div class="by-combo-radio"></div>
+          <div class="by-combo-info">
+            <span class="by-combo-title">{{ section.settings.pack_3_title }}</span>
+            <span class="by-combo-desc">{{ section.settings.pack_3_subtitle }}</span>
+          </div>
+        </div>
+        <div class="by-combo-right">
+          {%- if section.settings.pack_3_compare_price != blank -%}
+            <span class="by-combo-compare">{{ section.settings.pack_3_compare_price }}</span>
+          {%- endif -%}
+          {%- if section.settings.pack_3_price != blank -%}
+            <span class="by-combo-price">{{ section.settings.pack_3_price }}</span>
+          {%- endif -%}
         </div>
       </label>
       {%- endif -%}
@@ -494,7 +531,7 @@
     },
     {
       "type": "header",
-      "content": "Combo Pack 1 (Default)"
+      "content": "Combo Pack 1 (Single)"
     },
     {
       "type": "checkbox",
@@ -516,13 +553,25 @@
     },
     {
       "type": "text",
+      "id": "pack_1_price",
+      "label": "Current Price",
+      "default": "₹999"
+    },
+    {
+      "type": "text",
+      "id": "pack_1_compare_price",
+      "label": "Compare Price (Strikethrough)",
+      "default": "₹1499"
+    },
+    {
+      "type": "text",
       "id": "pack_1_badge",
       "label": "Highlight Badge (Optional)",
       "info": "Leave blank to hide badge."
     },
     {
       "type": "header",
-      "content": "Combo Pack 2"
+      "content": "Combo Pack 2 (Trio)"
     },
     {
       "type": "checkbox",
@@ -544,13 +593,25 @@
     },
     {
       "type": "text",
+      "id": "pack_2_price",
+      "label": "Current Price",
+      "default": "₹2499"
+    },
+    {
+      "type": "text",
+      "id": "pack_2_compare_price",
+      "label": "Compare Price (Strikethrough)",
+      "default": "₹4497"
+    },
+    {
+      "type": "text",
       "id": "pack_2_badge",
       "label": "Highlight Badge (Optional)",
-      "default": "Save 15%"
+      "default": "Save 44%"
     },
     {
       "type": "header",
-      "content": "Combo Pack 3"
+      "content": "Combo Pack 3 (Pack of 5)"
     },
     {
       "type": "checkbox",
@@ -572,9 +633,21 @@
     },
     {
       "type": "text",
+      "id": "pack_3_price",
+      "label": "Current Price",
+      "default": "₹3999"
+    },
+    {
+      "type": "text",
+      "id": "pack_3_compare_price",
+      "label": "Compare Price (Strikethrough)",
+      "default": "₹7495"
+    },
+    {
+      "type": "text",
       "id": "pack_3_badge",
       "label": "Highlight Badge (Optional)",
-      "default": "Save 25%"
+      "default": "Save 46%"
     },
     {
       "type": "header",
