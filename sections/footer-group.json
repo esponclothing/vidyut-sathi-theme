@@ -17,13 +17,13 @@
       "settings": {
         "phone_number": "919053525151",
         "prefilled_text": "Hello! I have a question about my order.",
-        "bg_color": "#E57E13",
-        "icon_color": "#FFFFFF",
+        "bg_color": "#47962C",
+        "icon_color": "#ffffff",
         "horizontal_placement": "right",
         "offset_x": 30,
         "offset_y": 30,
         "offset_x_mobile": 16,
-        "offset_y_mobile": 16
+        "offset_y_mobile": 92
       }
     },
     "vidyut_footer_z7CTmr": {
