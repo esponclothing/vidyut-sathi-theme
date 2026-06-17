@@ -60,8 +60,8 @@
   }
   .by-wishlist-btn { background: none; border: none; cursor: pointer; padding: 4px; }
   
-  /* --- MAIN PRICING --- */
-  .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  /* --- MAIN PRICING (DYNAMIC) --- */
+  .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transition: opacity 0.2s ease; }
   .by-current-price { font-size: 1.6rem; font-weight: 800; color: var(--text-color); }
   .by-compare-price { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
   .by-save-badge {
@@ -98,6 +98,7 @@
     border: 1px solid var(--border-color); text-decoration: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease;
   }
+  .by-install-btn:hover { border-color: var(--text-color); }
   
   .by-combo-grid { display: flex; flex-direction: column; gap: 14px; }
   .by-combo-card {
@@ -106,6 +107,7 @@
     border-radius: 10px; cursor: pointer; position: relative;
     background: #fff; transition: all 0.3s ease;
   }
+  .by-combo-card:hover { border-color: #ccc; }
   .by-combo-card.active {
     border-color: var(--primary-btn); background: #FFFAEB;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -187,33 +189,34 @@
         <div style="width: 100%; height: 100%; background: #e0e0e0; display:flex; align-items:center; justify-content:center; color: #666;">Product Image</div>
       {%- endif -%}
     </div>
-    <div class="by-thumbnails">
-      {%- for media in product.media -%}
-        <div class="by-thumb {% if forloop.first %}active{% endif %}">
-          <img src="{{ media | img_url: '150x' }}" alt="{{ media.alt | escape }}">
-        </div>
-      {%- endfor -%}
-    </div>
   </div>
 
   <div class="by-content-wrapper">
     
+    <!-- SHOPIFY NATIVE FORM -->
     {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
       
-      <!-- Hidden Input for Cart: This is updated by JavaScript when a combo is clicked -->
-      <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
-      <input type="hidden" name="quantity" value="1"> <!-- Quantity is 1 because the variant ITSELF is the multi-pack -->
-
       <div class="by-title-row">
-        <h1>{{ product.title | default: 'Premium Product Name' }}</h1>
+        <h1>{{ product.title | default: 'Premium Modular Pack' }}</h1>
       </div>
 
-      <div class="by-price-wrapper">
-        <span class="by-current-price">{{ product.price | default: 199900 | money }}</span>
-        {%- if product.compare_at_price > product.price -%}
-          <span class="by-compare-price">{{ product.compare_at_price | money }}</span>
-          <span class="by-save-badge">Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</span>
+      <!-- Top Master Pricing Display (Updates dynamically via JS) -->
+      <div class="by-price-wrapper" id="MainPriceWrapper-{{ section.id }}">
+        <span class="by-current-price" id="TopPrice-{{ section.id }}">
+          {{ current_variant.price | default: 199900 | money }}
+        </span>
+        
+        <span class="by-compare-price" id="TopComparePrice-{{ section.id }}" {% unless current_variant.compare_at_price > current_variant.price %}style="display:none;"{% endunless %}>
+          {{ current_variant.compare_at_price | money }}
+        </span>
+        
+        {%- assign top_save_percent = 0 -%}
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          {%- assign top_save_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
         {%- endif -%}
+        <span class="by-save-badge" id="TopSaveBadge-{{ section.id }}" {% if top_save_percent == 0 %}style="display:none;"{% endif %}>
+          Save {{ top_save_percent }}%
+        </span>
       </div>
 
       {%- if section.settings.coupon_enable -%}
@@ -236,94 +239,91 @@
         {%- endif -%}
       </div>
       
+      <!-- DYNAMIC VARIANTS LOOP -->
       <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
+        {%- for variant in product.variants -%}
+          
+          <!-- Calculate Variant Savings -->
+          {%- assign save_percent = 0 -%}
+          {%- if variant.compare_at_price > variant.price -%}
+            {%- assign save_percent = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+          {%- endif -%}
+
+          <!-- Look for matching schema blocks to apply custom subtitles/badges -->
+          {%- assign custom_subtitle = '' -%}
+          {%- assign custom_badge = '' -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'variant_meta' and block.settings.variant_title == variant.title -%}
+              {%- assign custom_subtitle = block.settings.subtitle -%}
+              {%- assign custom_badge = block.settings.custom_badge -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <label class="by-combo-card {% if variant.id == current_variant.id %}active{% endif %}">
+            
+            <!-- This is the actual native Shopify input that passes the variant to the cart -->
+            <input 
+              type="radio" 
+              name="id" 
+              value="{{ variant.id }}" 
+              {% if variant.id == current_variant.id %}checked{% endif %} 
+              data-price="{{ variant.price | money | escape }}"
+              data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+              data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}"
+              style="display:none;"
+            >
+            
+            <!-- Highlight Badge Logic -->
+            {%- if custom_badge != blank -%}
+              <span class="by-combo-badge">{{ custom_badge }}</span>
+            {%- elsif save_percent > 0 -%}
+              <span class="by-combo-badge">Save {{ save_percent }}%</span>
+            {%- endif -%}
+
+            <div class="by-combo-left">
+              <div class="by-combo-radio"></div>
+              <div class="by-combo-info">
+                <span class="by-combo-title">{{ variant.title }}</span>
+                {%- if custom_subtitle != blank -%}
+                  <span class="by-combo-desc">{{ custom_subtitle }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            
+            <div class="by-combo-right">
+              {%- if variant.compare_at_price > variant.price -%}
+                <span class="by-combo-compare">{{ variant.compare_at_price | money }}</span>
+              {%- endif -%}
+              <span class="by-combo-price">{{ variant.price | money }}</span>
+            </div>
+          </label>
+        {%- endfor -%}
         
-        <!-- Option 1: Single Pack -->
-        {%- if section.settings.pack_1_enable -%}
-        {%- assign p1_variant = product.variants | where: 'title', section.settings.pack_1_variant | first -%}
-        {%- assign p1_id = p1_variant.id | default: current_variant.id -%}
-        
-        <label class="by-combo-card active">
-          <input type="radio" name="combo_selection" data-variant-id="{{ p1_id }}" checked style="display:none;">
-          {%- if section.settings.pack_1_badge != blank -%}
-            <span class="by-combo-badge">{{ section.settings.pack_1_badge }}</span>
-          {%- endif -%}
-          <div class="by-combo-left">
-            <div class="by-combo-radio"></div>
-            <div class="by-combo-info">
-              <span class="by-combo-title">{{ section.settings.pack_1_title }}</span>
-              <span class="by-combo-desc">{{ section.settings.pack_1_subtitle }}</span>
+        <!-- Fallback if no variants exist (e.g. in Theme Editor preview) -->
+        {%- if product.variants.size == 0 -%}
+          <label class="by-combo-card active">
+            <input type="radio" name="id" checked style="display:none;">
+            <div class="by-combo-left">
+              <div class="by-combo-radio"></div>
+              <div class="by-combo-info"><span class="by-combo-title">Default Product</span></div>
             </div>
-          </div>
-          <div class="by-combo-right">
-            {%- if section.settings.pack_1_compare_price != blank -%}
-              <span class="by-combo-compare">{{ section.settings.pack_1_compare_price }}</span>
-            {%- endif -%}
-            {%- if section.settings.pack_1_price != blank -%}
-              <span class="by-combo-price">{{ section.settings.pack_1_price }}</span>
-            {%- endif -%}
-          </div>
-        </label>
+            <div class="by-combo-right"><span class="by-combo-price">₹1999</span></div>
+          </label>
         {%- endif -%}
-
-        <!-- Option 2: Trio Pack -->
-        {%- if section.settings.pack_2_enable -%}
-        {%- assign p2_variant = product.variants | where: 'title', section.settings.pack_2_variant | first -%}
-        {%- assign p2_id = p2_variant.id | default: current_variant.id -%}
-
-        <label class="by-combo-card">
-          <input type="radio" name="combo_selection" data-variant-id="{{ p2_id }}" style="display:none;">
-          {%- if section.settings.pack_2_badge != blank -%}
-            <span class="by-combo-badge">{{ section.settings.pack_2_badge }}</span>
-          {%- endif -%}
-          <div class="by-combo-left">
-            <div class="by-combo-radio"></div>
-            <div class="by-combo-info">
-              <span class="by-combo-title">{{ section.settings.pack_2_title }}</span>
-              <span class="by-combo-desc">{{ section.settings.pack_2_subtitle }}</span>
-            </div>
-          </div>
-          <div class="by-combo-right">
-            {%- if section.settings.pack_2_compare_price != blank -%}
-              <span class="by-combo-compare">{{ section.settings.pack_2_compare_price }}</span>
-            {%- endif -%}
-            {%- if section.settings.pack_2_price != blank -%}
-              <span class="by-combo-price">{{ section.settings.pack_2_price }}</span>
-            {%- endif -%}
-          </div>
-        </label>
-        {%- endif -%}
-
-        <!-- Option 3: Pack of 5 -->
-        {%- if section.settings.pack_3_enable -%}
-        {%- assign p3_variant = product.variants | where: 'title', section.settings.pack_3_variant | first -%}
-        {%- assign p3_id = p3_variant.id | default: current_variant.id -%}
-
-        <label class="by-combo-card">
-          <input type="radio" name="combo_selection" data-variant-id="{{ p3_id }}" style="display:none;">
-          {%- if section.settings.pack_3_badge != blank -%}
-            <span class="by-combo-badge">{{ section.settings.pack_3_badge }}</span>
-          {%- endif -%}
-          <div class="by-combo-left">
-            <div class="by-combo-radio"></div>
-            <div class="by-combo-info">
-              <span class="by-combo-title">{{ section.settings.pack_3_title }}</span>
-              <span class="by-combo-desc">{{ section.settings.pack_3_subtitle }}</span>
-            </div>
-          </div>
-          <div class="by-combo-right">
-            {%- if section.settings.pack_3_compare_price != blank -%}
-              <span class="by-combo-compare">{{ section.settings.pack_3_compare_price }}</span>
-            {%- endif -%}
-            {%- if section.settings.pack_3_price != blank -%}
-              <span class="by-combo-price">{{ section.settings.pack_3_price }}</span>
-            {%- endif -%}
-          </div>
-        </label>
-        {%- endif -%}
-
       </div>
 
+      <!-- Check Delivery -->
+      {%- if section.settings.enable_delivery_check -%}
+      <div class="by-delivery-wrapper">
+        <div class="by-section-title" style="margin-bottom: 12px;">Check Delivery Availability</div>
+        <div class="by-delivery-input-group">
+          <input type="text" placeholder="Enter Pincode / Zip Code">
+          <button type="button">Check</button>
+        </div>
+      </div>
+      {%- endif -%}
+
+      <!-- Product Details Accordions -->
       <div class="by-details-container">
         <details class="by-accordion" open>
           <summary>Product Description</summary>
@@ -351,42 +351,67 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const grid = document.getElementById('ComboGrid-{{ section.id }}');
-    const mainVariantInput = document.getElementById('SelectedVariantID-{{ section.id }}');
-    
-    // Ensure default selected variant ID is set on page load
-    const defaultRadio = grid ? grid.querySelector('input[type="radio"]:checked') : null;
-    if(defaultRadio && mainVariantInput) {
-       mainVariantInput.value = defaultRadio.getAttribute('data-variant-id');
-    }
+    const topPrice = document.getElementById('TopPrice-{{ section.id }}');
+    const topCompare = document.getElementById('TopComparePrice-{{ section.id }}');
+    const topSaveBadge = document.getElementById('TopSaveBadge-{{ section.id }}');
+    const priceWrapper = document.getElementById('MainPriceWrapper-{{ section.id }}');
 
     if(grid) {
       const cards = grid.querySelectorAll('.by-combo-card');
       cards.forEach(card => {
         card.addEventListener('click', function() {
-          // Visual updates
+          // Visual card active state
           cards.forEach(c => c.classList.remove('active'));
           this.classList.add('active');
           
-          // Update the Hidden Variant ID that Shopify actually adds to the cart
+          // Select radio logic
           const radio = this.querySelector('input[type="radio"]');
           if(radio) {
             radio.checked = true;
-            if(mainVariantInput) {
-              mainVariantInput.value = radio.getAttribute('data-variant-id');
-            }
+            
+            // Animation flash
+            priceWrapper.style.opacity = '0';
+            
+            setTimeout(() => {
+              // Update Top Prices based on clicked variant
+              if(topPrice && radio.dataset.price) topPrice.innerHTML = radio.dataset.price;
+              
+              if(topCompare) {
+                if(radio.dataset.compare) {
+                  topCompare.innerHTML = radio.dataset.compare;
+                  topCompare.style.display = 'inline-block';
+                } else {
+                  topCompare.style.display = 'none';
+                }
+              }
+
+              if(topSaveBadge) {
+                if(radio.dataset.save) {
+                  topSaveBadge.innerHTML = 'Save ' + radio.dataset.save + '%';
+                  topSaveBadge.style.display = 'inline-block';
+                } else {
+                  topSaveBadge.style.display = 'none';
+                }
+              }
+              
+              priceWrapper.style.opacity = '1';
+            }, 150);
           }
         });
       });
     }
 
-    // Button loading state
+    // Button loading state on submit
     const form = document.getElementById('{{ product_form_id }}');
     const btn = document.getElementById('SubmitBtn-{{ section.id }}');
     if(form && btn) {
       form.addEventListener('submit', function() {
         btn.classList.add('loading');
         btn.querySelector('span').innerText = 'Adding...';
-        setTimeout(() => { btn.classList.remove('loading'); btn.querySelector('span').innerText = 'Add to Cart'; }, 2000);
+        setTimeout(() => { 
+          btn.classList.remove('loading'); 
+          btn.querySelector('span').innerText = 'Add to Cart'; 
+        }, 2000);
       });
     }
   });
@@ -397,12 +422,8 @@
   "name": "Combo Product Info",
   "settings": [
     {
-      "type": "header",
-      "content": "IMPORTANT SETUP"
-    },
-    {
       "type": "paragraph",
-      "content": "To add specific discounted prices to the cart, you must create Variants in your Shopify Admin (e.g. named 'Single', 'Trio', 'Pack of 5') and set their prices there. Type the exact Variant Name into the 'Link to Variant Name' boxes below."
+      "content": "This section automatically displays all Variants (e.g. Single, Trio) attached to this product in Shopify Admin. Prices update natively. To add subtitles (like 'Best Value'), add a 'Variant Subtitle' Block below and type the exact Variant Name."
     },
     {
       "type": "header",
@@ -422,6 +443,12 @@
     },
     {
       "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#EAEAEA"
+    },
+    {
+      "type": "color",
       "id": "primary_button_color",
       "label": "Add To Cart / Accent Color",
       "default": "#FBD100"
@@ -434,148 +461,135 @@
     },
     {
       "type": "header",
-      "content": "Combo Pack 1 (Single)"
+      "content": "Coupon Box"
     },
     {
       "type": "checkbox",
-      "id": "pack_1_enable",
-      "label": "Enable Pack 1",
+      "id": "coupon_enable",
+      "label": "Enable Coupon Box",
       "default": true
     },
     {
-      "type": "text",
-      "id": "pack_1_variant",
-      "label": "Link to Shopify Variant Name",
-      "default": "Single",
-      "info": "Must exactly match the variant title in Shopify admin."
+      "type": "color",
+      "id": "offer_bg_color",
+      "label": "Coupon Background",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "color",
+      "id": "offer_accent_color",
+      "label": "Coupon Border",
+      "default": "#CCCCCC"
     },
     {
       "type": "text",
-      "id": "pack_1_title",
-      "label": "Display Title",
-      "default": "Single Pack"
+      "id": "coupon_title",
+      "label": "Coupon Title",
+      "default": "Get Flat 10% OFF"
     },
     {
       "type": "text",
-      "id": "pack_1_subtitle",
-      "label": "Display Subtitle",
-      "default": "Standard Price"
+      "id": "coupon_subtitle",
+      "label": "Coupon Subtitle",
+      "default": "Applies automatically at checkout"
     },
     {
       "type": "text",
-      "id": "pack_1_price",
-      "label": "Display Price",
-      "default": "₹999"
-    },
-    {
-      "type": "text",
-      "id": "pack_1_compare_price",
-      "label": "Display Compare Price",
-      "default": "₹1499"
-    },
-    {
-      "type": "text",
-      "id": "pack_1_badge",
-      "label": "Highlight Badge (Optional)"
+      "id": "coupon_code",
+      "label": "Coupon Code Text",
+      "default": "SAVE10"
     },
     {
       "type": "header",
-      "content": "Combo Pack 2 (Trio)"
+      "content": "Typography"
     },
     {
-      "type": "checkbox",
-      "id": "pack_2_enable",
-      "label": "Enable Pack 2",
-      "default": true
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "work_sans_n7"
     },
     {
-      "type": "text",
-      "id": "pack_2_variant",
-      "label": "Link to Shopify Variant Name",
-      "default": "Trio",
-      "info": "Must exactly match the variant title in Shopify admin."
-    },
-    {
-      "type": "text",
-      "id": "pack_2_title",
-      "label": "Display Title",
-      "default": "Trio Pack"
-    },
-    {
-      "type": "text",
-      "id": "pack_2_subtitle",
-      "label": "Display Subtitle",
-      "default": "Pack of 3"
-    },
-    {
-      "type": "text",
-      "id": "pack_2_price",
-      "label": "Display Price",
-      "default": "₹2499"
-    },
-    {
-      "type": "text",
-      "id": "pack_2_compare_price",
-      "label": "Display Compare Price",
-      "default": "₹4497"
-    },
-    {
-      "type": "text",
-      "id": "pack_2_badge",
-      "label": "Highlight Badge (Optional)",
-      "default": "Save 44%"
+      "type": "font_picker",
+      "id": "body_font",
+      "label": "Body Font",
+      "default": "work_sans_n4"
     },
     {
       "type": "header",
-      "content": "Combo Pack 3 (Pack of 5)"
+      "content": "Installation Guide Button"
+    },
+    {
+      "type": "text",
+      "id": "install_guide_text",
+      "label": "Button Text",
+      "default": "Setup Guide"
+    },
+    {
+      "type": "url",
+      "id": "install_guide_link",
+      "label": "Guide URL"
+    },
+    {
+      "type": "header",
+      "content": "Other Settings"
     },
     {
       "type": "checkbox",
-      "id": "pack_3_enable",
-      "label": "Enable Pack 3",
+      "id": "enable_delivery_check",
+      "label": "Enable Pincode/Delivery Check",
       "default": true
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "text",
-      "id": "pack_3_variant",
-      "label": "Link to Shopify Variant Name",
-      "default": "Pack of 5",
-      "info": "Must exactly match the variant title in Shopify admin."
-    },
-    {
-      "type": "text",
-      "id": "pack_3_title",
-      "label": "Display Title",
-      "default": "Pack of 5"
-    },
-    {
-      "type": "text",
-      "id": "pack_3_subtitle",
-      "label": "Display Subtitle",
-      "default": "Best Value"
-    },
-    {
-      "type": "text",
-      "id": "pack_3_price",
-      "label": "Display Price",
-      "default": "₹3999"
-    },
-    {
-      "type": "text",
-      "id": "pack_3_compare_price",
-      "label": "Display Compare Price",
-      "default": "₹7495"
-    },
-    {
-      "type": "text",
-      "id": "pack_3_badge",
-      "label": "Highlight Badge (Optional)",
-      "default": "Save 46%"
+      "type": "variant_meta",
+      "name": "Variant Text Add-on",
+      "settings": [
+        {
+          "type": "text",
+          "id": "variant_title",
+          "label": "Link to Variant Title",
+          "info": "Must exactly match the variant name (e.g. 'Trio' or 'Pack of 5').",
+          "default": "Trio"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Pack of 3"
+        },
+        {
+          "type": "text",
+          "id": "custom_badge",
+          "label": "Custom Badge (Overrides Auto-Save %)",
+          "info": "E.g. 'Most Popular'. Leave blank to use auto-calculated percentage.",
+          "default": "Most Popular"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Functional Combo Info"
+      "name": "Dynamic Combo Product Info",
+      "blocks": [
+        {
+          "type": "variant_meta",
+          "settings": {
+            "variant_title": "Trio",
+            "subtitle": "Pack of 3",
+            "custom_badge": ""
+          }
+        },
+        {
+          "type": "variant_meta",
+          "settings": {
+            "variant_title": "Pack of 5",
+            "subtitle": "Best Value",
+            "custom_badge": "Most Popular"
+          }
+        }
+      ]
     }
   ]
 }
