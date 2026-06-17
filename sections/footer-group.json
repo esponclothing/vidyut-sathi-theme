@@ -11,6 +11,21 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "whatsapp_button_9GBLUn": {
+      "type": "whatsapp-button",
+      "name": "WhatsApp Button",
+      "settings": {
+        "phone_number": "",
+        "prefilled_text": "Hello! I have a question about my order.",
+        "bg_color": "#C5A059",
+        "icon_color": "#FFFFFF",
+        "horizontal_placement": "right",
+        "offset_x": 30,
+        "offset_y": 30,
+        "offset_x_mobile": 16,
+        "offset_y_mobile": 16
+      }
+    },
     "vidyut_footer_z7CTmr": {
       "type": "vidyut_footer",
       "name": "Espon 3D Footer",
@@ -52,6 +67,7 @@
     }
   },
   "order": [
+    "whatsapp_button_9GBLUn",
     "vidyut_footer_z7CTmr"
   ]
 }
