@@ -67,7 +67,7 @@
   .by-wishlist-btn { background: none; border: none; cursor: pointer; padding: 4px; }
   
   /* --- MAIN PRICING --- */
-  .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; transition: opacity 0.2s ease; }
+  .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; transition: opacity 0.2s ease; }
   .by-current-price { font-size: 1.6rem; font-weight: 800; color: var(--text-color); }
   .by-compare-price { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
   .by-save-badge {
@@ -75,56 +75,12 @@
     font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
   }
 
-  /* --- COMBO PACK SELECTION --- */
-  .by-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 24px; }
-  .by-section-title { font-weight: 800; font-size: 1.15rem; }
-  
-  .by-install-btn {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-color);
-    background: #fff; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color); text-decoration: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease;
-  }
-  .by-install-btn:hover { border-color: var(--text-color); }
-  
-  .by-combo-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px; }
-  .by-combo-card {
-    display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1.5px solid var(--border-color); 
-    padding: 18px 16px; border-radius: 10px; cursor: pointer; position: relative; background: #fff; transition: all 0.3s ease;
-  }
-  .by-combo-card:hover { border-color: #ccc; }
-  .by-combo-card.active { border-color: var(--primary-btn); background: #FFFAEB; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-  
-  .by-combo-left { display: flex; align-items: center; gap: 12px; }
-  .by-combo-radio { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; position: relative; flex-shrink: 0; }
-  .by-combo-card.active .by-combo-radio { border-color: var(--primary-btn); }
-  .by-combo-card.active .by-combo-radio::after { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; background: var(--primary-btn); border-radius: 50%; }
-  
-  .by-combo-info { display: flex; flex-direction: column; gap: 3px; }
-  .by-combo-title { font-weight: 800; font-size: 1.05rem; color: var(--text-color); }
-  .by-combo-desc { font-size: 0.85rem; color: var(--text-light); }
-
-  .by-combo-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
-  .by-combo-price { font-weight: 800; font-size: 1.15rem; color: var(--text-color); }
-  .by-combo-compare { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-bottom: 2px; }
-  
-  .by-combo-badge {
-    position: absolute; left: 16px; top: -10px; background: var(--primary-btn); color: var(--primary-btn-text);
-    font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  /* --- DELIVERY --- */
-  .by-delivery-wrapper { margin-top: 24px; margin-bottom: 24px; }
-  .by-delivery-input-group { display: flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
-  .by-delivery-input-group input { flex: 1; padding: 16px; border: none; outline: none; font-family: inherit; }
-  .by-delivery-input-group button { background: var(--text-color); color: var(--bg-color); border: none; padding: 0 24px; font-weight: bold; cursor: pointer; }
-
-  /* --- COMPACT SWIPEABLE OFFERS SECTION --- */
+  /* --- COMPACT SWIPEABLE OFFERS SECTION (Moved below price) --- */
   .by-offers-section {
     background: var(--offer-section-bg);
     border-radius: 8px;
     padding: 12px 12px 20px 12px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
   .by-offers-header {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
@@ -148,14 +104,14 @@
     display: flex; 
     overflow-x: auto; 
     gap: 12px;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none; 
     scroll-snap-type: x mandatory;
-    padding-bottom: 10px; /* Space for absolute badge */
+    padding-bottom: 10px; 
   }
-  .by-offers-scroll::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+  .by-offers-scroll::-webkit-scrollbar { display: none; }
   
   .by-offer-card {
-    min-width: 85%; /* Ensures the next card peeks in */
+    min-width: 85%; 
     max-width: 300px; 
     min-height: var(--offer-card-height);
     flex-shrink: 0;
@@ -188,6 +144,60 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     white-space: nowrap;
   }
+
+  /* --- COMBO PACK SELECTION --- */
+  .by-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .by-section-title { font-weight: 800; font-size: 1.15rem; }
+  
+  .by-install-btn {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-color);
+    background: #fff; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color); text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease;
+  }
+  .by-install-btn:hover { border-color: var(--text-color); }
+  
+  .by-combo-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+  .by-combo-card {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1.5px solid var(--border-color); 
+    padding: 16px; border-radius: 10px; cursor: pointer; position: relative; background: #fff; transition: all 0.3s ease;
+  }
+  .by-combo-card:hover { border-color: #ccc; }
+  .by-combo-card.active { border-color: var(--primary-btn); background: #FFFAEB; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  
+  .by-combo-left { display: flex; align-items: center; gap: 12px; }
+  .by-combo-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #ccc; position: relative; flex-shrink: 0; }
+  .by-combo-card.active .by-combo-radio { border-color: var(--primary-btn); }
+  .by-combo-card.active .by-combo-radio::after { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; background: var(--primary-btn); border-radius: 50%; }
+  
+  .by-combo-info { display: flex; flex-direction: column; gap: 2px; }
+  .by-combo-title { font-weight: 800; font-size: 1.05rem; color: var(--text-color); }
+  .by-combo-desc { font-size: 0.8rem; color: var(--text-light); }
+  
+  /* Creative Card Label */
+  .by-combo-card-label {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.65rem; font-weight: 800; color: var(--offer-icon-bg);
+    background: var(--offer-section-bg); padding: 3px 8px; 
+    border-radius: 4px; margin-top: 2px; margin-bottom: 2px;
+    width: fit-content; text-transform: uppercase; letter-spacing: 0.5px;
+    border: 1px dashed var(--offer-icon-bg);
+  }
+
+  .by-combo-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+  .by-combo-price { font-weight: 800; font-size: 1.15rem; color: var(--text-color); }
+  .by-combo-compare { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-bottom: 2px; }
+  
+  .by-combo-badge {
+    position: absolute; left: 16px; top: -10px; background: var(--primary-btn); color: var(--primary-btn-text);
+    font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  /* --- DELIVERY --- */
+  .by-delivery-wrapper { margin-top: 24px; margin-bottom: 24px; }
+  .by-delivery-input-group { display: flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+  .by-delivery-input-group input { flex: 1; padding: 16px; border: none; outline: none; font-family: inherit; }
+  .by-delivery-input-group button { background: var(--text-color); color: var(--bg-color); border: none; padding: 0 24px; font-weight: bold; cursor: pointer; }
 
   /* --- ACCORDIONS --- */
   .by-details-container { margin-top: 12px; }
@@ -233,12 +243,14 @@
 
   <div class="by-content-wrapper">
     
+    <!-- SHOPIFY NATIVE FORM -->
     {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
       
       <div class="by-title-row">
         <h1>{{ product.title | default: 'Premium Modular Pack' }}</h1>
       </div>
 
+      <!-- Top Master Pricing Display -->
       <div class="by-price-wrapper" id="MainPriceWrapper-{{ section.id }}">
         <span class="by-current-price" id="TopPrice-{{ section.id }}">
           {{ current_variant.price | default: 199900 | money }}
@@ -255,82 +267,7 @@
         </span>
       </div>
 
-      <div class="by-section-header">
-        <span class="by-section-title">Select Pack Options</span>
-        {%- if section.settings.install_guide_link != blank -%}
-          <a href="{{ section.settings.install_guide_link }}" class="by-install-btn" target="_blank">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            {{ section.settings.install_guide_text }}
-          </a>
-        {%- endif -%}
-      </div>
-      
-      <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
-        <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
-        <input type="hidden" name="quantity" value="1">
-        
-        {%- for variant in product.variants -%}
-          {%- assign save_percent = 0 -%}
-          {%- if variant.compare_at_price > variant.price -%}
-            {%- assign save_percent = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
-          {%- endif -%}
-
-          {%- assign custom_subtitle = '' -%}
-          {%- assign custom_badge = '' -%}
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'variant_meta' and block.settings.variant_title == variant.title -%}
-              {%- assign custom_subtitle = block.settings.subtitle -%}
-              {%- assign custom_badge = block.settings.custom_badge -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          <label class="by-combo-card {% if variant.id == current_variant.id %}active{% endif %}">
-            <input type="radio" name="combo_selector_radio" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %} data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}" style="display:none;">
-            {%- if custom_badge != blank -%}
-              <span class="by-combo-badge">{{ custom_badge }}</span>
-            {%- elsif save_percent > 0 -%}
-              <span class="by-combo-badge">Save {{ save_percent }}%</span>
-            {%- endif -%}
-            <div class="by-combo-left">
-              <div class="by-combo-radio"></div>
-              <div class="by-combo-info">
-                <span class="by-combo-title">{{ variant.title }}</span>
-                {%- if custom_subtitle != blank -%}
-                  <span class="by-combo-desc">{{ custom_subtitle }}</span>
-                {%- endif -%}
-              </div>
-            </div>
-            <div class="by-combo-right">
-              {%- if variant.compare_at_price > variant.price -%}
-                <span class="by-combo-compare">{{ variant.compare_at_price | money }}</span>
-              {%- endif -%}
-              <span class="by-combo-price">{{ variant.price | money }}</span>
-            </div>
-          </label>
-        {%- endfor -%}
-        
-        {%- if product.variants.size == 0 -%}
-          <label class="by-combo-card active">
-            <input type="radio" name="id" checked style="display:none;">
-            <div class="by-combo-left">
-              <div class="by-combo-radio"></div>
-              <div class="by-combo-info"><span class="by-combo-title">Default Product</span></div>
-            </div>
-            <div class="by-combo-right"><span class="by-combo-price">₹1999</span></div>
-          </label>
-        {%- endif -%}
-      </div>
-
-      {%- if section.settings.enable_delivery_check -%}
-      <div class="by-delivery-wrapper">
-        <div class="by-section-title" style="margin-bottom: 12px;">Check Delivery Availability</div>
-        <div class="by-delivery-input-group">
-          <input type="text" placeholder="Enter Pincode / Zip Code">
-          <button type="button">Check</button>
-        </div>
-      </div>
-      {%- endif -%}
-
+      <!-- SWIPEABLE COMPACT OFFERS SECTION (Now below price) -->
       {%- if section.settings.enable_offers_section -%}
         <div class="by-offers-section">
           <div class="by-offers-header">
@@ -359,6 +296,7 @@
                     <span>CLICK TO COPY</span>
                   </button>
 
+                  <!-- Live Countdown Timer Logic -->
                   {%- if block.settings.enable_timer and block.settings.timer_date != blank -%}
                     <div class="by-offer-badge timer-badge" data-endtime="{{ block.settings.timer_date }}">
                       Loading...
@@ -370,6 +308,7 @@
               {%- endif -%}
             {%- endfor -%}
 
+            <!-- Fallback if blocks not added -->
             {%- if has_offers == false -%}
               <div class="by-offer-card">
                 <strong>Freeship</strong>
@@ -385,6 +324,95 @@
         </div>
       {%- endif -%}
 
+      <div class="by-section-header">
+        <span class="by-section-title">Select Pack Options</span>
+        {%- if section.settings.install_guide_link != blank -%}
+          <a href="{{ section.settings.install_guide_link }}" class="by-install-btn" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            {{ section.settings.install_guide_text }}
+          </a>
+        {%- endif -%}
+      </div>
+      
+      <!-- DYNAMIC VARIANTS LOOP -->
+      <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
+        <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        
+        {%- for variant in product.variants -%}
+          {%- assign save_percent = 0 -%}
+          {%- if variant.compare_at_price > variant.price -%}
+            {%- assign save_percent = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+          {%- endif -%}
+
+          {%- assign custom_subtitle = '' -%}
+          {%- assign custom_badge = '' -%}
+          {%- assign creative_card_label = '' -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'variant_meta' and block.settings.variant_title == variant.title -%}
+              {%- assign custom_subtitle = block.settings.subtitle -%}
+              {%- assign custom_badge = block.settings.custom_badge -%}
+              {%- assign creative_card_label = block.settings.card_label -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <label class="by-combo-card {% if variant.id == current_variant.id %}active{% endif %}">
+            <input type="radio" name="combo_selector_radio" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %} data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}" style="display:none;">
+            {%- if custom_badge != blank -%}
+              <span class="by-combo-badge">{{ custom_badge }}</span>
+            {%- elsif save_percent > 0 -%}
+              <span class="by-combo-badge">Save {{ save_percent }}%</span>
+            {%- endif -%}
+            <div class="by-combo-left">
+              <div class="by-combo-radio"></div>
+              <div class="by-combo-info">
+                <span class="by-combo-title">{{ variant.title }}</span>
+                
+                <!-- CREATIVE CARD LABEL (One Card, Three Cards, Five Cards) -->
+                {%- if creative_card_label != blank -%}
+                  <span class="by-combo-card-label">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    {{ creative_card_label }}
+                  </span>
+                {%- endif -%}
+
+                {%- if custom_subtitle != blank -%}
+                  <span class="by-combo-desc">{{ custom_subtitle }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="by-combo-right">
+              {%- if variant.compare_at_price > variant.price -%}
+                <span class="by-combo-compare">{{ variant.compare_at_price | money }}</span>
+              {%- endif -%}
+              <span class="by-combo-price">{{ variant.price | money }}</span>
+            </div>
+          </label>
+        {%- endfor -%}
+        
+        {%- if product.variants.size == 0 -%}
+          <label class="by-combo-card active">
+            <input type="radio" name="id" checked style="display:none;">
+            <div class="by-combo-left">
+              <div class="by-combo-radio"></div>
+              <div class="by-combo-info"><span class="by-combo-title">Default Product</span></div>
+            </div>
+            <div class="by-combo-right"><span class="by-combo-price">₹1999</span></div>
+          </label>
+        {%- endif -%}
+      </div>
+
+      <!-- Check Delivery -->
+      {%- if section.settings.enable_delivery_check -%}
+      <div class="by-delivery-wrapper">
+        <div class="by-section-title" style="margin-bottom: 12px;">Check Delivery Availability</div>
+        <div class="by-delivery-input-group">
+          <input type="text" placeholder="Enter Pincode / Zip Code">
+          <button type="button">Check</button>
+        </div>
+      </div>
+      {%- endif -%}
+
       <div class="by-details-container">
         <details class="by-accordion" open>
           <summary>Product Description</summary>
@@ -396,6 +424,7 @@
         </details>
       </div>
 
+      <!-- Submit Button -->
       <div class="by-sticky-bar">
         <button class="by-btn-add" type="submit" name="add" id="SubmitBtn-{{ section.id }}">
           <span>Add to Cart</span> 
@@ -490,7 +519,6 @@
         const now = new Date().getTime();
 
         timerBadges.forEach(badge => {
-          // Replace hyphens with slashes for Safari compatibility
           let targetStr = badge.getAttribute('data-endtime').replace(/-/g, '/');
           const countDownDate = new Date(targetStr).getTime();
           const distance = countDownDate - now;
@@ -706,8 +734,7 @@
           "type": "text",
           "id": "badge_text",
           "label": "Fallback Static Text",
-          "info": "Displays if timer is disabled above.",
-          "default": "Limited Time"
+          "info": "Displays if timer is disabled above."
         }
       ]
     },
@@ -719,21 +746,24 @@
           "type": "text",
           "id": "variant_title",
           "label": "Link to Variant Title",
-          "info": "Must exactly match the variant name (e.g. 'Trio' or 'Pack of 5').",
-          "default": "Trio"
+          "info": "Must exactly match the variant name (e.g. 'Single', 'Trio', 'Penta')."
+        },
+        {
+          "type": "text",
+          "id": "card_label",
+          "label": "Creative Highlight Text",
+          "info": "E.g. 'One Card', 'Three Cards'. Appears in an accented box with an icon."
         },
         {
           "type": "text",
           "id": "subtitle",
-          "label": "Subtitle",
-          "default": "Pack of 3"
+          "label": "Subtitle"
         },
         {
           "type": "text",
           "id": "custom_badge",
-          "label": "Custom Badge (Overrides Auto-Save %)",
-          "info": "E.g. 'Most Popular'. Leave blank to use auto-calculated percentage.",
-          "default": "Most Popular"
+          "label": "Custom Corner Badge",
+          "info": "E.g. 'Most Popular'. Leaves blank to show auto-calculated Save %."
         }
       ]
     }
@@ -765,7 +795,17 @@
         {
           "type": "variant_meta",
           "settings": {
+            "variant_title": "Single",
+            "card_label": "One Card",
+            "subtitle": "Standard Price",
+            "custom_badge": ""
+          }
+        },
+        {
+          "type": "variant_meta",
+          "settings": {
             "variant_title": "Trio",
+            "card_label": "Three Cards",
             "subtitle": "Pack of 3",
             "custom_badge": ""
           }
@@ -773,7 +813,8 @@
         {
           "type": "variant_meta",
           "settings": {
-            "variant_title": "Pack of 5",
+            "variant_title": "Penta",
+            "card_label": "Five Cards",
             "subtitle": "Best Value",
             "custom_badge": "Most Popular"
           }
