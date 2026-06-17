@@ -25,7 +25,7 @@
     font-family: var(--font-body);
     max-width: 768px;
     margin: 0 auto;
-    padding-bottom: 110px; /* Space for the sticky cart button */
+    padding-bottom: 110px;
   }
 
   .by-product-{{ section.id }} * { box-sizing: border-box; }
@@ -61,19 +61,12 @@
   .by-wishlist-btn { background: none; border: none; cursor: pointer; padding: 4px; }
   
   /* --- MAIN PRICING --- */
-  .by-price-wrapper {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
-  }
-  .by-current-price {
-    font-size: 1.6rem; font-weight: 800; color: var(--text-color);
-  }
-  .by-compare-price {
-    font-size: 1.1rem; color: var(--text-light); text-decoration: line-through;
-  }
+  .by-price-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .by-current-price { font-size: 1.6rem; font-weight: 800; color: var(--text-color); }
+  .by-compare-price { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
   .by-save-badge {
     background: #E8F5E9; color: #2E7D32; font-size: 0.8rem;
-    font-weight: 700; padding: 4px 8px; border-radius: 4px;
-    text-transform: uppercase;
+    font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
   }
 
   /* --- COUPON BOX --- */
@@ -105,9 +98,7 @@
     border: 1px solid var(--border-color); text-decoration: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease;
   }
-  .by-install-btn:hover { border-color: var(--text-color); }
-  .by-install-btn svg { width: 14px; height: 14px; }
-
+  
   .by-combo-grid { display: flex; flex-direction: column; gap: 14px; }
   .by-combo-card {
     display: flex; justify-content: space-between; align-items: center; gap: 16px;
@@ -115,14 +106,12 @@
     border-radius: 10px; cursor: pointer; position: relative;
     background: #fff; transition: all 0.3s ease;
   }
-  .by-combo-card:hover { border-color: #ccc; }
   .by-combo-card.active {
     border-color: var(--primary-btn); background: #FFFAEB;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   }
   
   .by-combo-left { display: flex; align-items: center; gap: 12px; }
-  
   .by-combo-radio {
     width: 24px; height: 24px; border-radius: 50%;
     border: 2px solid #ccc; position: relative; flex-shrink: 0;
@@ -149,71 +138,47 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
-  /* --- DELIVERY CHECK --- */
+  /* --- DELIVERY & ACCORDIONS --- */
   .by-delivery-wrapper { margin-top: 36px; }
-  .by-delivery-input-group {
-    display: flex; border: 1px solid var(--border-color);
-    border-radius: 8px; overflow: hidden;
-  }
-  .by-delivery-input-group input {
-    flex: 1; padding: 16px; border: none; outline: none;
-    font-family: inherit; font-size: 0.95rem;
-  }
-  .by-delivery-input-group button {
-    background: var(--text-color); color: var(--bg-color);
-    border: none; padding: 0 24px; font-weight: bold; cursor: pointer;
-  }
+  .by-delivery-input-group { display: flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+  .by-delivery-input-group input { flex: 1; padding: 16px; border: none; outline: none; font-family: inherit; }
+  .by-delivery-input-group button { background: var(--text-color); color: var(--bg-color); border: none; padding: 0 24px; font-weight: bold; cursor: pointer; }
 
-  /* --- ACCORDIONS / DETAILS --- */
   .by-details-container { margin-top: 36px; }
-  
   .by-accordion { border-bottom: 1px solid var(--border-color); }
   .by-accordion:first-of-type { border-top: 1px solid var(--border-color); }
-  .by-accordion summary {
-    padding: 18px 0; font-weight: 700; cursor: pointer;
-    list-style: none; display: flex; justify-content: space-between;
-    font-size: 1rem; color: var(--text-color);
-  }
+  .by-accordion summary { padding: 18px 0; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
   .by-accordion summary::-webkit-details-marker { display: none; }
-  .by-accordion summary::after { content: '+'; font-size: 1.4rem; font-weight: 400; transition: transform 0.3s; }
+  .by-accordion summary::after { content: '+'; font-size: 1.4rem; transition: transform 0.3s; }
   .by-accordion[open] summary::after { transform: rotate(45deg); }
   .by-accordion-content { padding-bottom: 18px; font-size: 0.95rem; color: var(--text-light); line-height: 1.6; }
 
-  /* --- STICKY BOTTOM ACTIONS (Add to Cart Only) --- */
+  /* --- STICKY BOTTOM ACTIONS --- */
   .by-sticky-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--bg-color); padding: 16px;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
-    display: flex; z-index: 999;
-    max-width: 768px; margin: 0 auto;
-    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.08); display: flex; z-index: 999;
+    max-width: 768px; margin: 0 auto; border-top: 1px solid var(--border-color);
   }
   .by-btn-add {
     width: 100%; padding: 18px; border: none; border-radius: 8px;
     font-weight: 800; font-size: 1.15rem; cursor: pointer;
     text-transform: uppercase; letter-spacing: 1px;
     background: var(--primary-btn); color: var(--primary-btn-text);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease;
     display: flex; justify-content: center; align-items: center; gap: 8px;
   }
   .by-btn-add:active { transform: scale(0.98); }
-  
-  /* Loading state for button */
   .by-btn-add.loading { opacity: 0.8; pointer-events: none; }
 
   @media (min-width: 769px) {
-    .by-sticky-bar {
-      position: sticky; bottom: 20px; border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
+    .by-sticky-bar { position: sticky; bottom: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
     .by-product-{{ section.id }} { padding-bottom: 20px; }
   }
 {%- endstyle -%}
 
 <div class="by-product-{{ section.id }}">
   
-  <!-- Media Gallery -->
   <div class="by-media-gallery">
     <div class="by-main-image">
       {%- if product.featured_media -%}
@@ -222,7 +187,6 @@
         <div style="width: 100%; height: 100%; background: #e0e0e0; display:flex; align-items:center; justify-content:center; color: #666;">Product Image</div>
       {%- endif -%}
     </div>
-    
     <div class="by-thumbnails">
       {%- for media in product.media -%}
         <div class="by-thumb {% if forloop.first %}active{% endif %}">
@@ -234,51 +198,34 @@
 
   <div class="by-content-wrapper">
     
-    <!-- SHOPIFY PRODUCT FORM WRAPPER -->
     {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
       
-      <!-- Hidden Inputs needed for Add to Cart -->
-      <input type="hidden" name="id" value="{{ current_variant.id }}">
-      <input type="hidden" name="quantity" id="ComboQuantity-{{ section.id }}" value="{{ section.settings.pack_1_qty | default: 1 }}">
+      <!-- Hidden Input for Cart: This is updated by JavaScript when a combo is clicked -->
+      <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
+      <input type="hidden" name="quantity" value="1"> <!-- Quantity is 1 because the variant ITSELF is the multi-pack -->
 
-      <!-- Title & Wishlist -->
       <div class="by-title-row">
         <h1>{{ product.title | default: 'Premium Product Name' }}</h1>
-        <button type="button" class="by-wishlist-btn">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-        </button>
       </div>
 
-      <!-- Pricing -->
       <div class="by-price-wrapper">
-        <span class="by-current-price">
-          {{ product.price | default: 199900 | money }}
-        </span>
+        <span class="by-current-price">{{ product.price | default: 199900 | money }}</span>
         {%- if product.compare_at_price > product.price -%}
           <span class="by-compare-price">{{ product.compare_at_price | money }}</span>
-          <span class="by-save-badge">
-            Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
-          </span>
-        {%- elsif product == blank -%}
-          <span class="by-compare-price">{{ 299900 | money }}</span>
-          <span class="by-save-badge">Save 33%</span>
+          <span class="by-save-badge">Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</span>
         {%- endif -%}
       </div>
 
-      <!-- Editable Coupon Box -->
       {%- if section.settings.coupon_enable -%}
         <div class="by-coupon-box">
           <div class="by-coupon-info">
             <strong>{{ section.settings.coupon_title }}</strong>
             <span>{{ section.settings.coupon_subtitle }}</span>
           </div>
-          <div class="by-coupon-code">
-            {{ section.settings.coupon_code }}
-          </div>
+          <div class="by-coupon-code">{{ section.settings.coupon_code }}</div>
         </div>
       {%- endif -%}
 
-      <!-- COMBO PACKS & INSTALL GUIDE -->
       <div class="by-section-header">
         <span class="by-section-title">Select Pack Options</span>
         {%- if section.settings.install_guide_link != blank -%}
@@ -293,8 +240,11 @@
         
         <!-- Option 1: Single Pack -->
         {%- if section.settings.pack_1_enable -%}
+        {%- assign p1_variant = product.variants | where: 'title', section.settings.pack_1_variant | first -%}
+        {%- assign p1_id = p1_variant.id | default: current_variant.id -%}
+        
         <label class="by-combo-card active">
-          <input type="radio" name="combo_selection" value="pack1" data-qty="{{ section.settings.pack_1_qty }}" checked style="display:none;">
+          <input type="radio" name="combo_selection" data-variant-id="{{ p1_id }}" checked style="display:none;">
           {%- if section.settings.pack_1_badge != blank -%}
             <span class="by-combo-badge">{{ section.settings.pack_1_badge }}</span>
           {%- endif -%}
@@ -318,8 +268,11 @@
 
         <!-- Option 2: Trio Pack -->
         {%- if section.settings.pack_2_enable -%}
+        {%- assign p2_variant = product.variants | where: 'title', section.settings.pack_2_variant | first -%}
+        {%- assign p2_id = p2_variant.id | default: current_variant.id -%}
+
         <label class="by-combo-card">
-          <input type="radio" name="combo_selection" value="pack2" data-qty="{{ section.settings.pack_2_qty }}" style="display:none;">
+          <input type="radio" name="combo_selection" data-variant-id="{{ p2_id }}" style="display:none;">
           {%- if section.settings.pack_2_badge != blank -%}
             <span class="by-combo-badge">{{ section.settings.pack_2_badge }}</span>
           {%- endif -%}
@@ -343,8 +296,11 @@
 
         <!-- Option 3: Pack of 5 -->
         {%- if section.settings.pack_3_enable -%}
+        {%- assign p3_variant = product.variants | where: 'title', section.settings.pack_3_variant | first -%}
+        {%- assign p3_id = p3_variant.id | default: current_variant.id -%}
+
         <label class="by-combo-card">
-          <input type="radio" name="combo_selection" value="pack3" data-qty="{{ section.settings.pack_3_qty }}" style="display:none;">
+          <input type="radio" name="combo_selection" data-variant-id="{{ p3_id }}" style="display:none;">
           {%- if section.settings.pack_3_badge != blank -%}
             <span class="by-combo-badge">{{ section.settings.pack_3_badge }}</span>
           {%- endif -%}
@@ -368,39 +324,19 @@
 
       </div>
 
-      <!-- Check Delivery -->
-      {%- if section.settings.enable_delivery_check -%}
-      <div class="by-delivery-wrapper">
-        <div class="by-section-title" style="margin-bottom: 12px;">Check Delivery Availability</div>
-        <div class="by-delivery-input-group">
-          <input type="text" placeholder="Enter Pincode / Zip Code">
-          <button type="button">Check</button>
-        </div>
-      </div>
-      {%- endif -%}
-
-      <!-- Product Details Accordions -->
       <div class="by-details-container">
-        
         <details class="by-accordion" open>
           <summary>Product Description</summary>
-          <div class="by-accordion-content">
-            {{ product.description | default: 'Experience premium quality and unmatched comfort with our latest collection.' }}
-          </div>
+          <div class="by-accordion-content">{{ product.description | default: 'Experience premium quality.' }}</div>
         </details>
-
         <details class="by-accordion">
           <summary>Returns & Exchange</summary>
-          <div class="by-accordion-content">
-            Easy 15 days return and exchange policy available. Check our policies page for detailed information.
-          </div>
+          <div class="by-accordion-content">Easy 15 days return and exchange policy available.</div>
         </details>
-        
       </div>
 
-      <!-- Sticky Actions (Add to Cart Submit Button) -->
+      <!-- Submit Button -->
       <div class="by-sticky-bar">
-        <!-- Changed to type="submit" so it properly passes data to Shopify -->
         <button class="by-btn-add" type="submit" name="add" id="SubmitBtn-{{ section.id }}">
           <span>Add to Cart</span> 
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
@@ -409,44 +345,48 @@
 
     {%- endform -%}
 
-  </div> <!-- End Content Wrapper -->
-
+  </div>
 </div>
 
-<!-- Script to handle dynamic quantity updates -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const grid = document.getElementById('ComboGrid-{{ section.id }}');
-    const qtyInput = document.getElementById('ComboQuantity-{{ section.id }}');
+    const mainVariantInput = document.getElementById('SelectedVariantID-{{ section.id }}');
     
+    // Ensure default selected variant ID is set on page load
+    const defaultRadio = grid ? grid.querySelector('input[type="radio"]:checked') : null;
+    if(defaultRadio && mainVariantInput) {
+       mainVariantInput.value = defaultRadio.getAttribute('data-variant-id');
+    }
+
     if(grid) {
       const cards = grid.querySelectorAll('.by-combo-card');
       cards.forEach(card => {
         card.addEventListener('click', function() {
-          // Remove active class from all
+          // Visual updates
           cards.forEach(c => c.classList.remove('active'));
-          // Add active to clicked
           this.classList.add('active');
           
-          // Check the hidden radio button and update Shopify Cart Quantity
+          // Update the Hidden Variant ID that Shopify actually adds to the cart
           const radio = this.querySelector('input[type="radio"]');
           if(radio) {
             radio.checked = true;
-            if(qtyInput) {
-              qtyInput.value = radio.getAttribute('data-qty');
+            if(mainVariantInput) {
+              mainVariantInput.value = radio.getAttribute('data-variant-id');
             }
           }
         });
       });
     }
 
-    // Optional: Visual loading state on button click
+    // Button loading state
     const form = document.getElementById('{{ product_form_id }}');
     const btn = document.getElementById('SubmitBtn-{{ section.id }}');
     if(form && btn) {
       form.addEventListener('submit', function() {
         btn.classList.add('loading');
         btn.querySelector('span').innerText = 'Adding...';
+        setTimeout(() => { btn.classList.remove('loading'); btn.querySelector('span').innerText = 'Add to Cart'; }, 2000);
       });
     }
   });
@@ -454,8 +394,16 @@
 
 {% schema %}
 {
-  "name": "Functional Combo Info",
+  "name": "Combo Product Info",
   "settings": [
+    {
+      "type": "header",
+      "content": "IMPORTANT SETUP"
+    },
+    {
+      "type": "paragraph",
+      "content": "To add specific discounted prices to the cart, you must create Variants in your Shopify Admin (e.g. named 'Single', 'Trio', 'Pack of 5') and set their prices there. Type the exact Variant Name into the 'Link to Variant Name' boxes below."
+    },
     {
       "type": "header",
       "content": "Color Configuration"
@@ -474,12 +422,6 @@
     },
     {
       "type": "color",
-      "id": "border_color",
-      "label": "Border Color",
-      "default": "#EAEAEA"
-    },
-    {
-      "type": "color",
       "id": "primary_button_color",
       "label": "Add To Cart / Accent Color",
       "default": "#FBD100"
@@ -492,79 +434,7 @@
     },
     {
       "type": "header",
-      "content": "Coupon Box"
-    },
-    {
-      "type": "checkbox",
-      "id": "coupon_enable",
-      "label": "Enable Coupon Box",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "offer_bg_color",
-      "label": "Coupon Background",
-      "default": "#FAFAFA"
-    },
-    {
-      "type": "color",
-      "id": "offer_accent_color",
-      "label": "Coupon Border",
-      "default": "#CCCCCC"
-    },
-    {
-      "type": "text",
-      "id": "coupon_title",
-      "label": "Coupon Title",
-      "default": "Get Flat 10% OFF"
-    },
-    {
-      "type": "text",
-      "id": "coupon_subtitle",
-      "label": "Coupon Subtitle",
-      "default": "Applies automatically at checkout"
-    },
-    {
-      "type": "text",
-      "id": "coupon_code",
-      "label": "Coupon Code Text",
-      "default": "SAVE10"
-    },
-    {
-      "type": "header",
-      "content": "Typography"
-    },
-    {
-      "type": "font_picker",
-      "id": "heading_font",
-      "label": "Heading Font",
-      "default": "work_sans_n7"
-    },
-    {
-      "type": "font_picker",
-      "id": "body_font",
-      "label": "Body Font",
-      "default": "work_sans_n4"
-    },
-    {
-      "type": "header",
-      "content": "Installation Guide Button"
-    },
-    {
-      "type": "text",
-      "id": "install_guide_text",
-      "label": "Button Text",
-      "default": "Setup Guide"
-    },
-    {
-      "type": "url",
-      "id": "install_guide_link",
-      "label": "Guide URL"
-    },
-    {
-      "type": "header",
-      "content": "Combo Pack 1 (Single)",
-      "info": "NOTE: Shopify calculates actual cart price based on (Base Price x Quantity). Use automatic discounts in your admin to match customized prices exactly."
+      "content": "Combo Pack 1 (Single)"
     },
     {
       "type": "checkbox",
@@ -573,33 +443,34 @@
       "default": true
     },
     {
-      "type": "number",
-      "id": "pack_1_qty",
-      "label": "Quantity to Add to Cart",
-      "default": 1
+      "type": "text",
+      "id": "pack_1_variant",
+      "label": "Link to Shopify Variant Name",
+      "default": "Single",
+      "info": "Must exactly match the variant title in Shopify admin."
     },
     {
       "type": "text",
       "id": "pack_1_title",
-      "label": "Title",
+      "label": "Display Title",
       "default": "Single Pack"
     },
     {
       "type": "text",
       "id": "pack_1_subtitle",
-      "label": "Subtitle",
+      "label": "Display Subtitle",
       "default": "Standard Price"
     },
     {
       "type": "text",
       "id": "pack_1_price",
-      "label": "Text Override Price",
+      "label": "Display Price",
       "default": "₹999"
     },
     {
       "type": "text",
       "id": "pack_1_compare_price",
-      "label": "Text Override Compare Price",
+      "label": "Display Compare Price",
       "default": "₹1499"
     },
     {
@@ -618,33 +489,34 @@
       "default": true
     },
     {
-      "type": "number",
-      "id": "pack_2_qty",
-      "label": "Quantity to Add to Cart",
-      "default": 3
+      "type": "text",
+      "id": "pack_2_variant",
+      "label": "Link to Shopify Variant Name",
+      "default": "Trio",
+      "info": "Must exactly match the variant title in Shopify admin."
     },
     {
       "type": "text",
       "id": "pack_2_title",
-      "label": "Title",
+      "label": "Display Title",
       "default": "Trio Pack"
     },
     {
       "type": "text",
       "id": "pack_2_subtitle",
-      "label": "Subtitle",
+      "label": "Display Subtitle",
       "default": "Pack of 3"
     },
     {
       "type": "text",
       "id": "pack_2_price",
-      "label": "Text Override Price",
+      "label": "Display Price",
       "default": "₹2499"
     },
     {
       "type": "text",
       "id": "pack_2_compare_price",
-      "label": "Text Override Compare Price",
+      "label": "Display Compare Price",
       "default": "₹4497"
     },
     {
@@ -664,33 +536,34 @@
       "default": true
     },
     {
-      "type": "number",
-      "id": "pack_3_qty",
-      "label": "Quantity to Add to Cart",
-      "default": 5
+      "type": "text",
+      "id": "pack_3_variant",
+      "label": "Link to Shopify Variant Name",
+      "default": "Pack of 5",
+      "info": "Must exactly match the variant title in Shopify admin."
     },
     {
       "type": "text",
       "id": "pack_3_title",
-      "label": "Title",
+      "label": "Display Title",
       "default": "Pack of 5"
     },
     {
       "type": "text",
       "id": "pack_3_subtitle",
-      "label": "Subtitle",
+      "label": "Display Subtitle",
       "default": "Best Value"
     },
     {
       "type": "text",
       "id": "pack_3_price",
-      "label": "Text Override Price",
+      "label": "Display Price",
       "default": "₹3999"
     },
     {
       "type": "text",
       "id": "pack_3_compare_price",
-      "label": "Text Override Compare Price",
+      "label": "Display Compare Price",
       "default": "₹7495"
     },
     {
@@ -698,16 +571,6 @@
       "id": "pack_3_badge",
       "label": "Highlight Badge (Optional)",
       "default": "Save 46%"
-    },
-    {
-      "type": "header",
-      "content": "Other Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_delivery_check",
-      "label": "Enable Pincode/Delivery Check",
-      "default": true
     }
   ],
   "presets": [
