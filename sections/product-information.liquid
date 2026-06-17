@@ -12,8 +12,6 @@
     --text-light: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }};
     --primary-btn: {{ section.settings.primary_button_color }};
     --primary-btn-text: {{ section.settings.primary_button_text }};
-    --secondary-btn: {{ section.settings.secondary_button_color }};
-    --secondary-btn-text: {{ section.settings.secondary_button_text }};
     --border-color: {{ section.settings.border_color }};
     --offer-border: {{ section.settings.offer_accent_color }};
     --offer-bg: {{ section.settings.offer_bg_color }};
@@ -24,9 +22,9 @@
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-body);
-    max-width: 768px; /* Mobile/Tablet optimized max-width like Beyoung */
+    max-width: 768px;
     margin: 0 auto;
-    padding-bottom: 90px; /* Space for sticky bottom bar */
+    padding-bottom: 100px; /* Space for the sticky cart button */
   }
 
   .by-product-{{ section.id }} * { box-sizing: border-box; }
@@ -80,10 +78,11 @@
   }
   .by-title-row h1 {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     margin: 0;
     font-weight: 700;
     color: var(--text-color);
+    line-height: 1.2;
   }
   .by-wishlist-btn {
     background: none;
@@ -113,35 +112,75 @@
   }
   .by-star-badge svg { width: 12px; height: 12px; fill: #FBD100; }
 
+  /* --- COMBO PACK SELECTION --- */
+  .by-section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; margin-top: 24px;
+  }
+  .by-section-title { font-weight: 700; font-size: 1.1rem; }
+  
+  .by-install-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; font-weight: 600; color: var(--text-color);
+    background: #fcfcfc; padding: 6px 12px; border-radius: 20px;
+    border: 1px solid var(--border-color); text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .by-install-btn:hover { background: #f0f0f0; border-color: #ccc; }
+  .by-install-btn svg { width: 14px; height: 14px; }
+
+  .by-combo-grid {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .by-combo-card {
+    display: flex; align-items: center; gap: 16px;
+    border: 1px solid var(--border-color);
+    padding: 16px; border-radius: 8px;
+    cursor: pointer; position: relative;
+    background: #fff; transition: all 0.3s ease;
+  }
+  .by-combo-card.active {
+    border-color: var(--primary-btn);
+    background: var(--offer-bg);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  .by-combo-radio {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid #ccc; position: relative;
+    transition: border-color 0.2s ease;
+  }
+  .by-combo-card.active .by-combo-radio { border-color: var(--primary-btn); }
+  .by-combo-card.active .by-combo-radio::after {
+    content: ''; position: absolute;
+    top: 4px; left: 4px; right: 4px; bottom: 4px;
+    background: var(--primary-btn); border-radius: 50%;
+  }
+  .by-combo-info { display: flex; flex-direction: column; gap: 2px; }
+  .by-combo-title { font-weight: 700; font-size: 1.05rem; color: var(--text-color); }
+  .by-combo-desc { font-size: 0.85rem; color: var(--text-light); }
+  
+  .by-combo-badge {
+    position: absolute; right: 16px; top: -10px;
+    background: var(--primary-btn); color: var(--primary-btn-text);
+    font-size: 0.7rem; font-weight: 800; padding: 4px 10px;
+    border-radius: 12px; text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
   /* --- OFFERS --- */
   .by-offers-container {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    margin-bottom: 24px;
+    display: flex; gap: 12px; overflow-x: auto;
+    padding-bottom: 10px; margin-bottom: 24px; margin-top: 24px;
     scrollbar-width: none;
   }
   .by-offers-container::-webkit-scrollbar { display: none; }
   
   .by-offer-card {
-    min-width: 280px;
-    border: 1.5px solid var(--offer-border);
-    border-radius: 8px;
-    padding: 16px;
-    background: var(--offer-bg);
+    min-width: 280px; border: 1.5px dashed var(--offer-border);
+    border-radius: 8px; padding: 16px; background: var(--offer-bg);
     position: relative;
   }
-  .by-offer-icon {
-    position: absolute;
-    top: -12px;
-    left: 16px;
-    background: var(--offer-border);
-    border-radius: 50%;
-    width: 24px; height: 24px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .by-offer-icon svg { width: 14px; height: 14px; fill: #000; }
   .by-offer-card strong { font-size: 0.95rem; display: block; margin-bottom: 4px; }
   .by-offer-card p { font-size: 0.8rem; color: var(--text-light); margin: 0 0 12px 0; }
   .by-offer-code {
@@ -150,64 +189,19 @@
     border-top: 1px dashed var(--offer-border);
   }
 
-  /* --- VARIANTS & SIZES --- */
-  .by-section-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 12px; margin-top: 24px;
-  }
-  .by-section-title { font-weight: 700; font-size: 1rem; }
-  .by-install-guide {
-    font-size: 0.85rem; color: var(--text-color);
-    text-decoration: none; font-weight: 500;
-    display: flex; align-items: center; gap: 4px;
-  }
-  
-  .by-size-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .by-size-box {
-    border: 1px solid var(--border-color);
-    background: #fff;
-    padding: 10px 0;
-    width: calc(20% - 8px);
-    text-align: center;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    position: relative;
-  }
-  .by-size-box.active {
-    border-color: var(--text-color);
-    font-weight: bold;
-  }
-  .by-size-badge {
-    position: absolute;
-    bottom: -8px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--offer-border);
-    color: #000;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-    white-space: nowrap;
-    font-weight: bold;
-  }
-
   /* --- DELIVERY CHECK --- */
-  .by-delivery-wrapper { margin-top: 24px; }
+  .by-delivery-wrapper { margin-top: 32px; }
   .by-delivery-input-group {
-    display: flex;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    overflow: hidden;
+    display: flex; border: 1px solid var(--border-color);
+    border-radius: 6px; overflow: hidden;
   }
   .by-delivery-input-group input {
-    flex: 1; padding: 14px 16px;
-    border: none; outline: none;
-    font-family: inherit; font-size: 0.9rem;
+    flex: 1; padding: 14px 16px; border: none; outline: none;
+    font-family: inherit; font-size: 0.95rem;
   }
   .by-delivery-input-group button {
     background: var(--text-color); color: var(--bg-color);
-    border: none; padding: 0 24px;
-    font-weight: bold; cursor: pointer;
+    border: none; padding: 0 24px; font-weight: bold; cursor: pointer;
   }
   .by-delivery-features {
     margin-top: 12px; display: flex; flex-direction: column; gap: 8px;
@@ -217,16 +211,6 @@
     font-size: 0.85rem; color: var(--text-light);
   }
   .by-delivery-feature svg { width: 18px; height: 18px; fill: #4CAF50; }
-
-  /* --- REWARD BANNER --- */
-  .by-reward-banner {
-    background: linear-gradient(to right, #B87333, #D4A373);
-    color: #fff; padding: 12px 16px;
-    border-radius: 8px; margin-top: 24px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 0.9rem; font-weight: 500;
-  }
-  .by-reward-banner svg { width: 24px; height: 24px; fill: #fff; }
 
   /* --- ACCORDIONS / DETAILS --- */
   .by-details-container { margin-top: 32px; }
@@ -240,47 +224,35 @@
     font-size: 0.95rem;
   }
   .by-accordion summary::-webkit-details-marker { display: none; }
-  .by-accordion summary::after {
-    content: '⌵'; font-size: 1.2rem; transition: transform 0.3s;
-  }
+  .by-accordion summary::after { content: '⌵'; font-size: 1.2rem; transition: transform 0.3s; }
   .by-accordion[open] summary::after { transform: rotate(180deg); }
-  .by-accordion-content { padding-bottom: 16px; font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+  .by-accordion-content { padding-bottom: 16px; font-size: 0.9rem; color: var(--text-light); line-height: 1.6; }
 
-  /* Specifications Grid inside Accordion */
-  .by-spec-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  }
-  .by-spec-item { display: flex; flex-direction: column; gap: 4px; }
-  .by-spec-label { font-weight: 600; color: var(--text-color); }
-
-  /* --- TRUST BADGES --- */
-  .by-trust-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 16px; text-align: center; margin: 32px 0;
-  }
-  .by-trust-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .by-trust-item svg { width: 32px; height: 32px; stroke: var(--text-color); fill: none; stroke-width: 1.5; }
-  .by-trust-item span { font-size: 0.75rem; font-weight: 600; }
-
-  /* --- STICKY BOTTOM ACTIONS --- */
+  /* --- STICKY BOTTOM ACTIONS (Add to Cart Only) --- */
   .by-sticky-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--bg-color);
-    padding: 12px 16px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
-    display: flex; gap: 12px; z-index: 999;
+    background: var(--bg-color); padding: 16px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+    display: flex; z-index: 999;
     max-width: 768px; margin: 0 auto;
+    border-top: 1px solid var(--border-color);
   }
-  .by-btn {
-    flex: 1; padding: 14px; border: none; border-radius: 6px;
-    font-weight: 700; font-size: 0.95rem; cursor: pointer;
-    text-transform: uppercase; letter-spacing: 0.5px;
+  .by-btn-add {
+    width: 100%; padding: 18px; border: none; border-radius: 8px;
+    font-weight: 800; font-size: 1.1rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 1px;
+    background: var(--primary-btn); color: var(--primary-btn-text);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
   }
-  .by-btn-add { background: var(--secondary-btn); color: var(--secondary-btn-text); }
-  .by-btn-buy { background: var(--primary-btn); color: var(--primary-btn-text); }
+  .by-btn-add:active { transform: scale(0.98); }
 
   @media (min-width: 769px) {
-    .by-sticky-bar { position: sticky; bottom: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+    .by-sticky-bar {
+      position: sticky; bottom: 20px; border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
     .by-product-{{ section.id }} { padding-bottom: 20px; }
   }
 {%- endstyle -%}
@@ -293,7 +265,7 @@
       {%- if product.featured_media -%}
         <img src="{{ product.featured_media | img_url: '800x' }}" alt="{{ product.title | escape }}">
       {%- else -%}
-        <div style="width: 100%; height: 100%; background: #e0e0e0; display:flex; align-items:center; justify-content:center;">Image Placeholder</div>
+        <div style="width: 100%; height: 100%; background: #e0e0e0; display:flex; align-items:center; justify-content:center;">Product Image</div>
       {%- endif -%}
     </div>
     
@@ -316,27 +288,68 @@
             {{ section.settings.review_score | default: '5.0' }} <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
           <span>{{ section.settings.review_count | default: '32' }} ratings</span>
-          <span style="color: #999;">|</span>
-          <strong style="color: #FBD100;">everydayXclusives</strong>
         </div>
-        <h1>{{ product.title | default: 'Maple Orange Diamond Jacquard' }}</h1>
+        <h1>{{ product.title | default: 'Modular Device System' }}</h1>
       </div>
       <button class="by-wishlist-btn">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
       </button>
     </div>
 
+    <!-- COMBO PACKS & INSTALL GUIDE -->
+    <div class="by-section-header">
+      <span class="by-section-title">Select Pack</span>
+      {%- if section.settings.install_guide_link != blank -%}
+        <a href="{{ section.settings.install_guide_link }}" class="by-install-btn" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          {{ section.settings.install_guide_text }}
+        </a>
+      {%- endif -%}
+    </div>
+    
+    <div class="by-combo-grid">
+      {%- assign combo_found = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'combo' -%}
+          {%- assign combo_found = true -%}
+          <div class="by-combo-card {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.badge_text != blank -%}
+              <span class="by-combo-badge">{{ block.settings.badge_text }}</span>
+            {%- endif -%}
+            <div class="by-combo-radio"></div>
+            <div class="by-combo-info">
+              <span class="by-combo-title">{{ block.settings.title }}</span>
+              <span class="by-combo-desc">{{ block.settings.subtitle }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      
+      <!-- Fallback if no combo blocks are added in the customizer -->
+      {%- if combo_found == false -%}
+        <div class="by-combo-card active">
+          <div class="by-combo-radio"></div>
+          <div class="by-combo-info">
+            <span class="by-combo-title">Single Pack</span>
+            <span class="by-combo-desc">Standard Price</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
     <!-- Offers Scroll -->
-    {%- if section.blocks.size > 0 -%}
+    {%- assign has_offers = false -%}
+    {%- for block in section.blocks -%}{% if block.type == 'offer' %}{% assign has_offers = true %}{% endif %}{%- endfor -%}
+    
+    {%- if has_offers -%}
       <div class="by-offers-container">
         {%- for block in section.blocks -%}
           {%- if block.type == 'offer' -%}
             <div class="by-offer-card" {{ block.shopify_attributes }}>
-              <div class="by-offer-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
               <strong>{{ block.settings.title }}</strong>
               <p>{{ block.settings.subtitle }}</p>
               <div class="by-offer-code">
-                <span>Apply coupon at checkout</span>
+                <span>Use code at checkout</span>
                 <strong>Code: {{ block.settings.code }}</strong>
               </div>
             </div>
@@ -345,145 +358,59 @@
       </div>
     {%- endif -%}
 
-    <!-- Size & Installation Guide -->
-    <div class="by-section-header">
-      <span class="by-section-title">Size</span>
-      {%- if section.settings.install_guide_link != blank -%}
-        <a href="{{ section.settings.install_guide_link }}" class="by-install-guide" target="_blank">
-          {{ section.settings.install_guide_text }} >
-        </a>
-      {%- endif -%}
-    </div>
-    
-    <div class="by-size-grid">
-      <div class="by-size-box">S</div>
-      <div class="by-size-box">M</div>
-      <div class="by-size-box">L</div>
-      <div class="by-size-box active">
-        XL
-        <span class="by-size-badge">1 left</span>
-      </div>
-      <div class="by-size-box">XXL</div>
-    </div>
-
     <!-- Check Delivery -->
     {%- if section.settings.enable_delivery_check -%}
     <div class="by-delivery-wrapper">
-      <div class="by-section-title" style="margin-bottom: 8px;">Check Delivery Date</div>
+      <div class="by-section-title" style="margin-bottom: 12px;">Check Availability</div>
       <div class="by-delivery-input-group">
-        <input type="text" placeholder="Enter Pincode">
+        <input type="text" placeholder="Enter Pincode / Zip">
         <button type="button">Check</button>
       </div>
       <div class="by-delivery-features">
         <div class="by-delivery-feature">
-          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-          Free Shipping
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Free Priority Shipping
         </div>
         <div class="by-delivery-feature">
-          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-          Cash On Delivery Available
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Cash On Delivery Available
         </div>
       </div>
-    </div>
-    {%- endif -%}
-
-    <!-- Reward Banner -->
-    {%- if section.settings.enable_rewards -%}
-    <div class="by-reward-banner">
-      <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-      <div>You will get <strong style="color:#FFE0B2;">{{ section.settings.reward_percentage }}% reward points</strong> on this order</div>
     </div>
     {%- endif -%}
 
     <!-- Product Details Accordions -->
     <div class="by-details-container">
-      <div class="by-details-title">Product Details</div>
+      <div class="by-details-title">Details & Specifications</div>
       
-      <!-- Specifications Accordion (Custom Grid) -->
       <details class="by-accordion" open>
-        <summary>Specifications <span style="font-weight:normal; font-size:0.8rem; color:#888;">Technical details and features</span></summary>
-        <div class="by-accordion-content by-spec-grid">
-          <div class="by-spec-item">
-            <span class="by-spec-label">Fabric</span>
-            <span>Imported Poly</span>
-          </div>
-          <div class="by-spec-item">
-            <span class="by-spec-label">Neck</span>
-            <span>Polo Collar</span>
-          </div>
-          <div class="by-spec-item">
-            <span class="by-spec-label">Pattern</span>
-            <span>Texture</span>
-          </div>
-          <div class="by-spec-item">
-            <span class="by-spec-label">Fit</span>
-            <span>Regular Fit</span>
-          </div>
-          <div class="by-spec-item">
-            <span class="by-spec-label">Sleeve</span>
-            <span>Half Sleeve</span>
-          </div>
-          <div class="by-spec-item">
-            <span class="by-spec-label">Style</span>
-            <span>Semi-casual</span>
-          </div>
-        </div>
-      </details>
-
-      <!-- Standard Description Accordion -->
-      <details class="by-accordion">
-        <summary>Description <span style="font-weight:normal; font-size:0.8rem; color:#888;">Product overview and details</span></summary>
+        <summary>Description</summary>
         <div class="by-accordion-content">
-          {{ product.description | default: 'Enhance your everyday look with this premium textured polo.' }}
+          {{ product.description | default: 'Detailed overview of the system and its benefits.' }}
         </div>
       </details>
 
       <details class="by-accordion">
-        <summary>Returns, Exchange, & Refund Policy <span style="font-weight:normal; font-size:0.8rem; color:#888;">Important Policy Details</span></summary>
+        <summary>Returns, Exchange, & Refund</summary>
         <div class="by-accordion-content">
-          Easy 15 days return and exchange available.
+          Easy 15 days return and exchange policy available. No questions asked.
         </div>
       </details>
-
-      <details class="by-accordion">
-        <summary>Ratings & Reviews <span style="font-weight:normal; font-size:0.8rem; color:#888;">{{ section.settings.review_count | default: '32' }} ratings | 8 review</span></summary>
-        <div class="by-accordion-content">
-          <div class="by-star-badge" style="display:inline-flex; margin-bottom: 10px;">{{ section.settings.review_score | default: '5.0' }} <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-          <br>
-          <a href="#" style="color: #008080; text-decoration: none;">View all 8 reviews ></a>
-        </div>
-      </details>
-    </div>
-
-    <!-- Trust Badges -->
-    <div class="by-trust-grid">
-      <div class="by-trust-item">
-        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span>Genuine Product</span>
-      </div>
-      <div class="by-trust-item">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-        <span>3M+ Happy Customers</span>
-      </div>
-      <div class="by-trust-item">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
-        <span>Made in India</span>
-      </div>
     </div>
 
   </div> <!-- End Content Wrapper -->
 
-  <!-- Sticky Actions (Add to Cart / Buy Now) -->
+  <!-- Sticky Actions (Add to Cart Only) -->
   <div class="by-sticky-bar">
-    <button class="by-btn by-btn-add" type="button">Add to Cart</button>
-    <button class="by-btn by-btn-buy" type="button">Buy Now</button>
+    <button class="by-btn-add" type="button">
+      Add to Cart 
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 4px;"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+    </button>
   </div>
 
 </div>
 
 {% schema %}
 {
-  "name": "Clean Product Info",
+  "name": "Combo Product Info",
   "settings": [
     {
       "type": "header",
@@ -510,38 +437,26 @@
     {
       "type": "color",
       "id": "primary_button_color",
-      "label": "Buy Now Button (Primary)",
+      "label": "Add To Cart / Accent Color",
       "default": "#FBD100"
     },
     {
       "type": "color",
       "id": "primary_button_text",
-      "label": "Buy Now Text Color",
+      "label": "Button Text Color",
       "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "secondary_button_color",
-      "label": "Add to Cart Button (Secondary)",
-      "default": "#222222"
-    },
-    {
-      "type": "color",
-      "id": "secondary_button_text",
-      "label": "Add to Cart Text Color",
-      "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "offer_bg_color",
       "label": "Offer Box Background",
-      "default": "#FFFFF0"
+      "default": "#FAFAFA"
     },
     {
       "type": "color",
       "id": "offer_accent_color",
-      "label": "Offer Box Border/Accent",
-      "default": "#FBD100"
+      "label": "Offer Box Border",
+      "default": "#CCCCCC"
     },
     {
       "type": "header",
@@ -566,7 +481,7 @@
     {
       "type": "text",
       "id": "install_guide_text",
-      "label": "Link Text",
+      "label": "Button Text",
       "default": "Installation Guide"
     },
     {
@@ -585,18 +500,6 @@
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "enable_rewards",
-      "label": "Enable Reward Banner",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "reward_percentage",
-      "label": "Reward Percentage",
-      "default": "10"
-    },
-    {
       "type": "text",
       "id": "review_score",
       "label": "Dummy Review Score",
@@ -610,6 +513,30 @@
     }
   ],
   "blocks": [
+    {
+      "type": "combo",
+      "name": "Combo Pack Option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pack Title",
+          "default": "Trio Pack"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Pack Subtitle",
+          "default": "Pack of 3"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Highlight Badge (Optional)",
+          "default": "Save 15%"
+        }
+      ]
+    },
     {
       "type": "offer",
       "name": "Offer Card",
@@ -630,15 +557,39 @@
           "type": "text",
           "id": "code",
           "label": "Coupon Code",
-          "default": "BYNG5"
+          "default": "COMBO5"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Clean Product Info",
+      "name": "Combo Product Info",
       "blocks": [
+        {
+          "type": "combo",
+          "settings": {
+            "title": "Single Pack",
+            "subtitle": "Standard Price",
+            "badge_text": ""
+          }
+        },
+        {
+          "type": "combo",
+          "settings": {
+            "title": "Trio Pack",
+            "subtitle": "Pack of 3",
+            "badge_text": "Save 15%"
+          }
+        },
+        {
+          "type": "combo",
+          "settings": {
+            "title": "Pack of 5",
+            "subtitle": "Best Value",
+            "badge_text": "Save 25%"
+          }
+        },
         { "type": "offer" }
       ]
     }
