@@ -92,7 +92,17 @@
       {% if settings.show_cart_note and settings.show_add_discount_code %}
         <div class="cart-actions__divider"></div>
       {% endif %}
-      {% if show_coupon_offers and section_settings.show_coupon_section %}
+      {% liquid
+        assign show_coupons = false
+        if show_coupon_offers
+          if section_settings == nil
+            assign show_coupons = true
+          elsif section_settings.show_coupon_section
+            assign show_coupons = true
+          endif
+        endif
+      %}
+      {% if show_coupons %}
         {% liquid
           assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
           for item in cart.items
@@ -407,40 +417,81 @@
               {% endif %}
             {% endfor %}
 
-            {% if has_coupons and section_settings.show_available_offers %}
-              <p class="lx-offers-label">{{ section_settings.offers_label | default: 'Available Offers' }}</p>
-              <div class="lx-offers-scroll">
-                {% for block in coupon_blocks %}
-                  {% if block.type == 'coupon' %}
-                    {% assign min_spend = block.settings.min_spend %}
+            {% if section_settings == nil or section_settings.show_available_offers %}
+              {% if has_coupons %}
+                <p class="lx-offers-label">{{ section_settings.offers_label | default: 'Available Offers' }}</p>
+                <div class="lx-offers-scroll">
+                  {% for block in coupon_blocks %}
+                    {% if block.type == 'coupon' %}
+                      {% assign min_spend = block.settings.min_spend %}
+                      {% assign min_spend_cents = min_spend | times: 100 %}
+                      {% assign cart_total = cart.total_price %}
+                      {% assign is_eligible = false %}
+                      {% if cart_total >= min_spend_cents %}
+                        {% assign is_eligible = true %}
+                      {% endif %}
+                      
+                      <div class="lx-offer-card{% if block.settings.highlight %} highlight-offer{% endif %}">
+                        <div class="lx-offer-details">
+                          <span class="lx-offer-code">
+                            <svg class="lx-tag-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+                              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                            {{ block.settings.code }}
+                          </span>
+                          <span class="lx-offer-desc">{{ block.settings.desc }}</span>
+                        </div>
+                        {% if is_eligible %}
+                          <button type="button" class="lx-offer-apply-btn" onclick="applyCouponCode('{{ block.settings.code }}')">APPLY</button>
+                        {% else %}
+                          {% assign diff_amount = min_spend_cents | minus: cart_total | divided_by: 100.0 | round %}
+                          <span class="lx-offer-locked-msg">🔒 Add ₹{{ diff_amount }}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="lx-offers-label">{{ section_settings.offers_label | default: 'Available Offers' }}</p>
+                <div class="lx-offers-scroll">
+                  {% assign mock_codes = "WELCOME10,SAVE20,FESTIVE30" | split: "," %}
+                  {% assign mock_min_spends = "500,999,1999" | split: "," %}
+                  {% assign mock_descs = "Get Flat 10% off on orders above ₹500,Get Flat 20% off on orders above ₹999,Get Flat 30% off on orders above ₹1999" | split: "," %}
+                  {% assign mock_highlights = "true,false,false" | split: "," %}
+                  
+                  {% for code in mock_codes %}
+                    {% assign idx = forloop.index0 %}
+                    {% assign min_spend = mock_min_spends[idx] | plus: 0 %}
                     {% assign min_spend_cents = min_spend | times: 100 %}
                     {% assign cart_total = cart.total_price %}
                     {% assign is_eligible = false %}
                     {% if cart_total >= min_spend_cents %}
                       {% assign is_eligible = true %}
                     {% endif %}
+                    {% assign highlight = mock_highlights[idx] %}
                     
-                    <div class="lx-offer-card{% if block.settings.highlight %} highlight-offer{% endif %}">
+                    <div class="lx-offer-card{% if highlight == 'true' %} highlight-offer{% endif %}">
                       <div class="lx-offer-details">
                         <span class="lx-offer-code">
                           <svg class="lx-tag-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
                             <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                             <line x1="7" y1="7" x2="7.01" y2="7"></line>
                           </svg>
-                          {{ block.settings.code }}
+                          {{ code }}
                         </span>
-                        <span class="lx-offer-desc">{{ block.settings.desc }}</span>
+                        <span class="lx-offer-desc">{{ mock_descs[idx] }}</span>
                       </div>
                       {% if is_eligible %}
-                        <button type="button" class="lx-offer-apply-btn" onclick="applyCouponCode('{{ block.settings.code }}')">APPLY</button>
+                        <button type="button" class="lx-offer-apply-btn" onclick="applyCouponCode('{{ code }}')">APPLY</button>
                       {% else %}
                         {% assign diff_amount = min_spend_cents | minus: cart_total | divided_by: 100.0 | round %}
                         <span class="lx-offer-locked-msg">🔒 Add ₹{{ diff_amount }}</span>
                       {% endif %}
                     </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
             {% endif %}
 
           </cart-discount-component>
