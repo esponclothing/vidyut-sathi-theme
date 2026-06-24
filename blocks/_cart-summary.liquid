@@ -31,7 +31,13 @@
   {{ block.shopify_attributes }}
 >
   <div class="{{ cart_summary_inner_class }}">
-    {% render 'cart-summary', accelerated_checkout_buttons_layout: 'vertical', section_id: section.id %}
+    {% render 'cart-summary',
+      accelerated_checkout_buttons_layout: 'vertical',
+      section_id: section.id,
+      show_coupon_offers: true,
+      coupon_blocks: section.blocks,
+      section_settings: section.settings
+    %}
   </div>
 </div>
 

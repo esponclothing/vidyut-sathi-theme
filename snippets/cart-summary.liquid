@@ -92,7 +92,375 @@
       {% if settings.show_cart_note and settings.show_add_discount_code %}
         <div class="cart-actions__divider"></div>
       {% endif %}
-      {% if settings.show_add_discount_code %}
+      {% if show_coupon_offers and section_settings.show_coupon_section %}
+        {% liquid
+          assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
+          for item in cart.items
+            for allocation in item.line_level_discount_allocations
+              if allocation.discount_application.type == 'discount_code'
+                assign discount_codes = item.line_level_discount_allocations | slice: forloop.index0 | map: 'discount_application' | map: 'title' | concat: discount_codes
+              endif
+            endfor
+          endfor
+
+          assign discount_codes = discount_codes | uniq
+        %}
+
+        <style>
+          .lx-coupon-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--color-border);
+          }
+          .lx-coupon-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-foreground);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0;
+          }
+          .lx-coupon-label svg {
+            color: var(--color-primary, #b89356);
+          }
+          .lx-coupon-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+          }
+          .lx-coupon-input {
+            flex: 1;
+            border: 1px solid var(--color-border);
+            border-radius: var(--style-border-radius-inputs, 4px);
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--color-foreground);
+            outline: none;
+            min-width: 0;
+            background: var(--color-input-background, #fff);
+            transition: border-color 0.2s ease;
+          }
+          .lx-coupon-input:focus {
+            border-color: var(--color-primary, #b89356);
+          }
+          .lx-coupon-input::placeholder {
+            letter-spacing: 0;
+            text-transform: none;
+            opacity: 0.6;
+          }
+          .lx-coupon-apply-btn {
+            background: var(--color-foreground) !important;
+            color: var(--color-background) !important;
+            border: none;
+            border-radius: var(--style-border-radius-inputs, 4px);
+            padding: 0 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: opacity 0.2s ease;
+          }
+          .lx-coupon-apply-btn:hover {
+            opacity: 0.9;
+          }
+          .lx-coupon-error-msg {
+            font-size: 12px;
+            color: #EF4444;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+          .lx-applied-coupon {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+          }
+          .lx-applied-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+          }
+          .lx-applied-code {
+            font-size: 14px;
+            font-weight: 700;
+            color: #065F46;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+          .lx-applied-code svg {
+            color: #10B981;
+          }
+          .lx-applied-desc {
+            font-size: 11px;
+            color: #047857;
+          }
+          .lx-remove-coupon-btn {
+            background: none;
+            border: 1px solid #FCA5A5;
+            border-radius: 4px;
+            color: #DC2626;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 12px;
+            transition: all 0.2s ease;
+          }
+          .lx-remove-coupon-btn:hover {
+            background: #FEF2F2;
+          }
+          .lx-offers-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+          }
+          .lx-offers-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+          }
+          .lx-offers-scroll::-webkit-scrollbar {
+            width: 4px;
+          }
+          .lx-offers-scroll::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 4px;
+          }
+          .lx-offer-card {
+            border: 1px dashed var(--color-border);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgb(var(--color-foreground-rgb) / 0.02);
+            transition: border-color 0.2s ease, background 0.2s ease;
+            gap: 12px;
+          }
+          .lx-offer-card:hover {
+            border-color: var(--color-primary, #b89356);
+            background: rgb(var(--color-foreground-rgb) / 0.04);
+          }
+          .lx-offer-card.highlight-offer {
+            border-color: var(--color-primary, #b89356);
+            background: rgb(var(--color-foreground-rgb) / 0.03);
+          }
+          .lx-offer-details {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          }
+          .lx-offer-code {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-foreground);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+          .lx-offer-code svg {
+            color: var(--color-primary, #b89356);
+          }
+          .lx-offer-desc {
+            font-size: 11px;
+            color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+          }
+          .lx-offer-apply-btn {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-primary, #b89356);
+            background: none;
+            border: 1px solid var(--color-primary, #b89356);
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 12px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+          }
+          .lx-offer-apply-btn:hover {
+            background: var(--color-primary, #b89356);
+            color: var(--color-background);
+          }
+          .lx-offer-locked-msg {
+            font-size: 11px;
+            color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+            white-space: nowrap;
+          }
+        </style>
+
+        <div class="lx-coupon-section">
+          <p class="lx-coupon-label">
+            <svg class="lx-tag-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" style="vertical-align: middle;">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            </svg>
+            <span>{{ section_settings.coupon_title | default: 'Coupons & Offers' }}</span>
+          </p>
+
+          <cart-discount-component
+            {% if section_id != blank %}
+              data-section-id="{{ section_id }}"
+            {% endif %}
+          >
+            {% if discount_codes.size > 0 %}
+              <ul class="lx-applied-coupons-list" style="list-style:none; padding:0; margin:0 0 10px 0;">
+                {% for discount_code in discount_codes %}
+                  <li
+                    class="cart-discount__pill lx-applied-coupon"
+                    data-discount-code="{{ discount_code }}"
+                  >
+                    <div class="lx-applied-left">
+                      <div class="lx-applied-code">
+                        <svg class="lx-check-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>{{ discount_code }}</span>
+                      </div>
+                      <span class="lx-applied-desc">Coupon Applied Successfully!</span>
+                    </div>
+                    <button
+                      type="button"
+                      on:click="/removeDiscount"
+                      class="lx-remove-coupon-btn"
+                      aria-label="Remove Coupon"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="cart-discount__content">
+                <form
+                  on:submit="/applyDiscount"
+                  onsubmit="return false;"
+                  class="lx-coupon-form"
+                >
+                  <div class="lx-coupon-input-row">
+                    <input
+                      id="cart-discount"
+                      class="lx-coupon-input"
+                      type="text"
+                      name="discount"
+                      placeholder="Enter coupon code"
+                      autocomplete="off"
+                      required
+                    >
+                    <button type="submit" class="lx-coupon-apply-btn">Apply</button>
+                  </div>
+                </form>
+              </div>
+            {% endif %}
+
+            <div
+              class="cart-discount__error hidden"
+              role="alert"
+              ref="cartDiscountError"
+            >
+              <div class="lx-coupon-error-msg">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span
+                  class="cart-discount__error-text hidden"
+                  ref="cartDiscountErrorDiscountCode"
+                >
+                  {{ 'content.discount_code_error' | t: code: 'test' }}
+                </span>
+                <span
+                  class="cart-discount__error-text hidden"
+                  ref="cartDiscountErrorShipping"
+                >
+                  {{ 'content.shipping_discount_error' | t }}
+                </span>
+              </div>
+            </div>
+
+            {% assign has_coupons = false %}
+            {% for block in coupon_blocks %}
+              {% if block.type == 'coupon' %}
+                {% assign has_coupons = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% if has_coupons and section_settings.show_available_offers %}
+              <p class="lx-offers-label">{{ section_settings.offers_label | default: 'Available Offers' }}</p>
+              <div class="lx-offers-scroll">
+                {% for block in coupon_blocks %}
+                  {% if block.type == 'coupon' %}
+                    {% assign min_spend = block.settings.min_spend %}
+                    {% assign min_spend_cents = min_spend | times: 100 %}
+                    {% assign cart_total = cart.total_price %}
+                    {% assign is_eligible = false %}
+                    {% if cart_total >= min_spend_cents %}
+                      {% assign is_eligible = true %}
+                    {% endif %}
+                    
+                    <div class="lx-offer-card{% if block.settings.highlight %} highlight-offer{% endif %}">
+                      <div class="lx-offer-details">
+                        <span class="lx-offer-code">
+                          <svg class="lx-tag-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                          </svg>
+                          {{ block.settings.code }}
+                        </span>
+                        <span class="lx-offer-desc">{{ block.settings.desc }}</span>
+                      </div>
+                      {% if is_eligible %}
+                        <button type="button" class="lx-offer-apply-btn" onclick="applyCouponCode('{{ block.settings.code }}')">APPLY</button>
+                      {% else %}
+                        {% assign diff_amount = min_spend_cents | minus: cart_total | divided_by: 100.0 | round %}
+                        <span class="lx-offer-locked-msg">🔒 Add ₹{{ diff_amount }}</span>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+          </cart-discount-component>
+        </div>
+
+        <script>
+          window.applyCouponCode = function(code) {
+            const input = document.querySelector('.lx-coupon-input');
+            if (input) {
+              input.value = code;
+              const form = input.closest('form');
+              if (form) {
+                const event = new Event('submit', { bubbles: true, cancelable: true });
+                form.dispatchEvent(event);
+              }
+            }
+          }
+        </script>
+
+      {% elsif settings.show_add_discount_code %}
         {% liquid
           assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
           for item in cart.items

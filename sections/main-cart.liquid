@@ -164,6 +164,36 @@
     },
     {
       "type": "spacer"
+    },
+    {
+      "type": "coupon",
+      "name": "Coupon Offer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "code",
+          "label": "Coupon Code",
+          "default": "SAVE20"
+        },
+        {
+          "type": "number",
+          "id": "min_spend",
+          "label": "Min Spend (in Rupees)",
+          "default": 999
+        },
+        {
+          "type": "text",
+          "id": "desc",
+          "label": "Offer Description",
+          "default": "Get Flat 20% off on orders above ₹999"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight this offer",
+          "default": false
+        }
+      ]
     }
   ],
   "settings": [
@@ -188,6 +218,34 @@
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Offers & Coupons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_coupon_section",
+      "label": "Show Coupon Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "coupon_title",
+      "label": "Coupon Section Title",
+      "default": "Coupons & Offers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_available_offers",
+      "label": "Show Available Offers List",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "offers_label",
+      "label": "Offers List Label",
+      "default": "Available Offers"
     },
     {
       "type": "header",
