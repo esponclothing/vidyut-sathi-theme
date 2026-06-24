@@ -9,58 +9,52 @@
  */{
   "sections": {
     "cart-section": {
-      "type": "main-cart",
+      "type": "main-cart-items",
       "blocks": {
-        "cart-page-title": {
-          "type": "_cart-title",
-          "static": true,
+        "coupon_1": {
+          "type": "coupon",
           "settings": {
-            "title": "Cart",
-            "show_count": true,
-            "type_preset": "h4",
-            "alignment": "left",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "code": "WELCOME10",
+            "min_spend": 500,
+            "desc": "Get Flat 10% off on orders above ₹500",
+            "highlight": true
+          }
         },
-        "cart-page-items": {
-          "type": "_cart-products",
-          "static": true,
+        "coupon_2": {
+          "type": "coupon",
           "settings": {
-            "gap": 24,
-            "image_ratio": "portrait",
-            "dividers": true,
-            "vendor": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "code": "SAVE20",
+            "min_spend": 999,
+            "desc": "Get Flat 20% off on orders above ₹999",
+            "highlight": false
+          }
         },
-        "cart-page-summary": {
-          "type": "_cart-summary",
-          "static": true,
+        "coupon_3": {
+          "type": "coupon",
           "settings": {
-            "extend_summary": true,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-2",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0
-          },
-          "blocks": {}
+            "code": "FESTIVE30",
+            "min_spend": 1999,
+            "desc": "Get Flat 30% off on orders above ₹1999",
+            "highlight": false
+          }
         }
       },
+      "block_order": [
+        "coupon_1",
+        "coupon_2",
+        "coupon_3"
+      ],
       "settings": {
-        "section_width": "page-width",
         "color_scheme": "",
-        "padding-block-start": 24,
-        "padding-block-end": 0
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "show_coupon_section": true,
+        "coupon_title": "Coupons & Offers",
+        "show_available_offers": true,
+        "offers_label": "Available Offers",
+        "free_shipping_threshold": 500,
+        "vip_threshold": 1999,
+        "vip_discount_code": "PURCHASE1999"
       }
     },
     "product_list_NNFgcy": {
