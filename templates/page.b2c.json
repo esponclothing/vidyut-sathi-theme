@@ -362,7 +362,7 @@
         "title": "INDIA'S NO 1 <br><span>ELECTRIC SAVER</span> CARD",
         "subtitle": "लगाएगा INDIA तो बचाएगा INDIA. Lower your electricity bills instantly.",
         "btn1_text": "BUY NOW",
-        "btn1_link": "",
+        "btn1_link": "shopify://collections/vidhyut-saathi-electric-saver-card-3-cards-combos",
         "btn2_text": "GET FRANCHISE",
         "btn2_link": "",
         "card_image": "shopify://shop_images/VS_Card_Final_Design_Golden_1.png",
@@ -407,7 +407,9 @@
         "hero_title_accent": "Electricity",
         "hero_title_suffix": "Crisis",
         "need_label": "The Need is Clear.",
+        "need_label_size": 22,
         "need_text": "",
+        "need_text_size": 15,
         "break_text": "Introducing the Solution",
         "solution_title_prefix": "Meet",
         "solution_title_accent": "Vidhyut Saathi Card",
@@ -429,55 +431,55 @@
         "banner_card_nJDJXm": {
           "type": "banner_card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-05-16_at_13.44.13_1.jpg",
-            "title": "Karigar Mela",
-            "subtitle": "Discover India's Handcrafted Treasures",
+            "image": "shopify://shop_images/DOC-20260616-WA0003.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
-            "bottom_label": "*T&C apply",
+            "bottom_label": "",
             "link": ""
           }
         },
         "banner_card_bbQ8A8": {
           "type": "banner_card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.14_AM.jpg",
-            "title": "Karigar Mela",
-            "subtitle": "Discover India's Handcrafted Treasures",
+            "image": "shopify://shop_images/DOC-20260616-WA0005.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
-            "bottom_label": "*T&C apply",
+            "bottom_label": "",
             "link": ""
           }
         },
         "banner_card_n3Dtkp": {
           "type": "banner_card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM_1.jpg",
-            "title": "Karigar Mela",
-            "subtitle": "Discover India's Handcrafted Treasures",
+            "image": "shopify://shop_images/DOC-20260616-WA0007.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
-            "bottom_label": "*T&C apply",
+            "bottom_label": "",
             "link": ""
           }
         },
         "banner_card_BiWiPp": {
           "type": "banner_card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.16_AM.jpg",
-            "title": "Karigar Mela",
-            "subtitle": "Discover India's Handcrafted Treasures",
+            "image": "shopify://shop_images/DOC-20260616-WA0009__jpeg.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
-            "bottom_label": "*T&C apply",
+            "bottom_label": "",
             "link": ""
           }
         },
         "banner_card_xyLHwy": {
           "type": "banner_card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-06-07_at_11.56.15_AM.jpg",
-            "title": "Karigar Mela",
-            "subtitle": "Discover India's Handcrafted Treasures",
+            "image": "shopify://shop_images/DOC-20260616-WA0011__jpeg.png",
+            "title": "",
+            "subtitle": "",
             "badge": "",
-            "bottom_label": "*T&C apply",
+            "bottom_label": "",
             "link": ""
           }
         }
@@ -492,13 +494,13 @@
       "settings": {
         "section_title": "Benifits Of Vidhyut Saathi Card",
         "section_subtitle": "Handpicked dynamic collections for you",
-        "section_title_font": "inherit",
+        "section_title_font": "rounded",
         "header_alignment": "left",
-        "section_title_color": "#F7941D",
+        "section_title_color": "#f7941d",
         "section_title_size": 21,
-        "section_title_weight": "700",
+        "section_title_weight": "800",
         "section_title_transform": "none",
-        "section_subtitle_color": "#555555",
+        "section_subtitle_color": "#3ead47",
         "section_subtitle_size": 14,
         "header_margin_bottom": 16,
         "card_width_mobile": 75,
@@ -511,16 +513,16 @@
         "section_padding_vertical": 8,
         "card_title_font": "inherit",
         "card_text_padding": 14,
-        "overlay_top_opacity": 45,
-        "overlay_bottom_opacity": 20,
-        "title_font_size": 22,
+        "overlay_top_opacity": 0,
+        "overlay_bottom_opacity": 0,
+        "title_font_size": 25,
         "title_color": "#ffffff",
         "subtitle_font_size": 14,
         "subtitle_color": "#eeeeee",
         "badge_font_size": 11,
         "badge_background": "#ff9900",
         "badge_color": "#111111",
-        "section_background": "#f0f2f2",
+        "section_background": "#fff6e7",
         "autoplay_speed": 1,
         "accessibility_info": "Promotional banners carousel"
       }

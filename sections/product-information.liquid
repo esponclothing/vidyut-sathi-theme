@@ -1,474 +1,766 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
 
+{%- style -%}
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.body_font | font_face: font_display: 'swap' }}
 
-<script type="application/ld+json">
-  {{ closest.product | structured_data }}
-</script>
+  .by-product-{{ section.id }} {
+    --bg-color: {{ section.settings.bg_color }};
+    --text-color: {{ section.settings.text_color }};
+    --text-light: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }};
+    --primary-btn: {{ section.settings.primary_button_color }};
+    --primary-btn-text: {{ section.settings.primary_button_text }};
+    --border-color: {{ section.settings.border_color }};
+    
+    /* Swipeable Offer Section Colors & Sizes */
+    --offer-section-bg: {{ section.settings.offer_section_bg }};
+    --offer-icon-bg: {{ section.settings.offer_icon_bg }};
+    --offer-link-color: {{ section.settings.offer_link_color }};
+    --offer-badge-bg: {{ section.settings.offer_badge_bg }};
+    --offer-copy-color: {{ section.settings.offer_copy_color }};
+    --offer-card-height: {{ section.settings.offer_card_height }}px;
+    
+    --font-heading: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+    --font-body: {{ section.settings.body_font.family }}, {{ section.settings.body_font.fallback_families }};
 
-{% capture media_gallery %}
-  {%- content_for 'block',
-    type: '_product-media-gallery',
-    id: 'media-gallery',
-    closest.product: closest.product
-  -%}
-{% endcapture %}
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    max-width: 768px;
+    margin: 0 auto;
+    padding-bottom: 110px;
+  }
 
-{% capture product_details %}
-  {% content_for 'block',
-    type: '_product-details',
-    id: 'product-details',
-    closest.product: closest.product
-  %}
-{% endcapture %}
+  .by-product-{{ section.id }} * { box-sizing: border-box; }
 
-{% capture additional_blocks %}
-  {% content_for 'blocks' %}
-{% endcapture %}
+  /* --- MEDIA GALLERY --- */
+  .by-media-gallery { width: 100%; background: #f7f7f7; }
+  .by-main-image { width: 100%; aspect-ratio: 4/5; overflow: hidden; position: relative; }
+  .by-main-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .by-thumbnails {
+    display: flex; gap: 10px; padding: 10px 16px;
+    overflow-x: auto; scrollbar-width: none; background: var(--bg-color);
+  }
+  .by-thumbnails::-webkit-scrollbar { display: none; }
+  .by-thumb {
+    width: 65px; height: 85px; border-radius: 6px;
+    border: 1px solid var(--border-color); overflow: hidden;
+    flex-shrink: 0; cursor: pointer;
+  }
+  .by-thumb.active { border: 2px solid var(--text-color); }
+  .by-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-{% if section.settings.enable_sticky_add_to_cart %}
-  {% liquid
-    assign current_variant = product.selected_or_first_available_variant
-    # Get the initial quantity based on quantity rules
-    assign initial_quantity = current_variant.quantity_rule.min | default: 1
-  %}
+  /* --- CONTENT AREA & TITLE --- */
+  .by-content-wrapper { padding: 20px 16px; }
 
-  <sticky-add-to-cart
-    class="sticky-add-to-cart"
-    data-variant-available="{{ current_variant.available }}"
-    data-product-id="{{ product.id }}"
-    data-current-variant-id="{{ current_variant.id }}"
-    data-initial-quantity="{{ initial_quantity }}"
-    data-default-variant-title="{{ 'products.product.default_title' | t }}"
-  >
-    <div
-      class="sticky-add-to-cart__bar color-{{ settings.popover_color_scheme }}"
-      data-stuck="false"
-      ref="stickyBar"
-      role="region"
-      aria-label="{{ 'products.product.sticky_add_to_cart' | t }}"
-    >
-      {% liquid
-        assign image_to_show = current_variant.featured_image | default: product.featured_image
-      %}
-      {% if image_to_show %}
-        <div
-          class="sticky-add-to-cart__image"
-        >
-          {% assign image_alt = image_to_show.alt | default: product.title | escape %}
-          {{
-            image_to_show
-            | image_url: width: 120
-            | image_tag:
-              loading: 'lazy',
-              alt: image_alt,
-              class: 'sticky-add-to-cart__image-img',
-              data-testid: 'sticky-product-image',
-              srcset: null,
-              sizes: null,
-              ref: 'productImage'
-          }}
-        </div>
-      {% endif %}
+  .by-title-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .by-title-row h1 {
+    font-family: var(--font-heading); font-size: 1.4rem; margin: 0;
+    font-weight: 700; color: var(--text-color); line-height: 1.3;
+    padding-right: 10px;
+  }
+  
+  /* --- PRICING & SHARE ROW --- */
+  .by-price-share-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .by-price-wrapper { display: flex; align-items: center; gap: 12px; transition: opacity 0.2s ease; }
+  .by-current-price { font-size: 1.6rem; font-weight: 800; color: var(--text-color); }
+  .by-compare-price { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
+  .by-save-badge {
+    background: #E8F5E9; color: #2E7D32; font-size: 0.8rem;
+    font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
+  }
+  
+  .by-share-btn {
+    background: none; border: none; cursor: pointer; padding: 8px;
+    color: var(--text-color); display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+  }
+  .by-share-btn:active { transform: scale(0.9); }
+  .by-share-btn svg { width: 22px; height: 22px; fill: currentColor; }
 
-      {% liquid
-        assign has_single_option = false
-        if product.has_only_default_variant != true and product.options.size == 1
-          assign has_single_option = true
-        endif
+  /* --- COMPACT SWIPEABLE OFFERS SECTION --- */
+  .by-offers-section {
+    background: var(--offer-section-bg);
+    border-radius: 8px;
+    padding: 12px 12px 20px 12px;
+    margin-bottom: 24px;
+  }
+  .by-offers-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+  }
+  .by-offers-title {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 800; font-size: 1rem; color: var(--text-color);
+  }
+  .by-offer-icon {
+    background: var(--offer-icon-bg); color: #fff;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-weight: bold; font-size: 0.8rem;
+  }
+  .by-offers-link {
+    color: var(--offer-link-color); font-size: 0.8rem;
+    font-weight: 700; text-decoration: none;
+  }
+  
+  .by-offers-scroll {
+    display: flex; overflow-x: auto; gap: 12px;
+    scrollbar-width: none; scroll-snap-type: x mandatory;
+    padding-bottom: 10px; 
+  }
+  .by-offers-scroll::-webkit-scrollbar { display: none; }
+  
+  .by-offer-card {
+    min-width: 85%; max-width: 300px; flex-shrink: 0;
+    background: #fff; border: 1.5px dashed #ccc;
+    border-radius: 6px; padding: 12px 16px; position: relative;
+    scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center;
+  }
+  .by-offer-card strong { display: block; font-size: 0.95rem; margin-bottom: 4px; color: var(--text-color); }
+  .by-offer-card p { font-size: 0.75rem; color: var(--text-light); margin: 0 0 10px 0; line-height: 1.3; }
+  
+  .by-offer-copy {
+    background: none; border: none; padding: 0;
+    color: var(--offer-copy-color); font-weight: 700; font-size: 0.75rem;
+    display: flex; align-items: center; gap: 4px; cursor: pointer;
+    text-transform: uppercase; margin-top: auto;
+  }
+  .by-offer-copy svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+  
+  .by-offer-badge {
+    position: absolute; right: 12px; bottom: -10px;
+    background: var(--offer-badge-bg); color: #fff;
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); white-space: nowrap;
+  }
 
-        if image_to_show == blank
-          assign has_image = false
-        else
-          assign has_image = true
-        endif
-      %}
-      <div
-        class="sticky-add-to-cart__info"
-        data-has-image="{{ has_image }}"
-        data-singleton="{{ product.has_only_default_variant }}"
-        data-single-option="{{ has_single_option }}"
-      >
-        <p
-          class="sticky-add-to-cart__title"
-          data-testid="sticky-product-title"
-        >
-          {{ product.title | escape }}
-        </p>
-        <div
-          class="sticky-add-to-cart__variant"
-          data-testid="sticky-variant-title"
-          {% if product.has_only_default_variant %}
-            style="display: none;"
-          {% endif %}
-        >
-          {% unless product.has_only_default_variant %}
-            {% if current_variant != blank %}
-              {% assign variant_title = current_variant.title | escape %}
-            {% endif %}
-            {{ variant_title }}
-          {% endunless %}
-        </div>
-      </div>
+  /* --- COMBO PACK SELECTION --- */
+  .by-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .by-section-title { font-weight: 800; font-size: 1.15rem; }
+  
+  .by-install-btn {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-color);
+    background: #fff; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-color); text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s ease; cursor: pointer;
+  }
+  .by-install-btn:hover { border-color: var(--text-color); background: #fafafa; }
+  
+  .by-combo-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+  .by-combo-card {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1.5px solid var(--border-color); 
+    padding: 16px; border-radius: 10px; cursor: pointer; position: relative; background: #fff; transition: all 0.3s ease;
+  }
+  .by-combo-card:hover { border-color: #ccc; }
+  .by-combo-card.active { border-color: var(--primary-btn); background: #FFFAEB; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  
+  .by-combo-left { display: flex; align-items: center; gap: 12px; }
+  .by-combo-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #ccc; position: relative; flex-shrink: 0; }
+  .by-combo-card.active .by-combo-radio { border-color: var(--primary-btn); }
+  .by-combo-card.active .by-combo-radio::after { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; background: var(--primary-btn); border-radius: 50%; }
+  
+  .by-combo-info { display: flex; flex-direction: column; gap: 2px; }
+  .by-combo-title { font-weight: 800; font-size: 1.05rem; color: var(--text-color); }
+  .by-combo-desc { font-size: 0.8rem; color: var(--text-light); }
+  
+  /* Creative Card Label Styling */
+  .by-combo-card-label {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.65rem; font-weight: 800; color: var(--offer-icon-bg); /* Uses a nice accent color */
+    background: var(--offer-section-bg); padding: 3px 8px; 
+    border-radius: 4px; margin-top: 2px; margin-bottom: 2px;
+    width: fit-content; text-transform: uppercase; letter-spacing: 0.5px;
+    border: 1px dashed var(--offer-icon-bg);
+  }
 
-      <div
-        class="sticky-add-to-cart__price"
-        data-testid="sticky-price-display"
-      >
-        {% render 'price', product_resource: product, show_sale_price_first: true %}
-      </div>
+  .by-combo-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+  .by-combo-price { font-weight: 800; font-size: 1.15rem; color: var(--text-color); }
+  .by-combo-compare { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-bottom: 2px; }
+  
+  .by-combo-badge {
+    position: absolute; left: 16px; top: -10px; background: var(--primary-btn); color: var(--primary-btn-text);
+    font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
 
-      <button
-        type="button"
-        class="sticky-add-to-cart__button add-to-cart-button button"
-        ref="addToCartButton"
-        on:click="/handleAddToCartClick"
-        {% unless current_variant.available %}
-          disabled
-        {% endunless %}
-      >
-        <span
-          class="add-to-cart-text"
-        >
-          {% if current_variant.available %}
-            <span class="svg-wrapper add-to-cart-icon">
-              {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
-            </span>
-          {% endif %}
-          <span class="add-to-cart-text__content">
-            <span>
-              {%- if current_variant.available -%}
-                {{- 'products.product.add_to_cart' | t -}}
-              {%- elsif current_variant == blank -%}
-                {{- 'products.product.unavailable' | t -}}
-              {%- else -%}
-                {{- 'products.product.sold_out' | t -}}
-              {%- endif -%}
-            </span>
-            <span
-              ref="quantityDisplay"
-              {% if current_variant.available and initial_quantity > 1 %}
-                style="display: inline;"
-              {% else %}
-                style="display: none;"
-              {% endif %}
-            >
-              {{- ' (' -}}
-              <span ref="quantityNumber">{{- initial_quantity -}}</span>
-              {{- ')' -}}
-            </span>
-          </span>
-        </span>
-        <span class="add-to-cart__added">
-          <span class="svg-wrapper add-to-cart__added-icon">
-            {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
-          </span>
-        </span>
-      </button>
+  /* --- DELIVERY --- */
+  .by-delivery-wrapper { margin-top: 24px; margin-bottom: 24px; }
+  .by-delivery-input-group { display: flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+  .by-delivery-input-group input { flex: 1; padding: 16px; border: none; outline: none; font-family: inherit; }
+  .by-delivery-input-group button { background: var(--text-color); color: var(--bg-color); border: none; padding: 0 24px; font-weight: bold; cursor: pointer; }
+
+  /* --- ACCORDIONS --- */
+  .by-details-container { margin-top: 12px; }
+  .by-accordion { border-bottom: 1px solid var(--border-color); }
+  .by-accordion:first-of-type { border-top: 1px solid var(--border-color); }
+  .by-accordion summary { padding: 18px 0; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+  .by-accordion summary::-webkit-details-marker { display: none; }
+  .by-accordion summary::after { content: '+'; font-size: 1.4rem; transition: transform 0.3s; }
+  .by-accordion[open] summary::after { transform: rotate(45deg); }
+  .by-accordion-content { padding-bottom: 18px; font-size: 0.95rem; color: var(--text-light); line-height: 1.6; }
+
+  /* --- STICKY BOTTOM ACTIONS --- */
+  .by-sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-color); padding: 16px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.08); display: flex; z-index: 999;
+    max-width: 768px; margin: 0 auto; border-top: 1px solid var(--border-color);
+  }
+  .by-btn-add {
+    width: 100%; padding: 18px; border: none; border-radius: 8px; font-weight: 800; font-size: 1.15rem; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 1px; background: var(--primary-btn); color: var(--primary-btn-text);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 8px;
+  }
+  .by-btn-add:active { transform: scale(0.98); }
+  .by-btn-add.loading { opacity: 0.8; pointer-events: none; }
+
+  @media (min-width: 769px) {
+    .by-sticky-bar { position: sticky; bottom: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
+    .by-product-{{ section.id }} { padding-bottom: 20px; }
+  }
+{%- endstyle -%}
+
+<div class="by-product-{{ section.id }}">
+  
+  <div class="by-media-gallery">
+    <div class="by-main-image">
+      {%- if product.featured_media -%}
+        <img src="{{ product.featured_media | img_url: '800x' }}" alt="{{ product.title | escape }}">
+      {%- else -%}
+        <div style="width: 100%; height: 100%; background: #e0e0e0; display:flex; align-items:center; justify-content:center; color: #666;">Product Image</div>
+      {%- endif -%}
     </div>
-  </sticky-add-to-cart>
-{% endif %}
+  </div>
 
-{% render 'product-information-content',
-  product_media_size: closest.product.media.size,
-  section_id: section.id,
-  settings: section.settings,
-  media_gallery: media_gallery,
-  product_details: product_details,
-  additional_blocks: additional_blocks
-%}
+  <div class="by-content-wrapper">
+    
+    {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      
+      <div class="by-title-row">
+        <h1>{{ product.title | default: 'Premium Modular Pack' }}</h1>
+      </div>
 
-{% stylesheet %}
-  .sticky-add-to-cart__bar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    opacity: 0;
-    transform: translateX(-50%) translateY(calc(100% + 40px));
-    z-index: calc(var(--layer-sticky) - 1); /* Below sticky header */
-    display: block;
-    width: 600px;
-    border-radius: calc(
-      var(--style-border-radius-buttons-primary) + min(var(--padding-sm), var(--style-border-radius-buttons-primary))
-    );
-    box-shadow: var(--shadow-popover);
-    padding: var(--padding-sm);
-    /* Layout styling */
-    display: flex;
-    align-items: center;
-    gap: var(--gap-md);
+      <div class="by-price-share-row">
+        <div class="by-price-wrapper" id="MainPriceWrapper-{{ section.id }}">
+          <span class="by-current-price" id="TopPrice-{{ section.id }}">
+            {{ current_variant.price | default: 199900 | money }}
+          </span>
+          <span class="by-compare-price" id="TopComparePrice-{{ section.id }}" {% unless current_variant.compare_at_price > current_variant.price %}style="display:none;"{% endunless %}>
+            {{ current_variant.compare_at_price | money }}
+          </span>
+          {%- assign top_save_percent = 0 -%}
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            {%- assign top_save_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
+          {%- endif -%}
+          <span class="by-save-badge" id="TopSaveBadge-{{ section.id }}" {% if top_save_percent == 0 %}style="display:none;"{% endif %}>
+            Save {{ top_save_percent }}%
+          </span>
+        </div>
+        
+        <button type="button" class="by-share-btn" id="ShareBtn-{{ section.id }}" aria-label="Share product">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+        </button>
+      </div>
 
-    @starting-style {
-      opacity: 0;
-      transform: translateX(-50%) translateY(calc(100% + 40px));
+      {%- if section.settings.enable_offers_section -%}
+        <div class="by-offers-section">
+          <div class="by-offers-header">
+            <div class="by-offers-title">
+              <span class="by-offer-icon">%</span>
+              Offers & Discounts
+            </div>
+            {%- if section.settings.offer_link_url != blank -%}
+              <a href="{{ section.settings.offer_link_url }}" class="by-offers-link">{{ section.settings.offer_link_text }}</a>
+            {%- else -%}
+              <span class="by-offers-link" style="cursor: pointer;">{{ section.settings.offer_link_text }}</span>
+            {%- endif -%}
+          </div>
+          
+          <div class="by-offers-scroll">
+            {%- assign has_offers = false -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'offer' -%}
+                {%- assign has_offers = true -%}
+                <div class="by-offer-card" {{ block.shopify_attributes }}>
+                  <strong>{{ block.settings.title }}</strong>
+                  <p>{{ block.settings.subtitle }}</p>
+                  
+                  <button type="button" class="by-offer-copy" data-code="{{ block.settings.code }}">
+                    <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    <span>CLICK TO COPY</span>
+                  </button>
+
+                  {%- if block.settings.enable_timer and block.settings.timer_date != blank -%}
+                    <div class="by-offer-badge timer-badge" data-endtime="{{ block.settings.timer_date }}">Loading...</div>
+                  {%- elsif block.settings.badge_text != blank -%}
+                    <div class="by-offer-badge">{{ block.settings.badge_text }}</div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if has_offers == false -%}
+              <div class="by-offer-card">
+                <strong>Freeship</strong>
+                <p>Get Free Shipping on all orders</p>
+                <button type="button" class="by-offer-copy" data-code="FREESHIP">
+                  <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <span>CLICK TO COPY</span>
+                </button>
+                <div class="by-offer-badge">Limited Time</div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="by-section-header">
+        <span class="by-section-title">Select Pack Options</span>
+        {%- if section.settings.install_guide_link != blank or section.settings.install_guide_text != blank -%}
+          <a href="{{ section.settings.install_guide_link | default: '#' }}" class="by-install-btn" {% if section.settings.install_guide_link != blank %}target="_blank"{% endif %}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            {{ section.settings.install_guide_text | default: "Installation Guide" }}
+          </a>
+        {%- endif -%}
+      </div>
+      
+      <div class="by-combo-grid" id="ComboGrid-{{ section.id }}">
+        <input type="hidden" name="id" id="SelectedVariantID-{{ section.id }}" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        
+        {%- for variant in product.variants -%}
+          {%- assign save_percent = 0 -%}
+          {%- if variant.compare_at_price > variant.price -%}
+            {%- assign save_percent = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round -%}
+          {%- endif -%}
+
+          {%- assign custom_subtitle = '' -%}
+          {%- assign custom_badge = '' -%}
+          {%- assign creative_card_label = '' -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'variant_meta' and block.settings.variant_title == variant.title -%}
+              {%- assign custom_subtitle = block.settings.subtitle -%}
+              {%- assign custom_badge = block.settings.custom_badge -%}
+              {%- assign creative_card_label = block.settings.card_label -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if creative_card_label == blank -%}
+            {%- assign downcase_title = variant.title | downcase -%}
+            {%- if downcase_title contains 'single' or downcase_title contains 'one' or downcase_title contains '1' -%}
+              {%- assign creative_card_label = 'One Card' -%}
+            {%- elsif downcase_title contains 'trio' or downcase_title contains 'three' or downcase_title contains '3' -%}
+              {%- assign creative_card_label = 'Three Cards' -%}
+            {%- elsif downcase_title contains 'penta' or downcase_title contains 'five' or downcase_title contains '5' -%}
+              {%- assign creative_card_label = 'Five Cards' -%}
+            {%- else -%}
+              {%- assign creative_card_label = 'Combo Pack' -%}
+            {%- endif -%}
+          {%- endif -%}
+
+          <label class="by-combo-card {% if variant.id == current_variant.id %}active{% endif %}">
+            <input type="radio" name="combo_selector_radio" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %} data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-save="{% if save_percent > 0 %}{{ save_percent }}{% endif %}" style="display:none;">
+            {%- if custom_badge != blank -%}
+              <span class="by-combo-badge">{{ custom_badge }}</span>
+            {%- elsif save_percent > 0 -%}
+              <span class="by-combo-badge">Save {{ save_percent }}%</span>
+            {%- endif -%}
+            
+            <div class="by-combo-left">
+              <div class="by-combo-radio"></div>
+              <div class="by-combo-info">
+                <span class="by-combo-title">{{ variant.title }}</span>
+                
+                <span class="by-combo-card-label">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                  {{ creative_card_label }}
+                </span>
+
+                {%- if custom_subtitle != blank -%}
+                  <span class="by-combo-desc">{{ custom_subtitle }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="by-combo-right">
+              {%- if variant.compare_at_price > variant.price -%}
+                <span class="by-combo-compare">{{ variant.compare_at_price | money }}</span>
+              {%- endif -%}
+              <span class="by-combo-price">{{ variant.price | money }}</span>
+            </div>
+          </label>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.enable_delivery_check -%}
+      <div class="by-delivery-wrapper">
+        <div class="by-section-title" style="margin-bottom: 12px;">Check Delivery Availability</div>
+        <div class="by-delivery-input-group">
+          <input type="text" placeholder="Enter Pincode / Zip Code">
+          <button type="button">Check</button>
+        </div>
+      </div>
+      {%- endif -%}
+
+      <div class="by-details-container">
+        <details class="by-accordion" open>
+          <summary>Product Description</summary>
+          <div class="by-accordion-content">{{ product.description | default: 'Experience premium quality.' }}</div>
+        </details>
+      </div>
+
+      <div class="by-sticky-bar">
+        <button class="by-btn-add" type="submit" name="add" id="SubmitBtn-{{ section.id }}">
+          <span>Add to Cart</span> 
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+
+    {%- endform -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1. Combo Variant Selection Logic
+    const grid = document.getElementById('ComboGrid-{{ section.id }}');
+    const mainVariantInput = document.getElementById('SelectedVariantID-{{ section.id }}');
+    const topPrice = document.getElementById('TopPrice-{{ section.id }}');
+    const topCompare = document.getElementById('TopComparePrice-{{ section.id }}');
+    const topSaveBadge = document.getElementById('TopSaveBadge-{{ section.id }}');
+    const priceWrapper = document.getElementById('MainPriceWrapper-{{ section.id }}');
+
+    if(grid) {
+      const cards = grid.querySelectorAll('.by-combo-card');
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          cards.forEach(c => c.classList.remove('active'));
+          this.classList.add('active');
+          
+          const radio = this.querySelector('input[type="radio"]');
+          if(radio) {
+            radio.checked = true;
+            if(mainVariantInput) mainVariantInput.value = radio.value;
+            
+            priceWrapper.style.opacity = '0';
+            setTimeout(() => {
+              if(topPrice && radio.dataset.price) topPrice.innerHTML = radio.dataset.price;
+              if(topCompare) {
+                if(radio.dataset.compare) {
+                  topCompare.innerHTML = radio.dataset.compare;
+                  topCompare.style.display = 'inline-block';
+                } else {
+                  topCompare.style.display = 'none';
+                }
+              }
+              if(topSaveBadge) {
+                if(radio.dataset.save) {
+                  topSaveBadge.innerHTML = 'Save ' + radio.dataset.save + '%';
+                  topSaveBadge.style.display = 'inline-block';
+                } else {
+                  topSaveBadge.style.display = 'none';
+                }
+              }
+              priceWrapper.style.opacity = '1';
+            }, 150);
+          }
+        });
+      });
     }
 
-    &::before {
-      --border: 2px;
-      content: '';
-      position: absolute;
-      inset: calc(var(--border) * -1);
-      background: linear-gradient(var(--color-background) 0 100%), linear-gradient(hsl(0 0% 0% / 0.15) 0 100%);
-      background-clip: content-box, border-box;
-      border: var(--border) solid #0000;
-      border-radius: inherit;
-      z-index: -1;
-      backdrop-filter: blur(20px) saturate(180%) brightness(1.5);
-    }
-  }
+    // 2. Coupon Copy Engine
+    const copyBtns = document.querySelectorAll('.by-offer-copy');
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const code = this.getAttribute('data-code');
+        const span = this.querySelector('span');
+        if(navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(code).then(() => {
+            span.innerText = 'COPIED!';
+            setTimeout(() => { span.innerText = 'CLICK TO COPY'; }, 2000);
+          });
+        } else {
+          const textArea = document.createElement("textarea");
+          textArea.value = code; document.body.appendChild(textArea);
+          textArea.select(); document.execCommand("copy"); textArea.remove();
+          span.innerText = 'COPIED!';
+          setTimeout(() => { span.innerText = 'CLICK TO COPY'; }, 2000);
+        }
+      });
+    });
 
-  @media (prefers-reduced-motion: no-preference) {
-    .sticky-add-to-cart__bar {
-      transition-property: transform, opacity, display;
-      transition-duration: 0.3s;
-      transition-timing-function: var(--ease-out-quad);
-      transition-behavior: allow-discrete;
-    }
-  }
-
-  .sticky-add-to-cart__bar[data-stuck='true'] {
-    transform: translateX(-50%) translateY(0%);
-    opacity: 1;
-  }
-
-  sticky-add-to-cart:not([data-variant-available='true']) .sticky-add-to-cart__bar {
-    opacity: 0;
-    transform: translateX(-50%) translateY(calc(100% + 40px));
-    display: none;
-  }
-
-  .sticky-add-to-cart__info[data-has-image='false'] {
-    padding-left: var(--padding-lg);
-  }
-
-  .sticky-add-to-cart__image {
-    flex-shrink: 0;
-    aspect-ratio: 1;
-    height: var(--height-buy-buttons);
-    overflow: hidden;
-    border-radius: var(--style-border-radius-buttons-primary);
-    background: var(--color-background-secondary);
-  }
-
-  .sticky-add-to-cart__image-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .sticky-add-to-cart__info {
-    flex: 1;
-    min-width: 0; /* Allow text truncation */
-  }
-
-  .sticky-add-to-cart__title {
-    font-size: var(--font-paragraph-medium--size);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--font-paragraph--line-height);
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .sticky-add-to-cart__variant {
-    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
-    font-size: var(--font-paragraph-small--size);
-    margin-top: var(--margin-3xs);
-  }
-
-  .sticky-add-to-cart__price {
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .sticky-add-to-cart__button {
-    height: var(--height-buy-buttons);
-    position: relative;
-  }
-
-  /* Mobile adjustments */
-  @media screen and (max-width: 749px) {
-    .sticky-add-to-cart__bar {
-      bottom: 0;
-      width: 100%;
-      max-width: none;
-      border-radius: 0;
-
-      &::before {
-        --border: 1px;
-      }
+    // 3. Native Share API Engine
+    const shareBtn = document.getElementById('ShareBtn-{{ section.id }}');
+    if(shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        if (navigator.share) {
+          navigator.share({
+            title: '{{ product.title | escape }}',
+            url: window.location.href
+          }).catch(console.error);
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          alert('Product link copied to clipboard!');
+        }
+      });
     }
 
-    .sticky-add-to-cart__bar .add-to-cart-text__content {
-      display: none;
+    // 4. Live Countdown Engine
+    const timerBadges = document.querySelectorAll('.timer-badge');
+    if(timerBadges.length > 0) {
+      setInterval(() => {
+        const now = new Date().getTime();
+        timerBadges.forEach(badge => {
+          let targetStr = badge.getAttribute('data-endtime').replace(/-/g, '/');
+          const countDownDate = new Date(targetStr).getTime();
+          const distance = countDownDate - now;
+          if (distance < 0) {
+            badge.innerHTML = "EXPIRED";
+          } else {
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            badge.innerHTML = `Ends in ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+          }
+        });
+      }, 1000);
     }
-
-    .sticky-add-to-cart__info[data-has-image='false'] {
-      padding-left: 0;
+    
+    // Button Loading State
+    const form = document.getElementById('{{ product_form_id }}');
+    const btn = document.getElementById('SubmitBtn-{{ section.id }}');
+    if(form && btn) {
+      form.addEventListener('submit', function() {
+        btn.classList.add('loading');
+        btn.querySelector('span').innerText = 'Adding...';
+        setTimeout(() => { 
+          btn.classList.remove('loading'); 
+          btn.querySelector('span').innerText = 'Add to Cart'; 
+        }, 2000);
+      });
     }
-
-    .sticky-add-to-cart__title {
-      font-size: var(--font-paragraph--size);
-    }
-
-    .sticky-add-to-cart__button {
-      padding: var(--padding-lg);
-    }
-
-    .sticky-add-to-cart__price {
-      font-size: var(--font-paragraph-small--size);
-    }
-
-    .sticky-add-to-cart__button {
-      width: var(--height-buy-buttons);
-    }
-
-    sticky-add-to-cart:not([data-variant-available='true']) .add-to-cart-text__content {
-      display: initial;
-    }
-
-    sticky-add-to-cart:not([data-variant-available='true']) .sticky-add-to-cart__button {
-      width: auto;
-    }
-  }
-
-  /* Small mobile - hide text content and compare price */
-  @media screen and (max-width: 389px) {
-    .sticky-add-to-cart__bar {
-      .compare-at-price {
-        display: none;
-      }
-    }
-
-    .sticky-add-to-cart__title {
-      display: none;
-    }
-
-    /* For product with only default variant show title */
-    .sticky-add-to-cart__info[data-singleton='true'] .sticky-add-to-cart__title {
-      display: block;
-    }
-
-    /* For single variant show title and variant, truncate both. variant should be identifiable with truncation */
-    .sticky-add-to-cart__info[data-single-option='true'] .sticky-add-to-cart__title {
-      display: block;
-    }
-
-    .sticky-add-to-cart__info[data-single-option='true'] .sticky-add-to-cart__variant {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-{% endstylesheet %}
+  });
+</script>
 
 {% schema %}
 {
-  "name": "t:names.product_information",
-  "blocks": [
-    {
-      "type": "@app"
-    }
-  ],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "name": "Combo Product Info",
   "settings": [
     {
       "type": "header",
-      "content": "t:content.layout"
+      "content": "Base Colors"
     },
     {
-      "type": "select",
-      "id": "content_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "content-center-aligned",
-          "label": "t:options.page"
-        },
-        {
-          "value": "content-full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "content-center-aligned"
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
     },
     {
-      "type": "select",
-      "id": "desktop_media_position",
-      "label": "t:settings.media_position",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:options.left"
-        },
-        {
-          "value": "right",
-          "label": "t:options.right"
-        }
-      ],
-      "default": "left"
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
     },
     {
-      "type": "checkbox",
-      "id": "equal_columns",
-      "label": "t:settings.equal_columns",
-      "default": false
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#EAEAEA"
     },
     {
-      "type": "checkbox",
-      "id": "limit_details_width",
-      "label": "t:settings.limit_product_details_width",
-      "default": false,
-      "visible_if": "{{ section.settings.equal_columns }}"
+      "type": "color",
+      "id": "primary_button_color",
+      "label": "Add To Cart / Accent Color",
+      "default": "#D4A373"
     },
     {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 48,
-      "step": 4,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sticky_add_to_cart",
-      "label": "t:settings.enable_sticky_add_to_cart",
-      "default": true
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
+      "type": "color",
+      "id": "primary_button_text",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
     },
     {
       "type": "header",
-      "content": "t:content.padding"
+      "content": "Swipeable Offers Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_offers_section",
+      "label": "Enable Offers Section",
+      "default": true
     },
     {
       "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
+      "id": "offer_card_height",
+      "min": 80,
+      "max": 200,
+      "step": 5,
       "unit": "px",
-      "default": 0
+      "label": "Adjust Offer Box Height",
+      "default": 110
     },
     {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
+      "type": "color",
+      "id": "offer_section_bg",
+      "label": "Section Background",
+      "default": "#E8F5E9"
+    },
+    {
+      "type": "color",
+      "id": "offer_icon_bg",
+      "label": "Header Icon Background",
+      "default": "#D4A373"
+    },
+    {
+      "type": "color",
+      "id": "offer_link_color",
+      "label": "View All Link Color",
+      "default": "#A67B5B"
+    },
+    {
+      "type": "color",
+      "id": "offer_copy_color",
+      "label": "Click to Copy Color",
+      "default": "#4C7B8B"
+    },
+    {
+      "type": "color",
+      "id": "offer_badge_bg",
+      "label": "Countdown Badge Background",
+      "default": "#F27A33"
+    },
+    {
+      "type": "text",
+      "id": "offer_link_text",
+      "label": "Header Link Text",
+      "default": "View all Offers"
+    },
+    {
+      "type": "url",
+      "id": "offer_link_url",
+      "label": "Header Link URL (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "work_sans_n7"
+    },
+    {
+      "type": "font_picker",
+      "id": "body_font",
+      "label": "Body Font",
+      "default": "work_sans_n4"
+    },
+    {
+      "type": "header",
+      "content": "Installation Guide Button"
+    },
+    {
+      "type": "text",
+      "id": "install_guide_text",
+      "label": "Button Text",
+      "default": "Installation Guide"
+    },
+    {
+      "type": "url",
+      "id": "install_guide_link",
+      "label": "Guide URL"
+    },
+    {
+      "type": "header",
+      "content": "Other Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_delivery_check",
+      "label": "Enable Pincode/Delivery Check",
+      "default": true
     }
   ],
-  "presets": []
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Offer Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Offer Title",
+          "default": "Freeship"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Offer Description",
+          "default": "Get Free Shipping on all orders"
+        },
+        {
+          "type": "text",
+          "id": "code",
+          "label": "Coupon Code (For Clipboard)",
+          "default": "FREESHIP"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_timer",
+          "label": "Enable Live Countdown Timer",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "timer_date",
+          "label": "Countdown End Date",
+          "info": "Format: YYYY/MM/DD HH:MM:SS (e.g. 2026/12/31 23:59:00)",
+          "default": "2026/12/31 23:59:00"
+        }
+      ]
+    },
+    {
+      "type": "variant_meta",
+      "name": "Variant Text Add-on",
+      "settings": [
+        {
+          "type": "text",
+          "id": "variant_title",
+          "label": "Link to Variant Title",
+          "info": "Must exactly match the variant name in Shopify Admin (e.g. 'Single', 'Trio', 'Penta')."
+        },
+        {
+          "type": "text",
+          "id": "card_label",
+          "label": "Creative Highlight Text",
+          "info": "E.g. 'One Card', 'Three Cards', 'Five Cards'."
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle Description"
+        },
+        {
+          "type": "text",
+          "id": "custom_badge",
+          "label": "Custom Corner Badge (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Combo Product Info"
+    }
+  ]
 }
 {% endschema %}

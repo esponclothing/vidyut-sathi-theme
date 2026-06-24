@@ -1,1 +1,73 @@
-{"type":"footer","name":"Footer","sections":{"vidyut_footer_z7CTmr":{"type":"vidyut_footer","name":"Espon 3D Footer","settings":{"bg_color":"#fff8ef","text_color":"#0f172a","primary_color":"#007b3e","secondary_color":"#f17e39","footer_logo":"shopify:\/\/shop_images\/Vidhyut_Saathi_Logo.jpg_1.jpg","logo_width":120,"brand_text":"Premium sportswear engineered for athletes. Train harder, run faster, and break your limits with ESPON. Quality guaranteed.","col_1_title":"Shop Gear","col_1_link_1_text":"All Products","col_1_link_1_url":"","col_1_link_2_text":"New Arrivals","col_1_link_2_url":"","col_1_link_3_text":"Best Sellers","col_1_link_3_url":"","col_1_link_4_text":"Trending","col_1_link_4_url":"","col_2_title":"Support","col_2_link_1_text":"Help & FAQs","col_2_link_1_url":"","col_2_link_2_text":"Shipping & Delivery","col_2_link_2_url":"","col_2_link_3_text":"7-Day Returns","col_2_link_3_url":"","col_2_link_4_text":"Privacy Policy","col_2_link_4_url":"","address":"Rohtak, Haryana - 124001","email":"support@esponsports.com","phone_display":"+91-9053525151","phone_raw":"+919053525151","whatsapp_raw":"917206066678","social_fb":"","social_insta":"","social_yt":""}}},"order":["vidyut_footer_z7CTmr"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "whatsapp_button_9GBLUn": {
+      "type": "whatsapp-button",
+      "name": "WhatsApp Button",
+      "settings": {
+        "phone_number": "919053525151",
+        "prefilled_text": "Hello! I have a question about my order.",
+        "bg_color": "#47962C",
+        "icon_color": "#ffffff",
+        "horizontal_placement": "right",
+        "offset_x": 30,
+        "offset_y": 30,
+        "offset_x_mobile": 16,
+        "offset_y_mobile": 100
+      }
+    },
+    "vidyut_footer_z7CTmr": {
+      "type": "vidyut_footer",
+      "name": "Espon 3D Footer",
+      "settings": {
+        "bg_color": "#fff8ef",
+        "text_color": "#0f172a",
+        "primary_color": "#007b3e",
+        "secondary_color": "#f17e39",
+        "footer_logo": "shopify://shop_images/Vidhyut_Saathi_Logo.jpg_1.jpg",
+        "logo_width": 120,
+        "brand_text": "Premium sportswear engineered for athletes. Train harder, run faster, and break your limits with ESPON. Quality guaranteed.",
+        "col_1_title": "Shop Gear",
+        "col_1_link_1_text": "All Products",
+        "col_1_link_1_url": "",
+        "col_1_link_2_text": "New Arrivals",
+        "col_1_link_2_url": "shopify://policies/privacy-policy",
+        "col_1_link_3_text": "Best Sellers",
+        "col_1_link_3_url": "",
+        "col_1_link_4_text": "Trending",
+        "col_1_link_4_url": "",
+        "col_2_title": "Support",
+        "col_2_link_1_text": "Help & FAQs",
+        "col_2_link_1_url": "",
+        "col_2_link_2_text": "Shipping & Delivery",
+        "col_2_link_2_url": "",
+        "col_2_link_3_text": "7-Day Returns",
+        "col_2_link_3_url": "",
+        "col_2_link_4_text": "Privacy Policy",
+        "col_2_link_4_url": "",
+        "address": "Rohtak, Haryana - 124001",
+        "email": "support@esponsports.com",
+        "phone_display": "+91-9053525151",
+        "phone_raw": "+919053525151",
+        "whatsapp_raw": "917206066678",
+        "social_fb": "",
+        "social_insta": "",
+        "social_yt": ""
+      }
+    }
+  },
+  "order": [
+    "whatsapp_button_9GBLUn",
+    "vidyut_footer_z7CTmr"
+  ]
+}
