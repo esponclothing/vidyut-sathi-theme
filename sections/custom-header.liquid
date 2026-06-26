@@ -264,7 +264,7 @@
     color: {{ section.settings.accent_color }};
   }
 
-  /* Mobile Menu Drawer */
+   /* Mobile Menu Drawer */
   .vidhyut-mobile-drawer-{{ section.id }} {
     position: fixed; 
     top: 0; 
@@ -272,7 +272,7 @@
     width: 320px; 
     max-width: 85%; 
     height: 100vh;
-    background: linear-gradient(135deg, {{ section.settings.bg_color }} 0%, rgba(255,255,255,0.02) 100%);
+    background-color: {{ section.settings.bg_color }};
     z-index: 99999;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 5px 0 30px rgba(0,0,0,0.15);
@@ -463,13 +463,10 @@
         <a href="{{ routes.search_url }}" class="vidhyut-icon-{{ section.id }}" aria-label="Search" title="Search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </a>
-        <a href="/pages/wishlist" class="vidhyut-icon-{{ section.id }}" aria-label="Wishlist" title="Wishlist">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-        </a>
         <a href="{{ routes.cart_url }}" class="vidhyut-icon-{{ section.id }}" aria-label="Cart" title="Shopping Cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
         </a>
-        <button type="button" class="vidhyut-icon-{{ section.id }} vidhyut-hamburger-{{ section.id }}" onclick="openVidhyutMenu{{ section.id }}()" style="background:none;border:none;padding:0;cursor:pointer;" aria-label="Open Menu" title="Menu">
+        <button type="button" class="vidhyut-icon-{{ section.id }} vidhyut-hamburger-{{ section.id }}" style="background:none;border:none;padding:0;cursor:pointer;" aria-label="Open Menu" title="Menu">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
       </div>
@@ -478,7 +475,7 @@
   </header>
 
   <div id="vidhyutMobileMenu{{ section.id }}" class="vidhyut-mobile-drawer-{{ section.id }}">
-    <div class="vidhyut-drawer-close-{{ section.id }}" onclick="closeVidhyutMenu{{ section.id }}()" title="Close Menu">
+    <div class="vidhyut-drawer-close-{{ section.id }}" title="Close Menu">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </div>
     {%- if section.settings.menu != blank -%}
@@ -486,7 +483,7 @@
         <a href="{{ link.url }}" class="vidhyut-drawer-link-{{ section.id }}">{{ link.title }}</a>
         {%- if link.links != blank -%}
           {%- for childlink in link.links -%}
-            <a href="{{ childlink.url }}" class="vidhyut-drawer-sublink-{{ section.id }}">→ {{ childlink.title }}</a>
+            <a href="{{ childlink.url }}" class="vidhyut-drawer-sublink-{{ section.id }}">&rarr; {{ childlink.title }}</a>
           {%- endfor -%}
         {%- endif -%}
       {%- endfor -%}
@@ -494,29 +491,52 @@
   </div>
 
   <script>
-    function openVidhyutMenu{{ section.id }}() { 
-      document.getElementById('vidhyutMobileMenu{{ section.id }}').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeVidhyutMenu{{ section.id }}() { 
-      document.getElementById('vidhyutMobileMenu{{ section.id }}').classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('DOMContentLoaded', function() {
       const drawer = document.getElementById('vidhyutMobileMenu{{ section.id }}');
       const hamburger = document.querySelector('.vidhyut-hamburger-{{ section.id }}');
-      if (drawer && !drawer.contains(event.target) && !hamburger.contains(event.target)) {
-        closeVidhyutMenu{{ section.id }}();
+      const closeBtn = document.querySelector('.vidhyut-drawer-close-{{ section.id }}');
+
+      function openMenu() { 
+        if(drawer) drawer.classList.add('active');
+        document.body.style.overflow = 'hidden';
       }
+
+      function closeMenu() { 
+        if(drawer) drawer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (hamburger) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          openMenu();
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeMenu();
+        });
+      }
+
+      document.addEventListener('click', function(event) {
+        if (drawer && drawer.classList.contains('active')) {
+          const clickedInsideDrawer = drawer.contains(event.target);
+          const clickedHamburger = hamburger && hamburger.contains(event.target);
+          
+          if (!clickedInsideDrawer && !clickedHamburger) {
+            closeMenu();
+          }
+        }
+      });
     });
   </script>
 </div>
 
 {% schema %}
 {
-  "name": "Vidhyut Header",
+  "name": "B2C Vidhyut Header",
   "settings": [
     {
       "type": "header",
@@ -676,8 +696,9 @@
   ],
   "presets": [
     {
-      "name": "Vidhyut Header"
+      "name": "B2C Vidhyut Header"
     }
   ]
 }
 {% endschema %}
+
