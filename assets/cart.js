@@ -5,7 +5,18 @@ class CartRemoveButton extends HTMLElement {
     this.addEventListener('click', (event) => {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
-      cartItems.updateQuantity(this.dataset.index, 0, event);
+      if (cartItems && typeof cartItems.updateQuantity === 'function') {
+        cartItems.updateQuantity(this.dataset.index, 0, event);
+      } else {
+        // Fallback for luxury cart: direct API call
+        const line = this.dataset.index;
+        fetch(`${routes.cart_change_url}`, {
+          ...fetchConfig(),
+          ...{ body: JSON.stringify({ line: parseInt(line), quantity: 0 }) }
+        })
+        .then(() => { location.reload(); })
+        .catch(() => { console.error('Failed to remove item'); });
+      }
     });
   }
 }
@@ -18,11 +29,18 @@ class CartItems extends HTMLElement {
     this.lineItemStatusElement =
       document.getElementById('shopping-cart-line-item-status') || document.getElementById('CartDrawer-LineItemStatus');
 
-    const debouncedOnChange = debounce((event) => {
-      this.onChange(event);
-    }, ON_CHANGE_DEBOUNCE_TIMER);
+    // Check if luxury cart layout is present
+    this.isLuxuryCart = this.classList.contains('lx-cart');
 
-    this.addEventListener('change', debouncedOnChange.bind(this));
+    if (!this.isLuxuryCart) {
+      // Only add change listener for non-luxury cart layouts
+      // The luxury cart has its own inline handlers
+      const debouncedOnChange = debounce((event) => {
+        this.onChange(event);
+      }, ON_CHANGE_DEBOUNCE_TIMER);
+
+      this.addEventListener('change', debouncedOnChange.bind(this));
+    }
   }
 
   cartUpdateUnsubscriber = undefined;
@@ -44,7 +62,9 @@ class CartItems extends HTMLElement {
 
   resetQuantityInput(id) {
     const input = this.querySelector(`#Quantity-${id}`);
-    input.value = input.getAttribute('value');
+    if (input) {
+      input.value = input.getAttribute('value');
+    }
     this.isEnterPressed = false;
   }
 
@@ -105,13 +125,17 @@ class CartItems extends HTMLElement {
         .catch((e) => {
           console.error(e);
         });
-    } else {
+    } else if (!this.isLuxuryCart) {
+      // Only auto-re-render for standard cart layouts
+      // Luxury cart handles its own UI updates via lxRefreshCartUI
       return fetch(`${routes.cart_url}?section_id=main-cart-items`)
         .then((response) => response.text())
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
           const sourceQty = html.querySelector('cart-items');
-          this.innerHTML = sourceQty.innerHTML;
+          if (sourceQty) {
+            this.innerHTML = sourceQty.innerHTML;
+          }
         })
         .catch((e) => {
           console.error(e);
@@ -120,28 +144,45 @@ class CartItems extends HTMLElement {
   }
 
   getSectionsToRender() {
-    return [
-      {
+    const sections = [];
+
+    const mainCartItems = document.getElementById('main-cart-items');
+    if (mainCartItems && mainCartItems.dataset.id) {
+      sections.push({
         id: 'main-cart-items',
-        section: document.getElementById('main-cart-items').dataset.id,
+        section: mainCartItems.dataset.id,
         selector: '.js-contents',
-      },
-      {
+      });
+    }
+
+    const cartIconBubble = document.getElementById('cart-icon-bubble');
+    if (cartIconBubble) {
+      sections.push({
         id: 'cart-icon-bubble',
         section: 'cart-icon-bubble',
         selector: '.shopify-section',
-      },
-      {
+      });
+    }
+
+    const cartLiveRegion = document.getElementById('cart-live-region-text');
+    if (cartLiveRegion) {
+      sections.push({
         id: 'cart-live-region-text',
         section: 'cart-live-region-text',
         selector: '.shopify-section',
-      },
-      {
+      });
+    }
+
+    const cartFooter = document.getElementById('main-cart-footer');
+    if (cartFooter && cartFooter.dataset.id) {
+      sections.push({
         id: 'main-cart-footer',
-        section: document.getElementById('main-cart-footer').dataset.id,
+        section: cartFooter.dataset.id,
         selector: '.js-contents',
-      },
-    ];
+      });
+    }
+
+    return sections;
   }
 
   updateQuantity(line, quantity, event, name, variantId) {
@@ -170,7 +211,9 @@ class CartItems extends HTMLElement {
           const items = document.querySelectorAll('.cart-item');
 
           if (parsedState.errors) {
-            quantityElement.value = quantityElement.getAttribute('value');
+            if (quantityElement) {
+              quantityElement.value = quantityElement.getAttribute('value');
+            }
             this.updateLiveRegions(line, parsedState.errors);
             return;
           }
@@ -182,18 +225,30 @@ class CartItems extends HTMLElement {
           if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
           if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
-          this.getSectionsToRender().forEach((section) => {
-            const elementToReplace =
-              document.getElementById(section.id).querySelector(section.selector) ||
-              document.getElementById(section.id);
-            elementToReplace.innerHTML = this.getSectionInnerHTML(
-              parsedState.sections[section.section],
-              section.selector
-            );
-          });
+          // Only re-render sections for non-luxury cart
+          if (!this.isLuxuryCart) {
+            this.getSectionsToRender().forEach((section) => {
+              const sectionElement = document.getElementById(section.id);
+              if (!sectionElement) return;
+              const elementToReplace =
+                sectionElement.querySelector(section.selector) || sectionElement;
+              if (parsedState.sections && parsedState.sections[section.section]) {
+                elementToReplace.innerHTML = this.getSectionInnerHTML(
+                  parsedState.sections[section.section],
+                  section.selector
+                );
+              }
+            });
+          } else {
+            // For luxury cart, call the global refresh function if available
+            if (typeof lxRefreshCartUI === 'function') {
+              lxRefreshCartUI(parsedState);
+            }
+          }
+
           const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
           let message = '';
-          if (items.length === parsedState.items.length && updatedValue !== parseInt(quantityElement.value)) {
+          if (items.length === parsedState.items.length && quantityElement && updatedValue !== parseInt(quantityElement.value)) {
             if (typeof updatedValue === 'undefined') {
               message = window.cartStrings.error;
             } else {
@@ -204,10 +259,12 @@ class CartItems extends HTMLElement {
 
           const lineItem =
             document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
-          if (lineItem && lineItem.querySelector(`[name="${name}"]`)) {
-            cartDrawerWrapper
-              ? trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`))
-              : lineItem.querySelector(`[name="${name}"]`).focus();
+          if (lineItem && name && lineItem.querySelector(`[name="${name}"]`)) {
+            if (cartDrawerWrapper) {
+              trapFocus(cartDrawerWrapper, lineItem.querySelector(`[name="${name}"]`));
+            } else {
+              lineItem.querySelector(`[name="${name}"]`).focus();
+            }
           } else if (parsedState.item_count === 0 && cartDrawerWrapper) {
             trapFocus(cartDrawerWrapper.querySelector('.drawer__inner-empty'), cartDrawerWrapper.querySelector('a'));
           } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
@@ -220,7 +277,7 @@ class CartItems extends HTMLElement {
       .catch(() => {
         this.querySelectorAll('.loading__spinner').forEach((overlay) => overlay.classList.add('hidden'));
         const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
-        errors.textContent = window.cartStrings.error;
+        if (errors) errors.textContent = window.cartStrings.error;
       })
       .finally(() => {
         this.disableLoading(line);
@@ -233,15 +290,18 @@ class CartItems extends HTMLElement {
       document.getElementById(`Line-item-error-${line}`) || document.getElementById(`CartDrawer-LineItemError-${line}`);
     if (lineItemError) lineItemError.querySelector('.cart-item__error-text').textContent = message;
 
-    this.lineItemStatusElement.setAttribute('aria-hidden', true);
+    if (this.lineItemStatusElement) {
+      this.lineItemStatusElement.setAttribute('aria-hidden', true);
+    }
 
     const cartStatus =
       document.getElementById('cart-live-region-text') || document.getElementById('CartDrawer-LiveRegionText');
-    cartStatus.setAttribute('aria-hidden', false);
-
-    setTimeout(() => {
-      cartStatus.setAttribute('aria-hidden', true);
-    }, 1000);
+    if (cartStatus) {
+      cartStatus.setAttribute('aria-hidden', false);
+      setTimeout(() => {
+        cartStatus.setAttribute('aria-hidden', true);
+      }, 1000);
+    }
   }
 
   getSectionInnerHTML(html, selector) {
@@ -250,7 +310,7 @@ class CartItems extends HTMLElement {
 
   enableLoading(line) {
     const mainCartItems = document.getElementById('main-cart-items') || document.getElementById('CartDrawer-CartItems');
-    mainCartItems.classList.add('cart__items--disabled');
+    if (mainCartItems) mainCartItems.classList.add('cart__items--disabled');
 
     const cartItemElements = this.querySelectorAll(`#CartItem-${line} .loading__spinner`);
     const cartDrawerItemElements = this.querySelectorAll(`#CartDrawer-Item-${line} .loading__spinner`);
@@ -258,12 +318,14 @@ class CartItems extends HTMLElement {
     [...cartItemElements, ...cartDrawerItemElements].forEach((overlay) => overlay.classList.remove('hidden'));
 
     document.activeElement.blur();
-    this.lineItemStatusElement.setAttribute('aria-hidden', false);
+    if (this.lineItemStatusElement) {
+      this.lineItemStatusElement.setAttribute('aria-hidden', false);
+    }
   }
 
   disableLoading(line) {
     const mainCartItems = document.getElementById('main-cart-items') || document.getElementById('CartDrawer-CartItems');
-    mainCartItems.classList.remove('cart__items--disabled');
+    if (mainCartItems) mainCartItems.classList.remove('cart__items--disabled');
 
     const cartItemElements = this.querySelectorAll(`#CartItem-${line} .loading__spinner`);
     const cartDrawerItemElements = this.querySelectorAll(`#CartDrawer-Item-${line} .loading__spinner`);
