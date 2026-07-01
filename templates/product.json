@@ -176,26 +176,6 @@
     },
     "17816945344bdb36b9": {
       "type": "_blocks",
-      "blocks": {
-        "ag_product_reviews_app_block_all_review_7fDJBN": {
-          "type": "shopify://apps/ag-product-reviews/blocks/app-block-all-review/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
-          "settings": {
-            "air_allReviewsBlock_heading": "All reviews page",
-            "air_allReviewsBlock_useSimpleSummary": false,
-            "air_allReviewsBlock_maxReview": 20,
-            "air_allReviewsBlock_summaryBgColor": "#f8f8f8",
-            "air_allReviewsBlock_bgColor": "#ffffff",
-            "air_allReviewsBlock_onlyMedia": false,
-            "air_allReviewsBlock_mediaFirst": false,
-            "air_allReviewsBlock_onlyPositive": false,
-            "air_allReviewsBlock_hideProductThumbnails": false,
-            "air_allReviewsBlock_selectedProduct": []
-          }
-        }
-      },
-      "block_order": [
-        "ag_product_reviews_app_block_all_review_7fDJBN"
-      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -226,15 +206,6 @@
     },
     "1781695363d7232d12": {
       "type": "_blocks",
-      "blocks": {
-        "ag_product_reviews_app_summary_block_K6a7ar": {
-          "type": "shopify://apps/ag-product-reviews/blocks/app-summary-block/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "ag_product_reviews_app_summary_block_K6a7ar"
-      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
