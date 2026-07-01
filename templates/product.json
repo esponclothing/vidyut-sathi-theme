@@ -176,6 +176,20 @@
     },
     "17816945344bdb36b9": {
       "type": "_blocks",
+      "blocks": {
+        "ag_product_reviews_app_block_review_list_w8GPma": {
+          "type": "shopify://apps/ag-product-reviews/blocks/app-block-review-list/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+          "settings": {
+            "air_blockreviews_summaryHeading": "Reviews",
+            "air_blockreviews_layout": "list",
+            "air_blockreviews_singleStarColor": "#16A086",
+            "air_blockreviews_primaryColor": "#121212"
+          }
+        }
+      },
+      "block_order": [
+        "ag_product_reviews_app_block_review_list_w8GPma"
+      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
